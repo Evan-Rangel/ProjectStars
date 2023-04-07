@@ -41,6 +41,11 @@ public class ShipControllerScript : MonoBehaviour
     // Bala a disparar
     GameObject bullet;
 
+    // Contador para siguiente movimiento
+    float contNextMovement;
+
+    //Contador para siguiente tipo de ataque
+    float contNextAttack;
 
 
     private void Awake()
@@ -52,17 +57,22 @@ public class ShipControllerScript : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         contMovementType = 0;
+        contNextMovement = 0;
+        contNextAttack = 0;
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
     }
 
     void MovementPlayer()
     {
         dir = inputController.actions["Move"].ReadValue<Vector2>().normalized;
-        rb.position = new Vector2(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax), Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax));
-        rb.MovePosition(rb.position + dir * controllerData.Velocity * Time.fixedDeltaTime);
     }
-    void MovementEnemy()
+    void TypeMovementEnemy()
     {
-        switch (controllerData.AttackTypes[contMovementType])
+        switch (controllerData.MovementType[contMovementType])
         {
             case 0: // Direccion arriba
                 dir = Vector2.up;
@@ -77,17 +87,17 @@ public class ShipControllerScript : MonoBehaviour
                 dir = Vector2.left;
                 break;
             case 4: // Direccion arriba derecha
-                dir = new Vector2(1, 1);
+                dir = new Vector2(1, 1).normalized;
                 break;
             case 5:// Direccion arriba izquieda
-                dir = new Vector2(-1, 1);
+                dir = new Vector2(-1, 1).normalized;
                 break;
             case 6:
                 // Direccion abajo izquierda
-                dir = new Vector2(-1, -1);
+                dir = new Vector2(-1, -1).normalized;
                 break;
             case 7:// Direccion abajo derecha
-                dir = new Vector2(-1, -1);
+                dir = new Vector2(-1, -1).normalized;
                 break;
             case 8:// Sin direccion, estatico
                 dir = Vector2.zero;
@@ -100,7 +110,18 @@ public class ShipControllerScript : MonoBehaviour
         }
     }
 
+    void Movement()
+    {
 
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax), Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax));
+        rb.MovePosition(rb.position + dir * controllerData.Velocity[contMovementType] * Time.fixedDeltaTime );
+        contNextMovement += Time.fixedDeltaTime;
+        if (contNextMovement>controllerData.NextMovementTypeTime[contMovementType])
+        {
+
+        }
+
+    }
 
 
 
