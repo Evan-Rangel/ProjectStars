@@ -40,7 +40,7 @@ public class EnemyMovementScript : MonoBehaviour
                 break;
             case 6:
                 // Direccion abajo izquierda
-                dir = new Vector2(-1, -1).normalized;
+                dir = new Vector2(1, -1).normalized;
                 break;
             case 7:// Direccion abajo derecha
                 dir = new Vector2(-1, -1).normalized;
@@ -53,6 +53,12 @@ public class EnemyMovementScript : MonoBehaviour
     void Movement()
     {
         rb.velocity = dir * movemenD.MovementVelocity[contNextMovement];
+    }
+    IEnumerator NextMovement()
+    {
+        yield return new WaitForSeconds(movemenD.NextMovementTypeTime[contNextMovement]);
+        contNextMovement++;
+        //StopCoroutine(NextMovement());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
