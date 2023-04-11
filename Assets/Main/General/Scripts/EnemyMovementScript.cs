@@ -6,6 +6,7 @@ public class EnemyMovementScript : MonoBehaviour
 {
     // Scriptable object
     [SerializeField] EnemyMovementData movemenD;
+    [SerializeField] List<float> movSpeeds;
 
     // Rigybody
     Rigidbody2D rb;
@@ -15,7 +16,13 @@ public class EnemyMovementScript : MonoBehaviour
 
     // Contador para siguiente movimiento
     int contNextMovement;
+    [ContextMenu("ObtenerDatos()")]
 
+    void ObtenerDatos()
+    {
+        Debug.Log(movemenD.MovementVelocity.Count);
+        movSpeeds = movemenD.MovementVelocity;
+    }
     void GetTypeMovement()
     {
         switch (movemenD.MovementType[contNextMovement])

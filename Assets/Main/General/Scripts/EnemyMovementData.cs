@@ -25,7 +25,7 @@ public class EnemyMovementData : ScriptableObject
         SOUTHWEST
     }
 
-    enum MovVel
+    enum MovSpeed
     {
         ZERO,
         VERY_SLOW,
@@ -40,7 +40,7 @@ public class EnemyMovementData : ScriptableObject
     // Movement direction (up, down, left, right))
     [SerializeField] List<MovType> movementType;
     // Velocity of determinate movement
-    List<MovVel> movementVelocity;
+    List<MovSpeed> movementSpeed;
     // Time for the nex type of movement
     [SerializeField, Range(0, 10)] float[] nextMovementTypeTime;
 
@@ -50,11 +50,25 @@ public class EnemyMovementData : ScriptableObject
     // The position of the array whos finish the cicle
     [SerializeField] int finishCicle;
 
+
     int[] _movementType;
 
-    float[] _movementVelocity;
+    List<float> _movementSpeed;
 
-    float[] velocitys = {0, 1, 2, 3, 4, 5, 0};
+    float[] velocitys = {0, 1, 2, 3, 4, 5, 10};
+
+
+    [ContextMenu ("ClearValues()")]
+    void ClearValues()
+    {
+        _movementSpeed.Clear();
+        movementSpeed.Clear();
+    }
+    void RemoveElement(int index)
+    {
+        _movementSpeed.RemoveAt(index);
+        movementSpeed.RemoveAt(index);
+    }
     int[] ConvertMovementType()
     {
         _movementType = new int[movementType.Count];
@@ -65,76 +79,80 @@ public class EnemyMovementData : ScriptableObject
 
         return _movementType;  
     }
-    float[] ConvertMovementVelocityType()
-    {
-        _movementVelocity = new float[movementVelocity.Count];
-        for (int i = 0; i < _movementVelocity.Length; i++)
-        {
 
-            if (movementVelocity[i]!=MovVel.CUSTOM)
-            {
-                _movementVelocity[i] = velocitys[((int)movementVelocity[i])];
-                Debug.Log("A");
-            }
+    /*
+    List<float> ConvertMovementVelocityType()
+    {
+        for (int i = 0; i < movementSpeed.Count; i++)
+        {
+            _movementSpeed[i]=(velocitys[((int)movementSpeed[i])]);
         }
-        return _movementVelocity;
-    }
+        return _movementSpeed;
+    }*/
     public int[] MovementType { get { ConvertMovementType(); return _movementType; } }
-    public float[] MovementVelocity { get  { ConvertMovementVelocityType(); return _movementVelocity; } }
+    public List<float> MovementVelocity { get  { /*ConvertMovementVelocityType();*/ return _movementSpeed; } }
     public float[] NextMovementTypeTime { get { return nextMovementTypeTime; } }
     public int StartCicle { get { return startCicle; } }
     public int FinishCicle { get { return finishCicle; } }
 
 
-
-    float algo;
-    float algo1;
-    float algo2;
+    bool create;
 
     //----------------------------------------------------------------------------------
-
-
     #region Editor
 #if UNITY_EDITOR
     [CustomEditor(typeof(EnemyMovementData))]
     public class EnemyMovementDataEditor : Editor
     {
+        
         public override void OnInspectorGUI()
         {
+            //Necesario par funcionar, si se quita y se carga el unity, se reseta el inspector
             base.OnInspectorGUI();
-
-
+            //Obtenemos la referencia del inspector que queremos editar, en este caso esta dentro del mismo script
             EnemyMovementData enemyMovementData = (EnemyMovementData)target;
 
+            //Funcion para crear distintas velocidades
+            GetMovementSpeed(enemyMovementData);
+        }
 
-            EditorGUILayout.BeginHorizontal();
+        private static void GetMovementSpeed(EnemyMovementData enemyMovementData)
+        {
+            EditorGUILayout.Space();
 
-            enemyMovementData.algo = EditorGUILayout.Slider(enemyMovementData.algo, 0,10);
-            enemyMovementData.algo1 = EditorGUILayout.Slider(enemyMovementData.algo1, 0, 10);
-            enemyMovementData.algo2 = EditorGUILayout.Slider(enemyMovementData.algo2, 0, 10);
-
-           // EditorGUILayout.dou
-
-            EditorGUILayout.EndHorizontal();
-
-            //EditorGUILayout.BeginHorizontal();
-
-            for (int i = 0; i < enemyMovementData.movementVelocity.Count; i++)
+            if (GUILayout.Button("Create new mov"))
             {
+                enemyMovementData.movementSpeed.Add(MovSpeed.NORMAL);
+                enemyMovementData._movementSpeed.Add(0);
+            }
+
+
+            for (int i = 0; i < enemyMovementData.movementSpeed.Count; i++)
+            {
+                EditorGUILayout.Space();
+
                 EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Speed " + i, GUILayout.MaxWidth(70));
 
-                EditorGUILayout.LabelField("Velocity " + i, GUILayout.MaxWidth(60));
-                enemyMovementData.movementVelocity[i] = (MovVel)EditorGUILayout.EnumPopup(enemyMovementData.movementVelocity[i], GUILayout.MaxWidth(100));
-
-                if (enemyMovementData.movementVelocity[i] == MovVel.CUSTOM)
+                if (enemyMovementData.movementSpeed.Count > i)
                 {
-                    enemyMovementData.ConvertMovementVelocityType();
-                    enemyMovementData._movementVelocity[i] = EditorGUILayout.FloatField(enemyMovementData._movementVelocity[i], GUILayout.MaxWidth(40));
+                    enemyMovementData.movementSpeed[i] = (MovSpeed)EditorGUILayout.EnumPopup(enemyMovementData.movementSpeed[i], GUILayout.MaxWidth(100));
+                    if (enemyMovementData.movementSpeed[i]!= MovSpeed.CUSTOM)
+                    {
+                        enemyMovementData._movementSpeed[i] = (enemyMovementData.velocitys[((int)enemyMovementData.movementSpeed[i])]);
+                    }
+                    else
+                    {
+                        enemyMovementData._movementSpeed[i] = EditorGUILayout.FloatField(enemyMovementData._movementSpeed[i], GUILayout.MaxWidth(40));
+                    }
+                }
+                
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(60)))
+                {
+                    enemyMovementData.RemoveElement(i);
                 }
                 EditorGUILayout.EndHorizontal();
             }
-            //EditorGUILayout.EndHorizontal();
-
         }
     }
 
