@@ -127,7 +127,9 @@ public class Player : MonoBehaviour
         moveX = Input.GetAxisRaw("Horizontal");
         moveY = Input.GetAxisRaw("Vertical");
         animatorPlayer.SetFloat("MovX", moveX); //Animacion del Personaje
+        animatorPlayer.SetFloat("MovY", moveY); //Animacion del Personaje
         moveInput = new Vector2(moveX, moveY).normalized;
+        animatorPlayer.SetFloat("Speed", moveInput.sqrMagnitude);
     }
 
     //Player MovimientoFixed Funcion
