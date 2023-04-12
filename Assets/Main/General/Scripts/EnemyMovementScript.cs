@@ -6,6 +6,7 @@ public class EnemyMovementScript : MonoBehaviour
 {
     // Scriptable object
     [SerializeField] EnemyMovementData movemenD;
+    [SerializeField] List<float> movSpeeds;
 
     // Rigybody
     Rigidbody2D rb;
@@ -15,10 +16,16 @@ public class EnemyMovementScript : MonoBehaviour
 
     // Contador para siguiente movimiento
     int contNextMovement;
+    [ContextMenu("ObtenerDatos()")]
 
+    void ObtenerDatos()
+    {
+        Debug.Log(movemenD.Speed.Count);
+        movSpeeds = movemenD.Speed;
+    }
     void GetTypeMovement()
     {
-        switch (movemenD.MovementType[contNextMovement])
+        /*switch (movemenD.MovementType[contNextMovement])
         {
             case 0: // Direccion arriba
                 dir = Vector2.up;
@@ -48,11 +55,11 @@ public class EnemyMovementScript : MonoBehaviour
             case 8:// Sin direccion, estatico
                 dir = Vector2.zero;
                 break;
-        }
+        }*/
     }
     void Movement()
     {
-        rb.velocity = dir * movemenD.MovementVelocity[contNextMovement];
+        rb.velocity = dir * movemenD.Speed[contNextMovement];
     }
     IEnumerator NextMovement()
     {
