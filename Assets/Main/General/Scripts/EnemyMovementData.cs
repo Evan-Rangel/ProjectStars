@@ -49,7 +49,6 @@ public class EnemyMovementData : ScriptableObject
     }
 
 
-    [SerializeField] int movementCount = 0;
 
     // Movement direction (up, down, left, right))
     List<MovType> movementDirection;
@@ -80,7 +79,7 @@ public class EnemyMovementData : ScriptableObject
     List<MovTime> movementTime;
     List<float> time;
     float[] times = {0.2f,0.4f,0.6f,0.8f,1,0 };
-
+    [SerializeField]int movementCount = 0;
 
     //Ciclos
     // The position of the array whos start the cicle
@@ -91,10 +90,22 @@ public class EnemyMovementData : ScriptableObject
     [ContextMenu ("ClearValues()")]
     void ClearValues()
     {
-        speed.Clear();
         movementSpeed.Clear();
+        speed.Clear();
         movementDirection.Clear();
         direction.Clear();
+        movementTime.Clear();
+        time.Clear();
+        movementCount = 0;
+        Debug.Log("Clear");
+        Debug.Log(movementSpeed.Count);
+        Debug.Log(speed.Count);
+        Debug.Log(movementDirection.Count);
+        Debug.Log(direction.Count);
+        Debug.Log(movementTime.Count);
+        Debug.Log(time.Count);
+
+
 
     }
     void RemoveElement(int index)
@@ -103,6 +114,10 @@ public class EnemyMovementData : ScriptableObject
         movementSpeed.RemoveAt(index);
         direction.RemoveAt(index);
         movementDirection.RemoveAt(index);
+        time.RemoveAt(index);
+        movementTime.RemoveAt(index);
+        movementCount--;
+
     }
     /*
     List<Vector2> ConvertMovementType()
@@ -130,21 +145,20 @@ public class EnemyMovementData : ScriptableObject
     public int FinishCicle { get { return finishCicle; } }
 
 
-    bool create;
-
     //----------------------------------------------------------------------------------
     #region Editor
 #if UNITY_EDITOR
     [CustomEditor(typeof(EnemyMovementData))]
     public class EnemyMovementDataEditor : Editor
     {
-        
         public override void OnInspectorGUI()
         {
             //Necesario par funcionar, si se quita y se carga el unity, se reseta el inspector
             base.OnInspectorGUI();
             //Obtenemos la referencia del inspector que queremos editar, en este caso esta dentro del mismo script
             EnemyMovementData enemyMovementData = (EnemyMovementData)target;
+
+
 
             //Funcion para crear distintas velocidades
             InspectorCustom(enemyMovementData);
@@ -169,7 +183,6 @@ public class EnemyMovementData : ScriptableObject
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(60)))
                 {
                     enemyMovementData.RemoveElement(i);
-                    enemyMovementData.movementCount--;
                 }
                 EditorGUILayout.EndHorizontal();
             }
@@ -307,7 +320,7 @@ public class EnemyMovementData : ScriptableObject
 
                 if (enemyMovementData.movementTime[i] != MovTime.CUSTOM)
                 {
-                    enemyMovementData.time[i] = (enemyMovementData.speeds[((int)enemyMovementData.movementTime[i])]);
+                    enemyMovementData.time[i] = (enemyMovementData.times[((int)enemyMovementData.movementTime[i])]);
                 }
                 else
                 {
