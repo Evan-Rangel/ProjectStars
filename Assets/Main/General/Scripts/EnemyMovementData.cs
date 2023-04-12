@@ -155,7 +155,7 @@ public class EnemyMovementData : ScriptableObject
             EditorGUILayout.Space();
             CreateNewMovementButton(enemyMovementData);
 
-            for (int i = 0; i < enemyMovementData.movementSpeed.Count; i++)
+            for (int i = 0; i < enemyMovementData.movementCount; i++)
             {
                 EditorGUILayout.Space();
 
