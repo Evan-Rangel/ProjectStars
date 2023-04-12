@@ -20,12 +20,12 @@ public class EnemyMovementScript : MonoBehaviour
 
     void ObtenerDatos()
     {
-        Debug.Log(movemenD.MovementVelocity.Count);
-        movSpeeds = movemenD.MovementVelocity;
+        Debug.Log(movemenD.Speed.Count);
+        movSpeeds = movemenD.Speed;
     }
     void GetTypeMovement()
     {
-        switch (movemenD.MovementType[contNextMovement])
+        /*switch (movemenD.MovementType[contNextMovement])
         {
             case 0: // Direccion arriba
                 dir = Vector2.up;
@@ -55,11 +55,11 @@ public class EnemyMovementScript : MonoBehaviour
             case 8:// Sin direccion, estatico
                 dir = Vector2.zero;
                 break;
-        }
+        }*/
     }
     void Movement()
     {
-        rb.velocity = dir * movemenD.MovementVelocity[contNextMovement];
+        rb.velocity = dir * movemenD.Speed[contNextMovement];
     }
     IEnumerator NextMovement()
     {

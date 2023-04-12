@@ -12,11 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de493d90bacb2c14497bed7984d1eb95, type: 3}
   m_Name: A
   m_EditorClassIdentifier: 
-  movementType: 00000000000000000000000000000000
-  nextMovementTypeTime:
-  - 1.62
-  - 2.99
-  - 2.1
-  - 1.7
+  movementCount: 0
   startCicle: 0
   finishCicle: 3
