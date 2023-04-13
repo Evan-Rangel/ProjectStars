@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMovementScript : MonoBehaviour
 {
     // Scriptable object
-    [SerializeField] EnemyMovementData movemenD;
+    [SerializeField] EnemyMovementData movemenData;
     [SerializeField] List<float> movSpeeds;
     [SerializeField] List<Vector2> movDirections;
     [SerializeField] List<float> movTimes;
@@ -20,55 +20,46 @@ public class EnemyMovementScript : MonoBehaviour
     // Contador para siguiente movimiento
     int contNextMovement;
     [ContextMenu("ObtenerDatos()")]
-
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetTypeMovement();
+        }
+    }
     void ObtenerDatos()
     {
-        Debug.Log(movemenD.Speed.Count);
-        movSpeeds = movemenD.Speed;
-        movDirections = movemenD.Direction;
-        movTimes = movemenD.Time;
+        Debug.Log(movemenData.Speed.Count);
+        movSpeeds = movemenData.Speed;
+        movDirections = movemenData.Direction;
+        movTimes = movemenData.Time;
     }
     void GetTypeMovement()
     {
-        /*switch (movemenD.MovementType[contNextMovement])
+        Debug.Log("Mov");
+        switch (movemenData.MovementType)
         {
-            case 0: // Direccion arriba
-                dir = Vector2.up;
+            case 0://Follow the player
+                rb.velocity = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
+                //rb.AddForce((GameObject.FindGameObjectWithTag("Player").transform.position-transform.position)/0.01f);
                 break;
-            case 1: // Direccion abajo
-                dir = Vector2.down;
+            case 1:
                 break;
-            case 2: // Direccion derecha
-                dir = Vector2.right;
+            case 2:
                 break;
-            case 3: // Direccion izquierda
-                dir = Vector2.left;
-                break;
-            case 4: // Direccion arriba derecha
-                dir = new Vector2(1, 1).normalized;
-                break;
-            case 5:// Direccion arriba izquieda
-                dir = new Vector2(-1, 1).normalized;
-                break;
-            case 6:
-                // Direccion abajo izquierda
-                dir = new Vector2(1, -1).normalized;
-                break;
-            case 7:// Direccion abajo derecha
-                dir = new Vector2(-1, -1).normalized;
-                break;
-            case 8:// Sin direccion, estatico
-                dir = Vector2.zero;
-                break;
-        }*/
+        }
     }
     void Movement()
     {
-        rb.velocity = dir * movemenD.Speed[contNextMovement];
+        rb.velocity = dir * movemenData.Speed[contNextMovement];
     }
     IEnumerator NextMovement()
     {
-        yield return new WaitForSeconds(movemenD.Time[contNextMovement]);
+        yield return new WaitForSeconds(movemenData.Time[contNextMovement]);
         contNextMovement++;
         //StopCoroutine(NextMovement());
     }

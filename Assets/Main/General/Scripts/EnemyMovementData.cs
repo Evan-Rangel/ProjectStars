@@ -14,7 +14,7 @@ using UnityEditor;
 public class EnemyMovementData : ScriptableObject
 {
     //Enums
-    enum MovType
+    enum MovDirection
     {
         NONE,
         NORTH,
@@ -49,12 +49,29 @@ public class EnemyMovementData : ScriptableObject
         CUSTOM
     }
 
-    
+    enum MovType
+    {
+        FOLLOW_PLAYER,
+        ONE_MOV,
+        CUSTOM_MOVEMENT,
+    }
 
+    MovType movType;
+    //Aceleration for FOLLOW_PLAYER
+    float aceleration_FP;
+    float time_FP;
+
+    //Variables para ONLY_ONE
+    Vector2 direction_OM;
+    float speed_OM;
+
+    //Todas las variables a partir de aqui, son para el SET_MOVEMENT
     int movementCount = 0;
 
+
+
     // Movement direction (up, down, left, right))
-    List<MovType> movementDirection;
+    List<MovDirection> movementDirection;
     List<Vector2> direction;
     Vector2[] directions =
         {
@@ -83,12 +100,6 @@ public class EnemyMovementData : ScriptableObject
     List<float> time;
     float[] times = {0.2f,0.4f,0.6f,0.8f,1,0 };
 
-
-    //Ciclos
-    // The position of the array whos start the cicle
-    [SerializeField] int startCicle;
-    // The position of the array whos finish the cicle
-    [SerializeField] int finishCicle;
 
     bool showMovements = false;
 
@@ -120,7 +131,7 @@ public class EnemyMovementData : ScriptableObject
     //Crea nuevos valores para la lista
     void NewMovementCreation()
     {
-        movementDirection.Add(MovType.NONE);
+        movementDirection.Add(MovDirection.NONE);
         direction.Add(Vector2.zero);
 
         movementSpeed.Add(MovSpeed.ZERO);
@@ -130,14 +141,24 @@ public class EnemyMovementData : ScriptableObject
         time.Add(0.6f);
         movementCount++;
     }
+
+    //Getter para el tipo de movimiento
+    public int MovementType { get { return (int)movType; } }
+
+
+    //Getters si es FOLLOW_PLAYER
+    public float Aceleration_FP { get { return aceleration_FP; } }
+    public float Time_FP { get { return time_FP; } }
+
+    //Getters si es ONLY_ONE_MOV
+    public Vector2 Direction_OM { get { return direction_OM; } }
+    public float Speed_OM { get { return speed_OM; } }
+
+
+    //Getters si es CUSTOM_MOVEMENT
     public List<Vector2> Direction { get { return direction; } }
     public List<float> Speed { get  { return speed; } }
     public List<float> Time { get { return time; } }
-    public int StartCicle { get { return startCicle; } }
-    public int FinishCicle { get { return finishCicle; } }
-
-
-    bool create;
 
     //----------------------------------------------------------------------------------
     #region Editor
@@ -154,6 +175,39 @@ public class EnemyMovementData : ScriptableObject
             EnemyMovementData enemyMovementData = (EnemyMovementData)target;
             //Espacio
             EditorGUILayout.Space();
+
+            enemyMovementData.movType = (MovType)EditorGUILayout.EnumPopup(enemyMovementData.movType, GUILayout.MaxWidth(250));
+            //Switch para determinar el tipo de movimiento. Pede haber mas o cambiar en el futuro
+            switch (enemyMovementData.movType)
+            {
+                case MovType.FOLLOW_PLAYER:
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Aceleration: ", GUILayout.MaxWidth(100));
+
+                    enemyMovementData.aceleration_FP = EditorGUILayout.FloatField(enemyMovementData.aceleration_FP, GUILayout.MaxWidth(30));
+                    EditorGUILayout.LabelField("Time: ", GUILayout.MaxWidth(100));
+                    enemyMovementData.time_FP = EditorGUILayout.FloatField(enemyMovementData.time_FP, GUILayout.MaxWidth(30));
+
+                    GUILayout.EndHorizontal();
+                    break;
+                case MovType.ONE_MOV:
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Speed: ", GUILayout.MaxWidth(60)) ;
+                    enemyMovementData.speed_OM = EditorGUILayout.FloatField(enemyMovementData.speed_OM, GUILayout.MaxWidth(30));
+                    EditorGUILayout.LabelField("Direction: ", GUILayout.MaxWidth(60));
+                    enemyMovementData.direction_OM = EditorGUILayout.Vector2Field("",enemyMovementData.direction_OM, GUILayout.MaxWidth(125));
+                    GUILayout.EndHorizontal();
+                    break;
+                case MovType.CUSTOM_MOVEMENT:
+                    SetMovement(enemyMovementData);
+                    break;
+            }
+
+        }
+
+        //Funcion para la opcion de SET_MOVEMENT
+        private static void SetMovement(EnemyMovementData enemyMovementData)
+        {
             //Esto es para crear una toggle list de los movimientos y poder ocultarlos
             enemyMovementData.showMovements = EditorGUILayout.Foldout(enemyMovementData.showMovements, "Movements", true);
 
@@ -163,9 +217,11 @@ public class EnemyMovementData : ScriptableObject
                 //Para darle una tabulacion
                 EditorGUI.indentLevel++;
 
+                GUILayout.BeginHorizontal();
                 //Tamaño del arreglo de movimientos
-                enemyMovementData.movementCount = Mathf.Max(0, EditorGUILayout.IntField("Size", enemyMovementData.movementCount));
-
+                EditorGUILayout.LabelField("Size: ",GUILayout.MaxWidth(50));
+                enemyMovementData.movementCount = Mathf.Max(0, EditorGUILayout.IntField(enemyMovementData.movementCount, GUILayout.MaxWidth(60)));
+                GUILayout.EndHorizontal();
                 //Funcion para crear distintas velocidades
                 InspectorCustom(enemyMovementData);
                 //Quitar la tabulacion
@@ -192,6 +248,7 @@ public class EnemyMovementData : ScriptableObject
                 InspectorShowMovementSpeed(enemyMovementData, i);
                 //Funcion para el tiempo
                 InspectorShowMovementTime(enemyMovementData, i);
+                
                 //Boton "Remove" para eliminar algun dato de la lista
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(60)))
                 {
@@ -208,11 +265,18 @@ public class EnemyMovementData : ScriptableObject
             //Checa si falta o sobra algun dato
             CheckForData(enemyMovementData);
 
+            GUILayout.BeginHorizontal();
             //Crea un nuevo movimiento
-            if (GUILayout.Button("Create new mov"))
+            if (GUILayout.Button("Create new mov", GUILayout.MaxWidth(250)))
             {
                 enemyMovementData.NewMovementCreation();
             }
+            //Crea un nuevo movimiento
+            if (GUILayout.Button("Delete all mov", GUILayout.MaxWidth(250)))
+            {
+                enemyMovementData.ClearValues();
+            }
+            GUILayout.EndHorizontal();
         }
 
         //Funcion para confirmar que el tamanio de las listas estan bien
@@ -227,7 +291,7 @@ public class EnemyMovementData : ScriptableObject
                 }
                 if (enemyMovementData.movementDirection.Count < enemyMovementData.movementCount)
                 {
-                    enemyMovementData.movementDirection.Add(MovType.NONE);
+                    enemyMovementData.movementDirection.Add(MovDirection.NONE);
                 }
 
                 if (enemyMovementData.speed.Count < enemyMovementData.movementCount)
@@ -289,16 +353,16 @@ public class EnemyMovementData : ScriptableObject
             if (enemyMovementData.movementDirection.Count > i)
             {
                 //Lista de enum
-                enemyMovementData.movementDirection[i] = (MovType)EditorGUILayout.EnumPopup(enemyMovementData.movementDirection[i], GUILayout.MaxWidth(100));
+                enemyMovementData.movementDirection[i] = (MovDirection)EditorGUILayout.EnumPopup(enemyMovementData.movementDirection[i], GUILayout.MaxWidth(100));
 
                 //Si no es custom agarra de la lista de "directions"
-                if (enemyMovementData.movementDirection[i] != MovType.CUSTOM)
+                if (enemyMovementData.movementDirection[i] != MovDirection.CUSTOM)
                 {
                     enemyMovementData.direction[i] = (enemyMovementData.directions[((int)enemyMovementData.movementDirection[i])]);
                 }//Si es custom, aparece un input de Vector2
                 else
                 {
-                    enemyMovementData.direction[i] = EditorGUILayout.Vector2Field("", enemyMovementData.direction[i], GUILayout.MinWidth(100), GUILayout.MaxWidth(150)).normalized;
+                    enemyMovementData.direction[i] = EditorGUILayout.Vector2Field("", enemyMovementData.direction[i], GUILayout.MinWidth(75), GUILayout.MaxWidth(125)).normalized;
                 }
             }
         }
