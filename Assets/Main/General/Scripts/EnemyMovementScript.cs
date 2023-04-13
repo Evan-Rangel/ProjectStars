@@ -7,6 +7,9 @@ public class EnemyMovementScript : MonoBehaviour
     // Scriptable object
     [SerializeField] EnemyMovementData movemenD;
     [SerializeField] List<float> movSpeeds;
+    [SerializeField] List<Vector2> movDirections;
+    [SerializeField] List<float> movTimes;
+
 
     // Rigybody
     Rigidbody2D rb;
@@ -22,6 +25,8 @@ public class EnemyMovementScript : MonoBehaviour
     {
         Debug.Log(movemenD.Speed.Count);
         movSpeeds = movemenD.Speed;
+        movDirections = movemenD.Direction;
+        movTimes = movemenD.Time;
     }
     void GetTypeMovement()
     {
@@ -63,7 +68,7 @@ public class EnemyMovementScript : MonoBehaviour
     }
     IEnumerator NextMovement()
     {
-        yield return new WaitForSeconds(movemenD.NextMovementTypeTime[contNextMovement]);
+        yield return new WaitForSeconds(movemenD.Time[contNextMovement]);
         contNextMovement++;
         //StopCoroutine(NextMovement());
     }
