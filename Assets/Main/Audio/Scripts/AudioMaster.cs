@@ -7,7 +7,7 @@ public class AudioMaster : MonoBehaviour
 {
     public AudioMixer audioMixer;
     public string volumen1 = "VolumenSound";
-    public AudioClip playerAudios;
+    public AudioClip[] playerAudios;
 
     //Mathf.Log(soundLevel) * 20 esta formula es para acomodar los desiveles
     //tiene que ser entre 0.001 y 1

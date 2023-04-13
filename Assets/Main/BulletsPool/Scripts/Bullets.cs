@@ -12,6 +12,15 @@ public class Bullets : MonoBehaviour
     [Header("Bullet RB")]
     [Tooltip("Aqui arrastra el RigidBody del prefap")]
     [SerializeField] private Rigidbody2D bulletRB;
+    [Header("Sound Atributes")]
+    [SerializeField] AudioMaster audioMaster;
+    [SerializeField] GameObject reproductoSonidos;
+
+    private void Start()
+    {
+        audioMaster = GameObject.FindGameObjectWithTag("AudioMaster").GetComponent<AudioMaster>();
+        reproductoSonidos = GameObject.Find("SonidosBalas");
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,6 +38,7 @@ public class Bullets : MonoBehaviour
 
         if (other.CompareTag("Limits"))
         {
+            reproductoSonidos.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios[1]);
             ResetProps();
         }
     }

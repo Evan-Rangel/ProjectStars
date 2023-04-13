@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     //Sonidos Player
     [Header("Sound Atributes")]
     [SerializeField] AudioMaster audioMaster;
+    [SerializeField] GameObject reproductoSonidos;
 
     private void Start()
     {
@@ -63,6 +64,8 @@ public class Player : MonoBehaviour
         colliderPlayer = GetComponent<PolygonCollider2D>();
         //Player Animator
         animatorPlayer = GetComponent<Animator>();
+        //Player Reproductor de sonidos
+        reproductoSonidos = GameObject.Find("SonidosPlayer");
     }
 
     private void Update()
@@ -150,8 +153,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             
-            gameObject.GetComponent<AudioSource>().clip = audioMaster.playerAudios;
-            gameObject.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios);
+            reproductoSonidos.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios[0]);
             GameObject laser;
             if (shotLevel == 1 || shotLevel == 3)
             {
