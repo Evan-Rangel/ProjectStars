@@ -104,25 +104,6 @@ public class EnemyMovementData : ScriptableObject
         direction.RemoveAt(index);
         movementDirection.RemoveAt(index);
     }
-    /*
-    List<Vector2> ConvertMovementType()
-    {
-        for (int i = 0; i < _movementType.Count; i++)
-        {
-            _movementType[i] = ((int)movementType[i]); 
-        }
-
-        return direction;  
-    }
-
-    List<float> ConvertMovementVelocityType()
-    {
-        for (int i = 0; i < movementSpeed.Count; i++)
-        {
-            _movementSpeed[i]=(velocitys[((int)movementSpeed[i])]);
-        }
-        return _movementSpeed;
-    }*/
     public List<Vector2> Direction { get { return direction; } }
     public List<float> Speed { get  { return speed; } }
     public List<float> NextMovementTypeTime { get { return time; } }
@@ -155,7 +136,7 @@ public class EnemyMovementData : ScriptableObject
             EditorGUILayout.Space();
             CreateNewMovementButton(enemyMovementData);
 
-            for (int i = 0; i < enemyMovementData.movementSpeed.Count; i++)
+            for (int i = 0; i < enemyMovementData.movementCount; i++)
             {
                 EditorGUILayout.Space();
 
