@@ -51,6 +51,9 @@ public class Player : MonoBehaviour
     public Color[] color_;
     public float speed_shine;
     public float cronometro;
+    //Sonidos Player
+    [Header("Sound Atributes")]
+    [SerializeField] AudioMaster audioMaster;
 
     private void Start()
     {
@@ -146,6 +149,9 @@ public class Player : MonoBehaviour
         //Player Disparo
         if (Input.GetButtonDown("Fire1"))
         {
+            
+            gameObject.GetComponent<AudioSource>().clip = audioMaster.playerAudios;
+            gameObject.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios);
             GameObject laser;
             if (shotLevel == 1 || shotLevel == 3)
             {

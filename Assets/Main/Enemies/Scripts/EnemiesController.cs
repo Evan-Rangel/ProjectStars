@@ -32,6 +32,9 @@ public class EnemiesController : MonoBehaviour
     public float speed_shine;
     public float cronometro;
 
+    //Mamadas
+    public GameObject[] arregleoFE;
+
     private void Start()
     {
         //Variables para uso
@@ -184,6 +187,14 @@ public class EnemiesController : MonoBehaviour
     {
         yield return new WaitForSeconds(animacionMorir.length);
         gameObject.SetActive(false);
+    }
+
+    public void ComohacerForEach()
+    {
+        foreach (var recorrer in arregleoFE)
+        {
+            recorrer.gameObject.SetActive(false);
+        }
     }
 
 }
