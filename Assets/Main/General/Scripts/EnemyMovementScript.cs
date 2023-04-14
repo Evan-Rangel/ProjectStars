@@ -40,18 +40,27 @@ public class EnemyMovementScript : MonoBehaviour
     }
     void GetTypeMovement()
     {
-        Debug.Log("Mov");
         switch (movemenData.MovementType)
         {
             case 0://Follow the player
-                rb.velocity = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
-                //rb.AddForce((GameObject.FindGameObjectWithTag("Player").transform.position-transform.position)/0.01f);
+                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData.Aceleration_FP;
+                FollowPlayerMovement();
                 break;
             case 1:
                 break;
             case 2:
                 break;
         }
+    }
+    void FollowPlayerMovement()
+    {
+        StartCoroutine(FollowPlayerTime()); ;
+    }
+    IEnumerator FollowPlayerTime()
+    {
+        yield return new WaitForSeconds(movemenData.Time_FP);
+        Debug.Log("Explotar");
+        //StopCoroutine(FollowPlayerTime());
     }
     void Movement()
     {
