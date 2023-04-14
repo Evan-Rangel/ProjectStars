@@ -159,6 +159,7 @@ public class EnemyMovementData : ScriptableObject
     public List<Vector2> Direction { get { return direction; } }
     public List<float> Speed { get  { return speed; } }
     public List<float> Time { get { return time; } }
+    public int MovementCount { get { return movementCount; } }
 
     //----------------------------------------------------------------------------------
     #region Editor
@@ -398,7 +399,7 @@ public class EnemyMovementData : ScriptableObject
 
                 if (enemyMovementData.movementTime[i] != MovTime.CUSTOM)
                 {
-                    enemyMovementData.time[i] = (enemyMovementData.speeds[((int)enemyMovementData.movementTime[i])]);
+                    enemyMovementData.time[i] = (enemyMovementData.times[((int)enemyMovementData.movementTime[i])]);
                 }
                 else
                 {

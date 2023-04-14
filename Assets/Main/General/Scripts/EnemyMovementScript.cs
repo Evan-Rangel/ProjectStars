@@ -5,10 +5,8 @@ using UnityEngine;
 public class EnemyMovementScript : MonoBehaviour
 {
     // Scriptable object
-    [SerializeField] EnemyMovementData movemenData;
-    [SerializeField] List<float> movSpeeds;
-    [SerializeField] List<Vector2> movDirections;
-    [SerializeField] List<float> movTimes;
+    [SerializeField] EnemyMovementData[] movemenData;
+
 
 
     // Rigybody
@@ -19,9 +17,12 @@ public class EnemyMovementScript : MonoBehaviour
 
     // Contador para siguiente movimiento
     int contNextMovement;
-    [ContextMenu("ObtenerDatos()")]
+    int contMovementData;
+
     private void Awake()
     {
+        contNextMovement = 0;
+        contMovementData = 0;
         rb = GetComponent<Rigidbody2D>();
     }
     private void Update()
@@ -31,24 +32,19 @@ public class EnemyMovementScript : MonoBehaviour
             GetTypeMovement();
         }
     }
-    void ObtenerDatos()
-    {
-        Debug.Log(movemenData.Speed.Count);
-        movSpeeds = movemenData.Speed;
-        movDirections = movemenData.Direction;
-        movTimes = movemenData.Time;
-    }
+
     void GetTypeMovement()
     {
-        switch (movemenData.MovementType)
+        switch (movemenData[contMovementData].MovementType)
         {
             case 0://Follow the player
-                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData.Aceleration_FP;
+                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData[contMovementData].Aceleration_FP;
                 FollowPlayerMovement();
                 break;
             case 1:
                 break;
             case 2:
+                CustomMovement();
                 break;
         }
     }
@@ -58,19 +54,37 @@ public class EnemyMovementScript : MonoBehaviour
     }
     IEnumerator FollowPlayerTime()
     {
-        yield return new WaitForSeconds(movemenData.Time_FP);
+        yield return new WaitForSeconds(movemenData[contMovementData].Time_FP);
         Debug.Log("Explotar");
         //StopCoroutine(FollowPlayerTime());
     }
-    void Movement()
+    void CustomMovement()
     {
-        rb.velocity = dir * movemenData.Speed[contNextMovement];
+        if (contNextMovement<movemenData[contMovementData].MovementCount)
+        {
+            Debug.Log(contNextMovement +",  " + movemenData[contMovementData].MovementCount);
+            rb.velocity = movemenData[contMovementData].Direction[contNextMovement] * movemenData[contMovementData].Speed[contNextMovement];
+            StartCoroutine(CustomMovementTime());
+        }
+        else
+        {
+            if (movemenData.Length> contMovementData)
+            {
+                contMovementData++;
+                contNextMovement = 0;
+            }
+            else
+            {
+                contNextMovement++;
+            }
+        }
     }
-    IEnumerator NextMovement()
+    IEnumerator CustomMovementTime()
     {
-        yield return new WaitForSeconds(movemenData.Time[contNextMovement]);
+        Debug.Log(movemenData[contMovementData].Time[contNextMovement]);
+        yield return new WaitForSeconds(movemenData[contMovementData].Time[contNextMovement]);
         contNextMovement++;
-        //StopCoroutine(NextMovement());
+        CustomMovement();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
