@@ -126,7 +126,7 @@ public class EnemiesController : MonoBehaviour
     //Movimiento, rotacion, posicion y Spawneo de balas Funcion
     private void SpawnProjectiles(int addAngle, float _angleStep)
     {
-        float angleStep = _angleStep;
+        float angleStep =_angleStep;
         float angle = addAngle;
         startPoint = transform.position;
 

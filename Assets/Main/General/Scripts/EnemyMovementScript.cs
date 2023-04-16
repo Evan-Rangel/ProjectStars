@@ -8,13 +8,19 @@ public class EnemyMovementScript : MonoBehaviour
     [SerializeField] EnemyMovementData[] movemenData;
 
 
-
     // Rigybody
     Rigidbody2D rb;
 
     // Direction (esta debe de tenerla el enemigo pero no el player)
     Vector2 dir;
 
+    /* Para movimiento en petalos (igualar el "basePos" a la pos inicial del enemigo)
+    [SerializeField] GameObject patron;
+    Vector2 basePos;
+    Vector2 newPos;
+    bool startMoving = false;
+    float timeCounter=0;
+    */
     // Contador para siguiente movimiento
     int contNextMovement;
     int contMovementData;
@@ -24,12 +30,38 @@ public class EnemyMovementScript : MonoBehaviour
         contNextMovement = 0;
         contMovementData = 0;
         rb = GetComponent<Rigidbody2D>();
+        
     }
+
     private void Update()
     {
+
+        /* Para movimiento en forma de petalo
+        newPos = new Vector2(3 * Mathf.Cos(2 * timeCounter) * Mathf.Cos(timeCounter) + basePos.x, 3 * Mathf.Cos(2 * timeCounter) * Mathf.Sin(timeCounter) + basePos.y);
+        if (Vector2.Distance(transform.position, newPos) < 0.1f && !startMoving)
+        {
+            startMoving = true;
+            
+        }
+        if (startMoving)
+	    {
+            timeCounter += Time.deltaTime;
+            //Ecuacion para petalos
+            transform.position = newPos;
+            Instantiate(patron, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            transform.position = Vector2.Lerp(transform.position, newPos, Time.deltaTime*2);
+        }
+        if (timeCounter>6.28f)
+        {
+            timeCounter = 0;
+        }
+        */
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetTypeMovement();
+           // GetTypeMovement();
         }
     }
 

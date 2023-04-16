@@ -57,6 +57,7 @@ public class EnemyMovementData : ScriptableObject
     }
 
     MovType movType;
+
     //Aceleration for FOLLOW_PLAYER
     float aceleration_FP;
     float time_FP;
@@ -67,8 +68,6 @@ public class EnemyMovementData : ScriptableObject
 
     //Todas las variables a partir de aqui, son para el SET_MOVEMENT
     int movementCount = 0;
-
-
 
     // Movement direction (up, down, left, right))
     List<MovDirection> movementDirection;
