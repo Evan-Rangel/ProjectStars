@@ -9,12 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d364ab7c542fd3f44b34f38432567d9d, type: 3}
-  m_Name: AShot
+  m_Script: {fileID: 11500000, guid: de493d90bacb2c14497bed7984d1eb95, type: 3}
+  m_Name: B
   m_EditorClassIdentifier: 
-  projectilesPerWave: 5
-  attackType: 0
-  projectileAngleInit: 180
-  projectileAngleSum: 0
-  projectileSpeed: 5
-  shotCadence: 0.5

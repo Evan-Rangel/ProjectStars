@@ -22,15 +22,20 @@ public class EnemyMovementScript : MonoBehaviour
     float timeCounter=0;
     */
     // Contador para siguiente movimiento
-    int contNextMovement;
-    int contMovementData;
+    int currentMovement;
+    [SerializeField]int currentMovementPattern;
 
     private void Awake()
     {
-        contNextMovement = 0;
-        contMovementData = 0;
+        currentMovement = 0;
+        currentMovementPattern = 0;
         rb = GetComponent<Rigidbody2D>();
         
+    }
+    private void Start()
+    {
+        GetTypeMovement();
+
     }
 
     private void Update()
@@ -65,12 +70,23 @@ public class EnemyMovementScript : MonoBehaviour
         }
     }
 
+    public int TotalMovementData { get { return movemenData.Length; } }
+    public int CurrentMovementPattern {  get  {  return currentMovementPattern; } }
+    public void SetCurrentMovemetnPattern(int _nextMovementPattern)
+    {
+        currentMovement = 0;
+        currentMovementPattern = _nextMovementPattern;
+        StopAllCoroutines();
+        GetTypeMovement();
+    }
+
+
     void GetTypeMovement()
     {
-        switch (movemenData[contMovementData].MovementType)
+        switch (movemenData[currentMovementPattern].MovementType)
         {
             case 0://Follow the player
-                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData[contMovementData].Aceleration_FP;
+                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData[currentMovementPattern].Aceleration_FP;
                 FollowPlayerMovement();
                 break;
             case 1:
@@ -86,36 +102,26 @@ public class EnemyMovementScript : MonoBehaviour
     }
     IEnumerator FollowPlayerTime()
     {
-        yield return new WaitForSeconds(movemenData[contMovementData].Time_FP);
-        Debug.Log("Explotar");
-        //StopCoroutine(FollowPlayerTime());
+        yield return new WaitForSeconds(movemenData[currentMovementPattern].Time_FP);
     }
     void CustomMovement()
     {
-        if (contNextMovement<movemenData[contMovementData].MovementCount)
+        if (currentMovement<movemenData[currentMovementPattern].MovementCount)
         {
-            Debug.Log(contNextMovement +",  " + movemenData[contMovementData].MovementCount);
-            rb.velocity = movemenData[contMovementData].Direction[contNextMovement] * movemenData[contMovementData].Speed[contNextMovement];
+            rb.velocity = movemenData[currentMovementPattern].Direction[currentMovement] * movemenData[currentMovementPattern].Speed[currentMovement];
             StartCoroutine(CustomMovementTime());
         }
         else
         {
-            if (movemenData.Length> contMovementData)
-            {
-                contMovementData++;
-                contNextMovement = 0;
-            }
-            else
-            {
-                contNextMovement++;
-            }
+            currentMovement = 0;
+            rb.velocity = movemenData[currentMovementPattern].Direction[currentMovement] * movemenData[currentMovementPattern].Speed[currentMovement];
+            StartCoroutine(CustomMovementTime());
         }
     }
     IEnumerator CustomMovementTime()
     {
-        Debug.Log(movemenData[contMovementData].Time[contNextMovement]);
-        yield return new WaitForSeconds(movemenData[contMovementData].Time[contNextMovement]);
-        contNextMovement++;
+        yield return new WaitForSeconds(movemenData[currentMovementPattern].Time[currentMovement]);
+        currentMovement++;
         CustomMovement();
     }
 

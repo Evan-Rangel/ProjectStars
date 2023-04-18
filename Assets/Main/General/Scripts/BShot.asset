@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d364ab7c542fd3f44b34f38432567d9d, type: 3}
-  m_Name: AShot
+  m_Name: BShot
   m_EditorClassIdentifier: 
-  projectilesPerWave: 5
+  projectilesPerWave: 1
   attackType: 0
   projectileAngleInit: 180
   projectileAngleSum: 0
-  projectileSpeed: 5
-  shotCadence: 0.5
+  projectileSpeed: 10
+  shotCadence: 0.2

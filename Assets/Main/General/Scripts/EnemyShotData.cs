@@ -16,6 +16,7 @@ public class EnemyShotData : ScriptableObject
     [SerializeField] int projectileAngleInit;
     [SerializeField] float projectileAngleSum;
     [SerializeField] float projectileSpeed;
+    [SerializeField] float shotCadence;
 
 
     public int ProjectilesPerWave { get { return projectilesPerWave; } }
@@ -23,7 +24,7 @@ public class EnemyShotData : ScriptableObject
     public int ProjectileAngleInit { get { return projectileAngleInit; } }
     public float ProjectileAngleSum { get { return projectileAngleSum; } }
     public float ProjectileSpeed { get { return projectileSpeed; } }
-
+    public float ShotCadence { get { return shotCadence; } }
 
     #region Editor
 #if UNITY_EDITOR
