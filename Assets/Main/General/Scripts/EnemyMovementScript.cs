@@ -83,10 +83,12 @@ public class EnemyMovementScript : MonoBehaviour
 
     void GetTypeMovement()
     {
-        switch (movemenData[currentMovementPattern].MovementType)
+        switch (movemenData[currentMovementPattern].GetMovementType)
         {
             case 0://Follow the player
-                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized*movemenData[currentMovementPattern].Aceleration_FP;
+                Vector2 posRelativeToPlayer= GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
+                float aceleration = movemenData[currentMovementPattern].GetAceleration_FP;
+                rb.velocity = posRelativeToPlayer.normalized * aceleration;
                 FollowPlayerMovement();
                 break;
             case 1:
@@ -102,25 +104,22 @@ public class EnemyMovementScript : MonoBehaviour
     }
     IEnumerator FollowPlayerTime()
     {
-        yield return new WaitForSeconds(movemenData[currentMovementPattern].Time_FP);
+        yield return new WaitForSeconds(movemenData[currentMovementPattern].GetTime_FP);
     }
     void CustomMovement()
     {
-        if (currentMovement<movemenData[currentMovementPattern].MovementCount)
-        {
-            rb.velocity = movemenData[currentMovementPattern].Direction[currentMovement] * movemenData[currentMovementPattern].Speed[currentMovement];
-            StartCoroutine(CustomMovementTime());
-        }
-        else
+        if (currentMovement>=movemenData[currentMovementPattern].GetMovementCount)
         {
             currentMovement = 0;
-            rb.velocity = movemenData[currentMovementPattern].Direction[currentMovement] * movemenData[currentMovementPattern].Speed[currentMovement];
-            StartCoroutine(CustomMovementTime());
         }
+        Vector2 direction = movemenData[currentMovementPattern].GetDirection[currentMovement];
+        float speed = movemenData[currentMovementPattern].GetSpeed[currentMovement];
+        rb.velocity = direction * speed;
+        StartCoroutine(CustomMovementTime());
     }
     IEnumerator CustomMovementTime()
     {
-        yield return new WaitForSeconds(movemenData[currentMovementPattern].Time[currentMovement]);
+        yield return new WaitForSeconds(movemenData[currentMovementPattern].GetTime[currentMovement]);
         currentMovement++;
         CustomMovement();
     }

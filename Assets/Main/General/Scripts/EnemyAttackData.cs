@@ -6,37 +6,44 @@ using UnityEngine;
 using UnityEditor;
 
 #endif
-
 [CreateAssetMenu(fileName = "New Enemy Shot Data", menuName = "Enemy Shot Data")]
 
-public class EnemyShotData : ScriptableObject
+public class EnemyAttackData : ScriptableObject
 {
+    enum AttackType
+    {
+        NONE,
+        BULLET,
+        LASER
+    }
+    [SerializeField] AttackType attackType;
+
     [SerializeField] int projectilesPerWave;
-    [SerializeField] int attackType;
     [SerializeField] int projectileAngleInit;
     [SerializeField] float projectileAngleSum;
     [SerializeField] float projectileSpeed;
     [SerializeField] float shotCadence;
 
 
-    public int ProjectilesPerWave { get { return projectilesPerWave; } }
-    public int AttackType { get { return attackType; } }
-    public int ProjectileAngleInit { get { return projectileAngleInit; } }
-    public float ProjectileAngleSum { get { return projectileAngleSum; } }
-    public float ProjectileSpeed { get { return projectileSpeed; } }
-    public float ShotCadence { get { return shotCadence; } }
+
+    public int GetProjectilesPerWave { get { return projectilesPerWave; } }
+    public int GetAttackType { get { return (int)attackType; } }
+    public int GetProjectileAngleInit { get { return projectileAngleInit; } }
+    public float GetProjectileAngleSum { get { return projectileAngleSum; } }
+    public float GetProjectileSpeed { get { return projectileSpeed; } }
+    public float GetShotCadence { get { return shotCadence; } }
 
     #region Editor
 #if UNITY_EDITOR
 
-    [CustomEditor(typeof(EnemyShotData))]
+    [CustomEditor(typeof(EnemyAttackData))]
     public class EnemyShotDataEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             //Necesario par funcionar, si se quita y se carga el unity, se reseta el inspector
             base.OnInspectorGUI();
-            EnemyShotData enemyShotData = (EnemyShotData)target;
+            EnemyAttackData enemyAttackData = (EnemyAttackData)target;
 
         }
     }

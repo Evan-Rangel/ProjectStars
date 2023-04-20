@@ -142,23 +142,23 @@ public class EnemyMovementData : ScriptableObject
     }
 
     //Getter para el tipo de movimiento
-    public int MovementType { get { return (int)movType; } }
+    public int GetMovementType { get { return (int)movType; } }
 
 
     //Getters si es FOLLOW_PLAYER
-    public float Aceleration_FP { get { return aceleration_FP; } }
-    public float Time_FP { get { return time_FP; } }
+    public float GetAceleration_FP { get { return aceleration_FP; } }
+    public float GetTime_FP { get { return time_FP; } }
 
     //Getters si es ONLY_ONE_MOV
-    public Vector2 Direction_OM { get { return direction_OM; } }
-    public float Speed_OM { get { return speed_OM; } }
+    public Vector2 GetDirection_OM { get { return direction_OM; } }
+    public float GetSpeed_OM { get { return speed_OM; } }
 
 
     //Getters si es CUSTOM_MOVEMENT
-    public List<Vector2> Direction { get { return direction; } }
-    public List<float> Speed { get  { return speed; } }
-    public List<float> Time { get { return time; } }
-    public int MovementCount { get { return movementCount; } }
+    public List<Vector2> GetDirection { get { return direction; } }
+    public List<float> GetSpeed { get  { return speed; } }
+    public List<float> GetTime { get { return time; } }
+    public int GetMovementCount { get { return movementCount; } }
 
     //----------------------------------------------------------------------------------
     #region Editor

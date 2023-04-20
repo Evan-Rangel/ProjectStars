@@ -7,4 +7,5 @@ public class EnemyData : ScriptableObject
 {
     [SerializeField] int health;
     [SerializeField] string nameE;
+    [SerializeField] int score;
 }

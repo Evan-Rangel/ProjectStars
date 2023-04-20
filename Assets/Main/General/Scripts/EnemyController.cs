@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] EnemyShotScript shotScript;
+    [SerializeField] EnemyAttackScript attackScript;
     [SerializeField] EnemyMovementScript movementScript;
     [SerializeField] int healt;
     private void Awake()
     {
-        shotScript = GetComponent<EnemyShotScript>();
+        attackScript = GetComponent<EnemyAttackScript>();
         movementScript = GetComponent<EnemyMovementScript>();
     }
     private void Update()
@@ -37,9 +37,9 @@ public class EnemyController : MonoBehaviour
     }
     void NextShotPattern()
     {
-        if (shotScript.TotalShotData > shotScript.CurrentShotPattern + 1)
+        if (attackScript.TotalShotData > attackScript.CurrentShotPattern + 1)
         {
-            shotScript.SetCurrentShotPattern(shotScript.CurrentShotPattern + 1);
+            attackScript.SetCurrentShotPattern(attackScript.CurrentShotPattern + 1);
         }
         else
         {
