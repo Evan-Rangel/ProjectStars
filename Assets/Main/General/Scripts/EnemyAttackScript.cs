@@ -52,7 +52,7 @@ public class EnemyAttackScript : MonoBehaviour
 
     IEnumerator ShootingTimer()
     {
-        yield return new WaitForSeconds(attackData[currentShotPattern].GetShotCadence);
+        yield return new WaitForSeconds(attackData[currentShotPattern].GetProjectileCadence);
         Shooting(attackData[currentShotPattern].GetProjectileAngleInit, attackData[currentShotPattern].GetProjectilesPerWave);
     }
 }

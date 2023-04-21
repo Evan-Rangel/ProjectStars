@@ -86,9 +86,7 @@ public class EnemyMovementScript : MonoBehaviour
         switch (movemenData[currentMovementPattern].GetMovementType)
         {
             case 0://Follow the player
-                Vector2 posRelativeToPlayer= GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
-                float aceleration = movemenData[currentMovementPattern].GetAceleration_FP;
-                rb.velocity = posRelativeToPlayer.normalized * aceleration;
+                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * movemenData[currentMovementPattern].GetAceleration_FP;
                 FollowPlayerMovement();
                 break;
             case 1:
@@ -112,9 +110,7 @@ public class EnemyMovementScript : MonoBehaviour
         {
             currentMovement = 0;
         }
-        Vector2 direction = movemenData[currentMovementPattern].GetDirection[currentMovement];
-        float speed = movemenData[currentMovementPattern].GetSpeed[currentMovement];
-        rb.velocity = direction * speed;
+        rb.velocity = movemenData[currentMovementPattern].GetDirection[currentMovement] * movemenData[currentMovementPattern].GetSpeed[currentMovement];
         StartCoroutine(CustomMovementTime());
     }
     IEnumerator CustomMovementTime()
