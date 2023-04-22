@@ -11,7 +11,8 @@ public class EnemyAttackScript : MonoBehaviour
 
     private void Start()
     {
-        Shooting(attackData[currentShotPattern].GetProjectileAngleInit, attackData[currentShotPattern].GetProjectilesPerWave);
+
+        GetShotType();
     }
 
     private void Update()
@@ -29,10 +30,38 @@ public class EnemyAttackScript : MonoBehaviour
         currentShotPattern = _nextShotPattern;
     }
 
-    void Shooting(int _addAngle, float _angleStep)
+    void GetShotType()
     {
-        float angleStep = 360 / _angleStep;
-        float angle = _addAngle;
+        switch (attackData[currentShotPattern].GetAttackType)
+        {
+            case EnemyAttackData.AttackType.NONE:
+                break;
+            case EnemyAttackData.AttackType.BULLET:
+                Shooting();
+                break;
+            case EnemyAttackData.AttackType.LASER:
+
+                break;
+            
+        }
+    }
+
+    void Laser()
+    {
+        float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
+        float angle = attackData[currentShotPattern].GetProjectileAngleInit;
+        Vector2 startPoint = transform.position;
+
+        for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
+        {
+
+        }
+    }
+
+    void Shooting()
+    {
+        float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
+        float angle = attackData[currentShotPattern].GetProjectileAngleInit;
         Vector2 startPoint = transform.position;
 
         for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
@@ -53,6 +82,6 @@ public class EnemyAttackScript : MonoBehaviour
     IEnumerator ShootingTimer()
     {
         yield return new WaitForSeconds(attackData[currentShotPattern].GetProjectileCadence);
-        Shooting(attackData[currentShotPattern].GetProjectileAngleInit, attackData[currentShotPattern].GetProjectilesPerWave);
+        Shooting();
     }
 }

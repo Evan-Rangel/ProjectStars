@@ -10,14 +10,14 @@ using UnityEditor;
 
 public class EnemyAttackData : ScriptableObject
 {
-    enum AttackType
+    public enum AttackType
     {
         NONE,
         BULLET,
         LASER
     }
     [SerializeField] AttackType attackType;
-    public int GetAttackType { get { return (int)attackType; } }
+    public AttackType GetAttackType { get { return attackType; } }
 
     //For laser attack type
     float laserOnDuration;
@@ -28,14 +28,13 @@ public class EnemyAttackData : ScriptableObject
     float laserAngleSum;
     int laserPerWave;
 
-    public float LaserOnDuration { get { return laserOnDuration; } }
-    public float LaserOffDuration { get { return laserOffDuration; } }
-    public float LaserAngleInit { get { return laserAngleInit; } }
-    public float LaserCastDuration { get { return laserCastDuration; } }
-    public float LaserSpeedRotation { get { return laserSpeedRotation; } }
-    public float LaserAngleSum { get { return laserAngleSum; } }
-
-    public int LaserPerWave { get { return laserPerWave; } }
+    public float GetLaserOnDuration { get { return laserOnDuration; } }
+    public float GetLaserOffDuration { get { return laserOffDuration; } }
+    public float GetLaserAngleInit { get { return laserAngleInit; } }
+    public float GetLaserCastDuration { get { return laserCastDuration; } }
+    public float GetLaserSpeedRotation { get { return laserSpeedRotation; } }
+    public float GetLaserAngleSum { get { return laserAngleSum; } }
+    public int GetLaserPerWave { get { return laserPerWave; } }
 
     //For bullet attack type
     int projectilesPerWave;
