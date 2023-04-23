@@ -7,8 +7,9 @@ public class EnemyAttackScript : MonoBehaviour
     [SerializeField] EnemyAttackData[] attackData;
     [SerializeField] GameObject projectile;
     [SerializeField] int currentShotPattern = 0;
-
-
+    GameObject objectToRotate;
+    bool lasera=false;
+    float anglesum=0;
     private void Start()
     {
 
@@ -17,9 +18,10 @@ public class EnemyAttackScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (lasera)
         {
-            //Shooting(shotData[currentShotPattern].ProjectileAngleInit, shotData[currentShotPattern].ProjectilesPerWave);
+            Laser(anglesum);
+            anglesum += attackData[currentShotPattern].GetLaserSpeedRotation;
         }
     }
     public int TotalShotData { get { return attackData.Length; } }
@@ -40,21 +42,27 @@ public class EnemyAttackScript : MonoBehaviour
                 Shooting();
                 break;
             case EnemyAttackData.AttackType.LASER:
-
+                //Laser();
+                lasera = true;
                 break;
-            
         }
     }
 
-    void Laser()
+    void Laser(float angleSum)
     {
-        float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
-        float angle = attackData[currentShotPattern].GetProjectileAngleInit;
+        float angleStep = 360 / attackData[currentShotPattern].GetLaserPerWave;
+        float angle = attackData[currentShotPattern].GetLaserAngleInit + angleSum;
         Vector2 startPoint = transform.position;
 
         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
         {
+            float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180);
+            float projectileDirYPosition = startPoint.y + Mathf.Cos((angle * Mathf.PI) / 180);
+            Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
+            Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized;
 
+            Debug.DrawRay(transform.position,projectileMoveDirection*10, Color.green);
+            angle += angleStep;
         }
     }
 

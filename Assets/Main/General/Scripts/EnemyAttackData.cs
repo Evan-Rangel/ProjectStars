@@ -113,6 +113,11 @@ public class EnemyAttackData : ScriptableObject
                     EditorGUILayout.LabelField("Laser Angle Sum: ", GUILayout.MaxWidth(labelSize));
                     enemyAttackData.laserAngleSum = EditorGUILayout.FloatField(enemyAttackData.laserAngleSum, GUILayout.MaxWidth(valueSize));
                     GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Total Lasers: ", GUILayout.MaxWidth(labelSize));
+                    enemyAttackData.laserPerWave = EditorGUILayout.IntField(enemyAttackData.laserPerWave, GUILayout.MaxWidth(valueSize));
+                    GUILayout.EndHorizontal();
+
 
                     break;
                 default:

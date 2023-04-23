@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 1179681951}
   - component: {fileID: 1179681950}
   - component: {fileID: 1179681949}
-  - component: {fileID: 1179681953}
+  - component: {fileID: 1179681955}
   - component: {fileID: 1179681954}
   - component: {fileID: 1179681952}
   m_Layer: 0
@@ -450,23 +450,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1179681953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179681948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec9dcf0e4b0e35c448dc2589061f359d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotData:
-  - {fileID: 11400000, guid: 54ae5cbadf911284b89ef96b97d0cea1, type: 2}
-  - {fileID: 11400000, guid: e961201c7678b56419e6d9bb668970a2, type: 2}
-  projectile: {fileID: 2186201180159306337, guid: 9cce985cb3f3de842a71fe5ddae84f03, type: 3}
-  currentShotPattern: 0
 --- !u!114 &1179681954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +462,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8686bcefcfc9f0d4598665115e3a4323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotScript: {fileID: 0}
+  attackScript: {fileID: 0}
   movementScript: {fileID: 0}
   healt: 0
+--- !u!114 &1179681955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179681948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd95c1ddbfd0f84f95cdc6e8de3dbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackData:
+  - {fileID: 11400000, guid: 8fadbfb6dea5924458d3989958598943, type: 2}
+  projectile: {fileID: 2186201180159306337, guid: 9cce985cb3f3de842a71fe5ddae84f03, type: 3}
+  currentShotPattern: 0
