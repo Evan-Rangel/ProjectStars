@@ -21,7 +21,7 @@ public class EnemyAttackScript : MonoBehaviour
         if (lasera)
         {
             Laser(anglesum);
-            anglesum += attackData[currentShotPattern].GetLaserSpeedRotation;
+            anglesum +=Time.deltaTime * attackData[currentShotPattern].GetLaserSpeedRotation;
         }
     }
     public int TotalShotData { get { return attackData.Length; } }
@@ -53,7 +53,7 @@ public class EnemyAttackScript : MonoBehaviour
         float angleStep = 360 / attackData[currentShotPattern].GetLaserPerWave;
         float angle = attackData[currentShotPattern].GetLaserAngleInit + angleSum;
         Vector2 startPoint = transform.position;
-
+        float rayDistance;
         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
         {
             float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180);
@@ -61,7 +61,20 @@ public class EnemyAttackScript : MonoBehaviour
             Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
             Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized;
 
-            Debug.DrawRay(transform.position,projectileMoveDirection*10, Color.green);
+            RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
+            if (hit.collider!=null)
+            {
+                if (hit.transform.CompareTag("Player"))
+                {
+                    //Funcion del player para hacer danio
+                }
+                rayDistance = hit.distance;
+            }
+            else
+            {
+                rayDistance = 10;
+            }
+            Debug.DrawRay(transform.position,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;
         }
     }
