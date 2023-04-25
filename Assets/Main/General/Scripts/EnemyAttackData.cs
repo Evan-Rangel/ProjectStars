@@ -21,7 +21,8 @@ public class EnemyAttackData : ScriptableObject
         STATIC,
         DINAMIC,
         SWITCH,
-        CUSTOM
+        CUSTOM,
+        RANDOM
     }
     [SerializeField] AttackType attackType;
     public AttackType GetAttackType { get { return attackType; } }
@@ -72,7 +73,35 @@ public class EnemyAttackData : ScriptableObject
     }
 
 
+    [ContextMenu("ResetVariables()")]
 
+    void DeleteLaser()
+    {
+        laserAngles.Clear();
+    }
+
+    void ResetVariables()
+    {
+        laserOnDuration = 0;
+        laserOffDuration = 0;
+        laserAngleInit = 0;
+        laserCastDuration = 0;
+        laserSpeedRotation = 0;
+        laserAngleSum = 0;
+        laserPerWave = 0;
+        laserDamage = 0;
+        laserAngles.Clear();
+
+
+
+        projectilesPerWave = 0;
+        projectileAngleInit = 0;
+        projectileAngleSum = 0;
+        projectileSpeed = 0;
+        projectileCadence = 0;
+
+
+    }
     #region Editor
 #if UNITY_EDITOR
 
@@ -177,10 +206,17 @@ public class EnemyAttackData : ScriptableObject
                             enemyAttackData.showLaserDirections = EditorGUILayout.Foldout(enemyAttackData.showLaserDirections,"Laser Directions",true);
                             if (enemyAttackData.showLaserDirections)
                             {
-                                if (GUILayout.Button("New Laser Direction", GUILayout.MaxWidth(250)))
+                                GUILayout.BeginHorizontal();
+                                if (GUILayout.Button("New Laser Angle Direction", GUILayout.MaxWidth(250)))
                                 {
                                     enemyAttackData.NewLaserDirection();
                                 }
+
+                                if (GUILayout.Button("Delete all Laser", GUILayout.MaxWidth(250)))
+                                {
+                                    enemyAttackData.DeleteLaser();
+                                }
+                                GUILayout.EndHorizontal();
                                 for (int i = 0; i < enemyAttackData.laserAngles.Count; i++)
                                 {
                                     EditorGUILayout.BeginHorizontal();
@@ -194,6 +230,10 @@ public class EnemyAttackData : ScriptableObject
 
                             }
 
+                            break;
+                        case LaserType.RANDOM:
+                            
+                            
                             break;
                         
 

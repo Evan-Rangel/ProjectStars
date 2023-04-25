@@ -43,8 +43,23 @@ public class EnemyAttackScript : MonoBehaviour
                 break;
             case EnemyAttackData.AttackType.LASER:
                 //Laser();
-                lasera = true;
+                switch (attackData[currentShotPattern].GetLaserType)
+                {
+                    case EnemyAttackData.LaserType.STATIC:
+                        break;
+                    case EnemyAttackData.LaserType.DINAMIC:
+                        lasera = true;
+                        break;
+                    case EnemyAttackData.LaserType.SWITCH:
+                        break;
+                    case EnemyAttackData.LaserType.CUSTOM:
+                        break;
+                    case EnemyAttackData.LaserType.RANDOM:
+                        break;
+                }
+
                 break;
+            
         }
     }
 
@@ -56,10 +71,7 @@ public class EnemyAttackScript : MonoBehaviour
         float rayDistance;
         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
         {
-            float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180);
-            float projectileDirYPosition = startPoint.y + Mathf.Cos((angle * Mathf.PI) / 180);
-            Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
-            Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized;
+            Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
 
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             if (hit.collider!=null)
@@ -79,44 +91,50 @@ public class EnemyAttackScript : MonoBehaviour
         }
     }
 
+    //Funcion para projectiles
     void Shooting()
     {
         float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
         float angle = attackData[currentShotPattern].GetProjectileAngleInit;
         Vector2 startPoint = transform.position;
 
+
         for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
         {
-            float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180);
-            float projectileDirYPosition = startPoint.y + Mathf.Cos((angle * Mathf.PI) / 180);
-            Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
-            Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized * attackData[currentShotPattern].GetProjectileSpeed;
-
-            GameObject tmpObj = Instantiate(projectile, startPoint, Quaternion.identity);
-            tmpObj.GetComponent<Rigidbody2D>().velocity = projectileMoveDirection;
-
             angle += angleStep;
+            GameObject tmpObj = Instantiate(projectile, startPoint, Quaternion.identity);
+            tmpObj.GetComponent<Rigidbody2D>().velocity = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
         }
+
         StartCoroutine(ShootingTimer());
     }
 
+    //Funcion para la rotacion (en el vectorlenght se pone ya sea la velocidad del projectil o la distancia del laser)
+    private Vector2 GenerateRotation(float _angle, float vectorLength, Vector2 _startPoint)
+    {
+        float DirXPosition = _startPoint.x + Mathf.Sin((_angle * Mathf.PI) / 180);
+        float DirYPosition = _startPoint.y + Mathf.Cos((_angle * Mathf.PI) / 180);
+        Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
+        Vector2 MoveDirection = (Vector - _startPoint).normalized * vectorLength;
+
+        return MoveDirection;
+    }
+
+    //Corrutina para la cadencia de disparo
     IEnumerator ShootingTimer()
     {
         yield return new WaitForSeconds(attackData[currentShotPattern].GetProjectileCadence);
         Shooting();
     }
+
+    //Gizmo para ver la direccion de lasers de momento
     private void OnDrawGizmos()
     {
         if (attackData[currentShotPattern].GetAttackType== EnemyAttackData.AttackType.LASER && attackData[currentShotPattern].GetLaserType == EnemyAttackData.LaserType.CUSTOM)
         {
             for (int i = 0; i < attackData[currentShotPattern].GetLaserAngles.Count; i++)
             {
-                float dirXPos = transform.position.x + Mathf.Sin((attackData[currentShotPattern].GetLaserAngles[i] * Mathf.PI) / 180);
-                float dirYPos = transform.position.y + Mathf.Cos((attackData[currentShotPattern].GetLaserAngles[i] * Mathf.PI) / 180);
-                Vector2 gizmoVector = new Vector2(dirXPos, dirYPos);
-                Vector2 gizmoDirection = (gizmoVector - (Vector2)transform.position).normalized * 10;
-
-                Gizmos.DrawLine(transform.position, gizmoDirection);
+                Gizmos.DrawLine(transform.position, GenerateRotation(attackData[currentShotPattern].GetLaserAngles[i], 10, transform.position));
             }
         }
     }
