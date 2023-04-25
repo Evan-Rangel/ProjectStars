@@ -105,4 +105,19 @@ public class EnemyAttackScript : MonoBehaviour
         yield return new WaitForSeconds(attackData[currentShotPattern].GetProjectileCadence);
         Shooting();
     }
+    private void OnDrawGizmos()
+    {
+        if (attackData[currentShotPattern].GetAttackType== EnemyAttackData.AttackType.LASER && attackData[currentShotPattern].GetLaserType == EnemyAttackData.LaserType.CUSTOM)
+        {
+            for (int i = 0; i < attackData[currentShotPattern].GetLaserAngles.Count; i++)
+            {
+                float dirXPos = transform.position.x + Mathf.Sin((attackData[currentShotPattern].GetLaserAngles[i] * Mathf.PI) / 180);
+                float dirYPos = transform.position.y + Mathf.Cos((attackData[currentShotPattern].GetLaserAngles[i] * Mathf.PI) / 180);
+                Vector2 gizmoVector = new Vector2(dirXPos, dirYPos);
+                Vector2 gizmoDirection = (gizmoVector - (Vector2)transform.position).normalized * 10;
+
+                Gizmos.DrawLine(transform.position, gizmoDirection);
+            }
+        }
+    }
 }

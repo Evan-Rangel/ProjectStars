@@ -36,7 +36,8 @@ public class EnemyAttackData : ScriptableObject
     int laserPerWave;
     int laserDamage;
     LaserType laserType;
-    List<Vector2> laserDirections;
+    List<float> laserAngles;
+    bool showLaserDirections;
     bool withRotation=false;
 
 
@@ -49,6 +50,8 @@ public class EnemyAttackData : ScriptableObject
     public float GetLaserAngleSum { get { return laserAngleSum; } }
     public int GetLaserPerWave { get { return laserPerWave; } }
     public int GetLaserDamage { get { return laserDamage; } }
+    public LaserType GetLaserType { get { return laserType; } }
+    public List<float> GetLaserAngles { get { return laserAngles; } }
 
 
     //For bullet attack type
@@ -62,6 +65,13 @@ public class EnemyAttackData : ScriptableObject
     public float GetProjectileAngleSum { get { return projectileAngleSum; } }
     public float GetProjectileSpeed { get { return projectileSpeed; } }
     public float GetProjectileCadence { get { return projectileCadence; } }
+
+    void NewLaserDirection()
+    {
+        laserAngles.Add(0);
+    }
+
+
 
     #region Editor
 #if UNITY_EDITOR
@@ -146,26 +156,48 @@ public class EnemyAttackData : ScriptableObject
                                 enemyAttackData.laserSpeedRotation = EditorGUILayout.FloatField(enemyAttackData.laserSpeedRotation, GUILayout.MaxWidth(valueSize));
                                 GUILayout.EndHorizontal();
                             }
+                            else
+                            {
+                                enemyAttackData.laserSpeedRotation = 0;
+                            }
                             
                             break;
                         case LaserType.CUSTOM:
-                        GUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField("Laser Cast Duration: ", GUILayout.MaxWidth(labelSize));
-                        enemyAttackData.laserCastDuration = EditorGUILayout.FloatField(enemyAttackData.laserCastDuration, GUILayout.MaxWidth(valueSize));
-                        GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Laser Cast Duration: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserCastDuration = EditorGUILayout.FloatField(enemyAttackData.laserCastDuration, GUILayout.MaxWidth(valueSize));
+                            GUILayout.EndHorizontal();
                     
-                        GUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField("Laser Angle Sum: ", GUILayout.MaxWidth(labelSize));
-                        enemyAttackData.laserAngleSum = EditorGUILayout.FloatField(enemyAttackData.laserAngleSum, GUILayout.MaxWidth(valueSize));
-                        GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Laser Angle Sum: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserAngleSum = EditorGUILayout.FloatField(enemyAttackData.laserAngleSum, GUILayout.MaxWidth(valueSize));
+                            GUILayout.EndHorizontal();
+                            EditorGUILayout.Space();
+
+                            enemyAttackData.showLaserDirections = EditorGUILayout.Foldout(enemyAttackData.showLaserDirections,"Laser Directions",true);
+                            if (enemyAttackData.showLaserDirections)
+                            {
+                                if (GUILayout.Button("New Laser Direction", GUILayout.MaxWidth(250)))
+                                {
+                                    enemyAttackData.NewLaserDirection();
+                                }
+                                for (int i = 0; i < enemyAttackData.laserAngles.Count; i++)
+                                {
+                                    EditorGUILayout.BeginHorizontal();
+
+                                    EditorGUILayout.LabelField("Laser " + i + " angle: ");
+                                    enemyAttackData.laserAngles[i] = (float)EditorGUILayout.IntSlider((int)enemyAttackData.laserAngles[i], 0, 360);
+
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                                
+
+                            }
+
                             break;
+                        
+
                     }
-                    
-                  
-
-
-                    break;
-                default:
                     break;
             }
 
