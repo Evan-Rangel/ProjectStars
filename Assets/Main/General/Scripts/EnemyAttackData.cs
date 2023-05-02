@@ -16,6 +16,8 @@ public class EnemyAttackData : ScriptableObject
         BULLET,
         LASER
     }
+    //Tipos de laseres
+
     public enum LaserType
     {
         STATIC,
@@ -23,6 +25,17 @@ public class EnemyAttackData : ScriptableObject
         SWITCH,
         CUSTOM,
         RANDOM
+    }
+
+    public enum LaserDistance
+    {
+        VERY_SHORT,
+        SHORT,
+        NORMAL,
+        LARGE,
+        VERY_LARGE,
+        INFINITE,
+        CUSTOM
     }
     [SerializeField] AttackType attackType;
     public AttackType GetAttackType { get { return attackType; } }
@@ -40,7 +53,7 @@ public class EnemyAttackData : ScriptableObject
     List<float> laserAngles;
     bool showLaserDirections;
     bool withRotation=false;
-
+    LaserDistance laserDistance;
 
 
     public float GetLaserOnDuration { get { return laserOnDuration; } }
@@ -222,7 +235,7 @@ public class EnemyAttackData : ScriptableObject
                                     EditorGUILayout.BeginHorizontal();
 
                                     EditorGUILayout.LabelField("Laser " + i + " angle: ");
-                                    enemyAttackData.laserAngles[i] = (float)EditorGUILayout.IntSlider((int)enemyAttackData.laserAngles[i], 0, 360);
+                                    enemyAttackData.laserAngles[i] = EditorGUILayout.Slider(enemyAttackData.laserAngles[i], 0, 360);
 
                                     EditorGUILayout.EndHorizontal();
                                 }
@@ -232,8 +245,10 @@ public class EnemyAttackData : ScriptableObject
 
                             break;
                         case LaserType.RANDOM:
-                            
-                            
+                            EditorGUILayout.LabelField("Laser Angle: ");
+                            enemyAttackData.laserAngleInit = EditorGUILayout.FloatField(enemyAttackData.laserAngleInit);
+                            EditorGUILayout.LabelField("Laser Distance: ");
+
                             break;
                         
 
