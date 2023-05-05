@@ -106,6 +106,7 @@ public class EnemyAttackScript : MonoBehaviour
             tmpObj.GetComponent<Rigidbody2D>().velocity = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
         }
 
+
         StartCoroutine(ShootingTimer());
     }
 
