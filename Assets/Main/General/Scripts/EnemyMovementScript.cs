@@ -109,13 +109,22 @@ public class EnemyMovementScript : MonoBehaviour
         if (currentMovement>=movemenData[currentMovementPattern].GetMovementCount)
         {
             currentMovement = 0;
+            /*if (movemenData[currentMovementPattern].CycleMovement)
+            {
+            }
+            else
+            {
+                currentMovement = 0;
+                rb.velocity = Vector2.zero;
+            }*/
         }
-        rb.velocity = movemenData[currentMovementPattern].GetDirection[currentMovement] * movemenData[currentMovementPattern].GetSpeed[currentMovement];
         StartCoroutine(CustomMovementTime());
+        rb.velocity = movemenData[currentMovementPattern].GetMovement[currentMovement].dir * movemenData[currentMovementPattern].GetMovement[currentMovement].speed;
+
     }
     IEnumerator CustomMovementTime()
     {
-        yield return new WaitForSeconds(movemenData[currentMovementPattern].GetTime[currentMovement]);
+        yield return new WaitForSeconds(movemenData[currentMovementPattern].GetMovement[currentMovement].time);
         currentMovement++;
         CustomMovement();
     }

@@ -239,10 +239,7 @@ public class EnemyAttackData : ScriptableObject
 
                                     EditorGUILayout.EndHorizontal();
                                 }
-                                
-
                             }
-
                             break;
                         case LaserType.RANDOM:
                             EditorGUILayout.LabelField("Laser Angle: ");
@@ -250,8 +247,6 @@ public class EnemyAttackData : ScriptableObject
                             EditorGUILayout.LabelField("Laser Distance: ");
 
                             break;
-                        
-
                     }
                     break;
             }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -14,7 +14,7 @@ using UnityEditor;
 public class EnemyMovementData : ScriptableObject
 {
     //Enums
-    enum MovDirection
+    public enum MovDirection
     {
         NONE,
         NORTH,
@@ -28,7 +28,7 @@ public class EnemyMovementData : ScriptableObject
         CUSTOM
     }
 
-    enum MovSpeed
+    public enum MovSpeed
     {
         ZERO,
         VERY_SLOW,
@@ -39,7 +39,7 @@ public class EnemyMovementData : ScriptableObject
         CUSTOM
     }
 
-    enum MovTime
+    public enum MovTime
     {
         VERY_SHORT,
         SHORT,
@@ -49,12 +49,34 @@ public class EnemyMovementData : ScriptableObject
         CUSTOM
     }
 
-    enum MovType
+    public enum MovType
     {
         FOLLOW_PLAYER,
         ONE_MOV,
         CUSTOM_MOVEMENT,
     }
+
+    [Serializable]
+    public class Movement
+    {
+        public MovDirection movD;
+        public Vector2 dir;
+        public MovSpeed movS;
+        public float speed;
+        public MovTime movT;
+        public float time;
+
+        public Movement()
+        {
+            movD = MovDirection.NONE;
+            movS = MovSpeed.ZERO;
+            movT = MovTime.NORMAL;
+            dir = Vector2.zero;
+            speed = 0;
+            time = 0;
+        }
+    }
+    List<Movement> movements;
 
     MovType movType;
 
@@ -69,9 +91,7 @@ public class EnemyMovementData : ScriptableObject
     //Todas las variables a partir de aqui, son para el SET_MOVEMENT
     int movementCount = 0;
 
-    // Movement direction (up, down, left, right))
-    List<MovDirection> movementDirection;
-    List<Vector2> direction;
+    // direcciones 
     Vector2[] directions =
         {
         Vector2.zero,
@@ -88,56 +108,37 @@ public class EnemyMovementData : ScriptableObject
         };
 
 
-    // Velocity of determinate movement
-    List<MovSpeed> movementSpeed;
-    List<float> speed;
+    // velocidades 
     float[] speeds = {0, 1, 2, 3, 4, 5, 0};
 
-
-    // Time for the nex type of movement
-    List<MovTime> movementTime;
-    List<float> time;
+    // tiempos
     float[] times = {0.2f,0.4f,0.6f,0.8f,1,0 };
 
-
     bool showMovements = false;
-
+    bool cycleMovements = false;
 
     [ContextMenu ("ClearValues()")]
     
     //Resetea la lista por si hay algun bug o algo
     void ClearValues()
     {
-        speed.Clear();
-        movementSpeed.Clear();
-        movementDirection.Clear();
-        direction.Clear();
-        time.Clear();
-        movementTime.Clear();
+
         movementCount = 0;
+        movements.Clear();
 
     }
     //Remueve en una posicion especifica
     void RemoveElement(int index)
     {
-        speed.RemoveAt(index);
-        movementSpeed.RemoveAt(index);
-        direction.RemoveAt(index);
-        movementDirection.RemoveAt(index);
-        time.RemoveAt(index);
-        movementTime.RemoveAt(index);
+        movements.RemoveAt(index);
+
+
     }
     //Crea nuevos valores para la lista
     void NewMovementCreation()
     {
-        movementDirection.Add(MovDirection.NONE);
-        direction.Add(Vector2.zero);
+        movements.Add(new Movement());
 
-        movementSpeed.Add(MovSpeed.ZERO);
-        speed.Add(0);
-
-        movementTime.Add(MovTime.NORMAL);
-        time.Add(0.6f);
         movementCount++;
     }
 
@@ -155,10 +156,10 @@ public class EnemyMovementData : ScriptableObject
 
 
     //Getters si es CUSTOM_MOVEMENT
-    public List<Vector2> GetDirection { get { return direction; } }
-    public List<float> GetSpeed { get  { return speed; } }
-    public List<float> GetTime { get { return time; } }
+    public List<Movement> GetMovement { get { return movements; } }
     public int GetMovementCount { get { return movementCount; } }
+    public bool CycleMovement { get { return cycleMovements; } }
+  
 
     //----------------------------------------------------------------------------------
     #region Editor
@@ -208,6 +209,8 @@ public class EnemyMovementData : ScriptableObject
         //Funcion para la opcion de SET_MOVEMENT
         private static void SetMovement(EnemyMovementData enemyMovementData)
         {
+            enemyMovementData.cycleMovements = EditorGUILayout.Toggle(enemyMovementData.cycleMovements);
+
             //Esto es para crear una toggle list de los movimientos y poder ocultarlos
             enemyMovementData.showMovements = EditorGUILayout.Foldout(enemyMovementData.showMovements, "Movements", true);
 
@@ -242,12 +245,8 @@ public class EnemyMovementData : ScriptableObject
                 EditorGUILayout.Space();
                 //Para hacer el inspector horizontal
                 EditorGUILayout.BeginHorizontal();
-                //Funcion para la direccion
-                InspectorShowMovementDirection(enemyMovementData, i);
-                //Funcion para la velocidad
-                InspectorShowMovementSpeed(enemyMovementData, i);
-                //Funcion para el tiempo
-                InspectorShowMovementTime(enemyMovementData, i);
+                
+                InspectorShowMovement(enemyMovementData, i);
                 
                 //Boton "Remove" para eliminar algun dato de la lista
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(60)))
@@ -259,7 +258,7 @@ public class EnemyMovementData : ScriptableObject
                 EditorGUILayout.EndHorizontal();
             }
         }
-
+        //Boton para nuevo movimiento
         private static void CreateNewMovementButton(EnemyMovementData enemyMovementData)
         {
             //Checa si falta o sobra algun dato
@@ -282,127 +281,58 @@ public class EnemyMovementData : ScriptableObject
         //Funcion para confirmar que el tamanio de las listas estan bien
         private static void CheckForData(EnemyMovementData enemyMovementData)
         {
-            for (int i = 0; i < enemyMovementData.movementCount; i++)
-            {
-                //Checar si falta
-                if (enemyMovementData.direction.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.direction.Add(Vector2.zero);
-                }
-                if (enemyMovementData.movementDirection.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementDirection.Add(MovDirection.NONE);
-                }
-
-                if (enemyMovementData.speed.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.speed.Add(0);
-                }
-                if (enemyMovementData.movementSpeed.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementSpeed.Add(MovSpeed.ZERO);
-                }
-
-                if (enemyMovementData.time.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.time.Add(0.6f);
-                }
-                if (enemyMovementData.movementTime.Count < enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementTime.Add(MovTime.NORMAL);
-
-                }
-
-                //Checar si sobra
-                if (enemyMovementData.direction.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.direction.RemoveAt(i);
-                }
-                if (enemyMovementData.movementDirection.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementDirection.RemoveAt(i);
-                }
-
-                if (enemyMovementData.speed.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.speed.RemoveAt(i);
-                }
-                if (enemyMovementData.movementSpeed.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementSpeed.RemoveAt(i);
-                }
-
-                if (enemyMovementData.time.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.time.RemoveAt(i);
-                }
-                if (enemyMovementData.movementTime.Count > enemyMovementData.movementCount)
-                {
-                    enemyMovementData.movementTime.RemoveAt(i);
-                }
-            }
-        }
         
-        //Esto es para la direccion
-        private static void InspectorShowMovementDirection(EnemyMovementData enemyMovementData, int i)
-        {
-            //Texto en el inspector
-            EditorGUILayout.LabelField("Movement " + i+":", GUILayout.MaxWidth(95));
-
-            //Corrobora si esta bien el tamaño
-            if (enemyMovementData.movementDirection.Count > i)
+            //Checar si falta
+            if (enemyMovementData.movements.Count<enemyMovementData.movementCount)
             {
-                //Lista de enum
-                enemyMovementData.movementDirection[i] = (MovDirection)EditorGUILayout.EnumPopup(enemyMovementData.movementDirection[i], GUILayout.MaxWidth(100));
-
-                //Si no es custom agarra de la lista de "directions"
-                if (enemyMovementData.movementDirection[i] != MovDirection.CUSTOM)
-                {
-                    enemyMovementData.direction[i] = (enemyMovementData.directions[((int)enemyMovementData.movementDirection[i])]);
-                }//Si es custom, aparece un input de Vector2
-                else
-                {
-                    enemyMovementData.direction[i] = EditorGUILayout.Vector2Field("", enemyMovementData.direction[i], GUILayout.MinWidth(75), GUILayout.MaxWidth(125)).normalized;
-                }
+                enemyMovementData.movements.Add(new Movement());
+                CheckForData(enemyMovementData);
             }
-        }
-        
-        //Esto es para la velocidad
-        private static void InspectorShowMovementSpeed(EnemyMovementData enemyMovementData, int i)
-        {
-            EditorGUILayout.LabelField("Speed: ", GUILayout.MaxWidth(55));
 
-            if (enemyMovementData.movementSpeed.Count > i)
+            //Checar si sobra
+            if (enemyMovementData.movements.Count > enemyMovementData.movementCount)
             {
-                enemyMovementData.movementSpeed[i] = (MovSpeed)EditorGUILayout.EnumPopup(enemyMovementData.movementSpeed[i], GUILayout.MaxWidth(100));
-
-                if (enemyMovementData.movementSpeed[i] != MovSpeed.CUSTOM)
-                {
-                    enemyMovementData.speed[i] = (enemyMovementData.speeds[((int)enemyMovementData.movementSpeed[i])]);
-                }
-                else
-                {
-                    enemyMovementData.speed[i] = EditorGUILayout.FloatField(enemyMovementData.speed[i], GUILayout.MaxWidth(40));
-                }
+                enemyMovementData.RemoveElement(enemyMovementData.movements.Count);
+                CheckForData(enemyMovementData);
             }
         }
 
-        //Esto es para el tiempo
-        private static void InspectorShowMovementTime(EnemyMovementData enemyMovementData, int i)
+        //Nuevo movimiento
+        private static void InspectorShowMovement(EnemyMovementData enemyMovementData, int i)
         {
-            EditorGUILayout.LabelField("Time: ", GUILayout.MaxWidth(55));
-
-            if (enemyMovementData.movementTime.Count > i)
+            if (enemyMovementData.movements.Count>i)
             {
-                enemyMovementData.movementTime[i] = (MovTime)EditorGUILayout.EnumPopup(enemyMovementData.movementTime[i], GUILayout.MaxWidth(100));
-
-                if (enemyMovementData.movementTime[i] != MovTime.CUSTOM)
+                EditorGUILayout.LabelField("Movement " + i + ":", GUILayout.MaxWidth(95));
+                enemyMovementData.movements[i].movD = (MovDirection)EditorGUILayout.EnumPopup(enemyMovementData.movements[i].movD, GUILayout.MaxWidth(100));
+                if (enemyMovementData.movements[i].movD!= MovDirection.CUSTOM)
                 {
-                    enemyMovementData.time[i] = (enemyMovementData.times[((int)enemyMovementData.movementTime[i])]);
+                    enemyMovementData.movements[i].dir = enemyMovementData.directions[((int)enemyMovementData.movements[i].movD)];
                 }
                 else
                 {
-                    enemyMovementData.time[i] = EditorGUILayout.FloatField(enemyMovementData.time[i], GUILayout.MaxWidth(40));
+                    enemyMovementData.movements[i].dir= EditorGUILayout.Vector2Field("", enemyMovementData.movements[i].dir, GUILayout.MinWidth(75), GUILayout.MaxWidth(125)).normalized;
+                }
+
+                EditorGUILayout.LabelField("Speed: ", GUILayout.MaxWidth(55));
+                enemyMovementData.movements[i].movS = (MovSpeed)EditorGUILayout.EnumPopup(enemyMovementData.movements[i].movS, GUILayout.MaxWidth(100));
+                if (enemyMovementData.movements[i].movS != MovSpeed.ZERO)
+                {
+                    enemyMovementData.movements[i].speed = enemyMovementData.speeds[((int)enemyMovementData.movements[i].movS)];
+                }
+                else
+                {
+                    enemyMovementData.movements[i].speed = EditorGUILayout.FloatField(enemyMovementData.movements[i].speed, GUILayout.MaxWidth(40));
+                }
+
+                EditorGUILayout.LabelField("Speed: ", GUILayout.MaxWidth(55));
+                enemyMovementData.movements[i].movT = (MovTime)EditorGUILayout.EnumPopup(enemyMovementData.movements[i].movT, GUILayout.MaxWidth(100));
+                if (enemyMovementData.movements[i].movT != MovTime.NORMAL)
+                {
+                    enemyMovementData.movements[i].time = enemyMovementData.times[((int)enemyMovementData.movements[i].movT)];
+                }
+                else
+                {
+                    enemyMovementData.movements[i].time = EditorGUILayout.FloatField(enemyMovementData.movements[i].time, GUILayout.MaxWidth(40));
                 }
             }
         }
