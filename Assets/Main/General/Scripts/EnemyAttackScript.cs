@@ -54,7 +54,7 @@ public class EnemyAttackScript : MonoBehaviour
                        // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
-                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity));
+                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
                         }
                         lasera = true;
                         break;
@@ -98,7 +98,7 @@ public class EnemyAttackScript : MonoBehaviour
             }
 
 
-            lasers[i].GetComponent<LineRenderer>().SetPosition(0, startPoint);
+            lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
             lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
 
             //laserInstance.GetComponent<LineRenderer>().SetPosition(0,startPoint);
