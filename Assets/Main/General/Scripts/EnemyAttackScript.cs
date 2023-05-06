@@ -6,6 +6,9 @@ public class EnemyAttackScript : MonoBehaviour
 {
     [SerializeField] EnemyAttackData[] attackData;
     [SerializeField] GameObject projectile;
+    [SerializeField] GameObject laser;
+    [SerializeField]List<GameObject> lasers;
+    GameObject laserInstance;
     [SerializeField] int currentShotPattern = 0;
     GameObject objectToRotate;
     bool lasera=false;
@@ -48,6 +51,11 @@ public class EnemyAttackScript : MonoBehaviour
                     case EnemyAttackData.LaserType.STATIC:
                         break;
                     case EnemyAttackData.LaserType.DINAMIC:
+                       // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
+                        for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
+                        {
+                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity));
+                        }
                         lasera = true;
                         break;
                     case EnemyAttackData.LaserType.SWITCH:
@@ -69,6 +77,8 @@ public class EnemyAttackScript : MonoBehaviour
         float angle = attackData[currentShotPattern].GetLaserAngleInit + angleSum;
         Vector2 startPoint = transform.position;
         float rayDistance;
+
+        
         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
         {
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
@@ -86,7 +96,14 @@ public class EnemyAttackScript : MonoBehaviour
             {
                 rayDistance = 10;
             }
-            Debug.DrawRay(transform.position,projectileMoveDirection*rayDistance, Color.green);
+
+
+            lasers[i].GetComponent<LineRenderer>().SetPosition(0, startPoint);
+            lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
+
+            //laserInstance.GetComponent<LineRenderer>().SetPosition(0,startPoint);
+            //laserInstance.GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection * rayDistance);
+            Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;
         }
     }
