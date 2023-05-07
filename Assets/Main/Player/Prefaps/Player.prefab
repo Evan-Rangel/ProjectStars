@@ -174,7 +174,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -201767618, guid: a8d9d073dfec9e3469cd90c28266f4e8, type: 3}
+  m_Sprite: {fileID: 1282826418, guid: 594dec6071d98f649a60c64ad6d33dbb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -213,10 +213,10 @@ PolygonCollider2D:
     - - {x: 0.01, y: 0.13}
       - {x: -0.01, y: 0.13}
       - {x: -0.03, y: 0.04}
-      - {x: -0.12, y: -0.03}
-      - {x: -0.1, y: -0.07}
-      - {x: 0.1, y: -0.07}
-      - {x: 0.12, y: -0.03}
+      - {x: -0.05, y: -0.03}
+      - {x: -0.06, y: -0.07}
+      - {x: 0.06, y: -0.07}
+      - {x: 0.05, y: -0.03}
       - {x: 0.03, y: 0.04}
   m_UseDelaunayMesh: 0
 --- !u!50 &3893930409089998997
@@ -267,7 +267,7 @@ MonoBehaviour:
   - {fileID: 3893930408510413468}
   shotLevel: 1
   laserOffset: 0.9
-  bulletSpeed: 4
+  bulletSpeed: 7
   tiempo_brillo: 0
   spr:
   - {fileID: 3893930409089998998}
@@ -278,6 +278,8 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 0.53333336}
   speed_shine: 20
   cronometro: 0
+  audioMaster: {fileID: 0}
+  reproductoSonidos: {fileID: 0}
 --- !u!95 &3893930409089999000
 Animator:
   serializedVersion: 5
