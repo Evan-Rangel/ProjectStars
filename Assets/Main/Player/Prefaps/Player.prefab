@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 3893930409089998997}
   - component: {fileID: 2621291540957968189}
   - component: {fileID: 3893930409089999000}
+  - component: {fileID: 8409298724030921840}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -123,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 3893930409089998994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.24, y: -4.32, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3893930407880564699}
@@ -278,6 +279,7 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 0.53333336}
   speed_shine: 20
   cronometro: 0
+  __playerDash: {fileID: 0}
   audioMaster: {fileID: 0}
   reproductoSonidos: {fileID: 0}
 --- !u!95 &3893930409089999000
@@ -300,6 +302,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8409298724030921840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893930409089998994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b583dfbbfb8e8546a62341a098af0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dashingTime: 0.2
+  _dashForce: 20
+  _timeCanDash: 1
 --- !u!1 &5929333202915084878
 GameObject:
   m_ObjectHideFlags: 0

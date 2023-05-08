@@ -51,6 +51,16 @@ public class Player : MonoBehaviour
     public Color[] color_;
     public float speed_shine;
     public float cronometro;
+    //Dash Player (Parte de lo de winona asi que lo puedes borrar luego)
+    [Header("Dashing")]
+    [SerializeField] private float activeMoveSpeed;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float dashSpeed;
+    private float dashLength = 0.5f;
+    private float dashCoolDown = 1f;
+    private float dashCounter;
+    private float dashCoolCounter;
+    [SerializeField] private TrailRenderer trailRenderer;
     //Sonidos Player
     [Header("Sound Atributes")]
     [SerializeField] AudioMaster audioMaster;
@@ -66,6 +76,10 @@ public class Player : MonoBehaviour
         animatorPlayer = GetComponent<Animator>();
         //Player Reproductor de sonidos
         reproductoSonidos = GameObject.Find("SonidosPlayer");
+        //Player Dash (Parte de lo de Winona)
+        trailRenderer = GetComponent<TrailRenderer>();
+        activeMoveSpeed = speedPlayer;
+
     }
 
     private void Update()
@@ -77,7 +91,7 @@ public class Player : MonoBehaviour
         PlayerDie();
 
         //Player Movimiento
-        PlayerMovimiento();
+        PlayerMovimiento();       
 
         //Player Disparo
         PlayerFire();
@@ -136,6 +150,35 @@ public class Player : MonoBehaviour
         animatorPlayer.SetFloat("MovY", moveY); //Animacion del Personaje
         moveInput = new Vector2(moveX, moveY).normalized;
         animatorPlayer.SetFloat("Speed", moveInput.sqrMagnitude);
+
+        //Dash del Personaje (Winona)
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (dashCoolCounter <= 0 && dashCounter <= 0)
+            {
+                speedPlayer = dashSpeed;
+                dashCounter = dashLength;
+                trailRenderer.emitting = true;
+            }
+        }
+
+        if (dashCounter > 0)
+        {
+            dashCounter -= Time.deltaTime;
+
+            if (dashCounter <= 0)
+            {
+                speedPlayer = activeMoveSpeed;
+                dashCoolCounter = dashCoolDown;
+                trailRenderer.emitting = false;
+            }
+
+        }
+
+        if (dashCoolCounter > 0)
+        {
+            dashCoolCounter -= Time.deltaTime;
+        }
     }
 
     //Player MovimientoFixed Funcion
