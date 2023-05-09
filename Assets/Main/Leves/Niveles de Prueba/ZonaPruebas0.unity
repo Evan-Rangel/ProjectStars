@@ -12040,6 +12040,7 @@ GameObject:
   - component: {fileID: 1559578449}
   - component: {fileID: 1559578451}
   - component: {fileID: 1559578450}
+  - component: {fileID: 1559578452}
   m_Layer: 5
   m_Name: ShootLevel2
   m_TagString: Untagged
@@ -12106,6 +12107,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559578448}
   m_CullTransparentMesh: 1
+--- !u!95 &1559578452
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559578448}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7b477747ae779504587465b82ad21cf7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1650952566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3893930409089998994, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
@@ -12476,6 +12497,7 @@ GameObject:
   - component: {fileID: 1768617711}
   - component: {fileID: 1768617713}
   - component: {fileID: 1768617712}
+  - component: {fileID: 1768617714}
   m_Layer: 5
   m_Name: ShootLevel3
   m_TagString: Untagged
@@ -12542,6 +12564,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768617710}
   m_CullTransparentMesh: 1
+--- !u!95 &1768617714
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768617710}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f8bea8a88c5145149a0595027677340b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1770821832
 GameObject:
   m_ObjectHideFlags: 0
