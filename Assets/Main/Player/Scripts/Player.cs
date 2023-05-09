@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     //Player Variables
     [Header("Player Atributes")]
     [SerializeField] int lifePlayer;
+    public int LifePlayer => lifePlayer;
     [SerializeField] private float speedPlayer;
     private PolygonCollider2D colliderPlayer;
     private Rigidbody2D rbPlayer;

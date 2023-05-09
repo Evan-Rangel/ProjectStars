@@ -5245,6 +5245,7 @@ GameObject:
   - component: {fileID: 339102513}
   - component: {fileID: 339102515}
   - component: {fileID: 339102514}
+  - component: {fileID: 339102516}
   m_Layer: 5
   m_Name: Life1
   m_TagString: Untagged
@@ -5310,6 +5311,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339102512}
   m_CullTransparentMesh: 1
+--- !u!95 &339102516
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339102512}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 853bd96e92f9db04082fe4ce0a9a7edb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &395546497
 GameObject:
   m_ObjectHideFlags: 0
@@ -10927,6 +10948,7 @@ GameObject:
   - component: {fileID: 820036159}
   - component: {fileID: 820036161}
   - component: {fileID: 820036160}
+  - component: {fileID: 820036162}
   m_Layer: 5
   m_Name: Life3
   m_TagString: Untagged
@@ -10992,6 +11014,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820036158}
   m_CullTransparentMesh: 1
+--- !u!95 &820036162
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820036158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9273cbed793f61443b8aa27c50aeb3e5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &831907827
 GameObject:
   m_ObjectHideFlags: 0
@@ -11341,6 +11383,7 @@ GameObject:
   - component: {fileID: 1056940139}
   - component: {fileID: 1056940141}
   - component: {fileID: 1056940140}
+  - component: {fileID: 1056940142}
   m_Layer: 5
   m_Name: Life2
   m_TagString: Untagged
@@ -11406,6 +11449,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056940138}
   m_CullTransparentMesh: 1
+--- !u!95 &1056940142
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056940138}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54d5dc05e6d1cbb4ea97e9fadb541e62, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1075413229
 GameObject:
   m_ObjectHideFlags: 0
@@ -11448,6 +11511,7 @@ GameObject:
   - component: {fileID: 1188680307}
   - component: {fileID: 1188680309}
   - component: {fileID: 1188680308}
+  - component: {fileID: 1188680310}
   m_Layer: 5
   m_Name: Life4
   m_TagString: Untagged
@@ -11513,6 +11577,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188680306}
   m_CullTransparentMesh: 1
+--- !u!95 &1188680310
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188680306}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 814be003f824b1b4dbff159b88a74a15, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1246257801
 GameObject:
   m_ObjectHideFlags: 0
@@ -11722,6 +11806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8409298724030921840, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
+    - {fileID: 5711286256367897055, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
 --- !u!1 &1349995687
@@ -12468,6 +12553,7 @@ GameObject:
   - component: {fileID: 1770821833}
   - component: {fileID: 1770821835}
   - component: {fileID: 1770821834}
+  - component: {fileID: 1770821836}
   m_Layer: 5
   m_Name: PanelUI
   m_TagString: Untagged
@@ -12535,6 +12621,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770821832}
   m_CullTransparentMesh: 1
+--- !u!114 &1770821836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770821832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080b63899df8220419a08f03c01a569a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animators: []
 --- !u!1 &1839237630
 GameObject:
   m_ObjectHideFlags: 0
