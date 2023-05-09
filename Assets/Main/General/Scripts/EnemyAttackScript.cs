@@ -84,7 +84,7 @@ public class EnemyAttackScript : MonoBehaviour
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
 
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
-            if (hit.collider!=null)
+            if (hit.collider!=null && hit.distance<10)
             {
                 if (hit.transform.CompareTag("Player"))
                 {
