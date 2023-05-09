@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5367013931080559938
 SpriteRenderer:
@@ -102,7 +102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletData:
   - {fileID: 11400000, guid: cdd5c40c207964e448429617a4903847, type: 2}
+  - {fileID: 11400000, guid: 125ce59d1f733034ea0b28db5202c116, type: 2}
   bulletRB: {fileID: 5367013931080559940}
+  audioMaster: {fileID: 0}
+  reproductoSonidos: {fileID: 0}
 --- !u!50 &5367013931080559940
 Rigidbody2D:
   serializedVersion: 4

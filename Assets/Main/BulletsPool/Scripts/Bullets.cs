@@ -24,9 +24,10 @@ public class Bullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemies") && transform.CompareTag("BulletPlayer"))
+        if (other.CompareTag("Enemies") && transform.CompareTag("PlayerBullets"))
         {
-            //other.GetComponent<ControladorDeEnemigos>().RecibirDanio(bulletData[0].BulletDamage);         
+
+            other.GetComponent<EnemyController>().DealDamage(bulletData[0].BulletDamagePlayer);         
             ResetProps();
         }
 
@@ -48,11 +49,11 @@ public class Bullets : MonoBehaviour
         gameObject.transform.rotation = Quaternion.identity;
         gameObject.SetActive(false);
     }
-    public void SetProps(Vector2 _vel, Vector2 _pos, float _ang, BulletData _bulletData)
+    public void SetProps(Vector2 _vel, Vector2 _pos, float _ang)
     {
-        bulletData[1] = _bulletData;
+       // bulletData[1] = _bulletData;
         gameObject.GetComponent<SpriteRenderer>().sprite = bulletData[1].Sprite;
-        gameObject.GetComponent<Animator>().runtimeAnimatorController = bulletData[1].Animator;
+        //gameObject.GetComponent<Animator>().runtimeAnimatorController = bulletData[1].Animator;
         gameObject.tag = bulletData[1].TagName;
         transform.rotation = Quaternion.Euler(0, 0, _ang);
         transform.position = _pos;

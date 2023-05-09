@@ -10,8 +10,10 @@ public class BulletData : ScriptableObject
     [SerializeField] private string bulletName;
     [SerializeField] private string description;
     [Space]
+
     [Header("Bullet Atributes for the change of bullet Between Player and Enemies")]
     [SerializeField] private string tagName;
+
     [Tooltip("Este daño es unicamente para el Player")]
     [SerializeField] private int bulletDamagePlayer;//Esto es provicional
     [SerializeField] UnityEditor.Animations.AnimatorController animator;
