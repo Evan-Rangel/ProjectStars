@@ -110,10 +110,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 45
-        height: 63
+        x: 0
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,10 +131,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_1
       rect:
         serializedVersion: 2
-        x: 58
-        y: 5
-        width: 47
-        height: 63
+        x: 55
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,10 +152,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_2
       rect:
         serializedVersion: 2
-        x: 113
-        y: 5
-        width: 47
-        height: 63
+        x: 110
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,10 +173,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_3
       rect:
         serializedVersion: 2
-        x: 168
-        y: 5
-        width: 47
-        height: 63
+        x: 165
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_4
       rect:
         serializedVersion: 2
-        x: 223
-        y: 5
-        width: 47
-        height: 63
+        x: 220
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,10 +215,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_5
       rect:
         serializedVersion: 2
-        x: 278
-        y: 5
-        width: 47
-        height: 63
+        x: 275
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,10 +236,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_6
       rect:
         serializedVersion: 2
-        x: 333
-        y: 5
-        width: 49
-        height: 63
+        x: 330
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,10 +257,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_7
       rect:
         serializedVersion: 2
-        x: 388
-        y: 5
-        width: 49
-        height: 63
+        x: 385
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,10 +278,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_8
       rect:
         serializedVersion: 2
-        x: 443
-        y: 5
-        width: 49
-        height: 63
+        x: 440
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -299,10 +299,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_9
       rect:
         serializedVersion: 2
-        x: 498
-        y: 5
-        width: 49
-        height: 63
+        x: 495
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,10 +320,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_10
       rect:
         serializedVersion: 2
-        x: 553
-        y: 5
-        width: 49
-        height: 63
+        x: 550
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -341,10 +341,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_11
       rect:
         serializedVersion: 2
-        x: 608
-        y: 5
-        width: 49
-        height: 63
+        x: 605
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,10 +362,10 @@ TextureImporter:
       name: VidasFrijoles-Sheet_12
       rect:
         serializedVersion: 2
-        x: 663
-        y: 5
-        width: 49
-        height: 63
+        x: 660
+        y: 0
+        width: 55
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

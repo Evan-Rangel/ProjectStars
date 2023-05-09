@@ -37,5 +37,34 @@ public class W_UIPlayer : MonoBehaviour
         {
             animators[0].SetBool("Vida1", true);
         }
+
+        //Botones
+        //Piu1
+        if (_player.ShotLevel == 1)
+        {
+            animators[4].SetBool("PulsarPiu1", true);
+        }
+        else if (_player.ShotLevel != 1)
+        {
+            animators[4].SetBool("PulsarPiu1", false);
+        }
+        //Piu2
+        if (_player.ShotLevel == 2)
+        {
+            animators[5].SetBool("PulsarPiu2", true);
+        }
+        else if (_player.ShotLevel != 2)
+        {
+            animators[5].SetBool("PulsarPiu2", false);
+        }
+        //Piu3
+        if (_player.ShotLevel == 3)
+        {
+            animators[6].SetBool("PulsarPiu3", true);
+        }
+        else if (_player.ShotLevel != 3)
+        {
+            animators[6].SetBool("PulsarPiu3", false);
+        }
     }
 }
