@@ -110,10 +110,10 @@ TextureImporter:
       name: ButtonDamage3-Sheet_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
-        width: 40
-        height: 39
+        x: 0
+        y: 0
+        width: 45
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,10 +131,10 @@ TextureImporter:
       name: ButtonDamage3-Sheet_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 3
-        width: 39
-        height: 37
+        x: 45
+        y: 0
+        width: 45
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,10 +152,10 @@ TextureImporter:
       name: ButtonDamage3-Sheet_2
       rect:
         serializedVersion: 2
-        x: 92
-        y: 3
-        width: 38
-        height: 35
+        x: 90
+        y: 0
+        width: 45
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

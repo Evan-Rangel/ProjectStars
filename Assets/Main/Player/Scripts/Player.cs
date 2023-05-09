@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     [Header("Bullets Atributes")]
     [Tooltip("Nivel de diapro, empieza en 1, si aumenta a 2 dispara dos veces al mimso timepo, si aumenta a 3 dispara 3 veces al mismo tiempo y asi sucesivamente")]
     [SerializeField] int shotLevel;
+    public int ShotLevel => shotLevel;
     [Tooltip("Espacio que se sumara para ubicar la aparicion de la bala del Player")]
     [SerializeField] private float laserOffset;
     [SerializeField] float bulletSpeed;
