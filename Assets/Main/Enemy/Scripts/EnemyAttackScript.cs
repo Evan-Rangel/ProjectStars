@@ -20,7 +20,10 @@ public class EnemyAttackScript : MonoBehaviour
     }
     private void OnEnable()
     {
-        GetShotType();
+        if (attackData.Length>0)
+        {
+            GetShotType();
+        }
 
     }
     private void Update()
@@ -111,26 +114,29 @@ public class EnemyAttackScript : MonoBehaviour
     }
 
     //Funcion para projectiles
-    void Shooting(float angleSum)
+    void Shooting(float _angleSum)
     {
         float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
-        float angle = attackData[currentShotPattern].GetProjectileAngleInit+anglesum;
+        float angle = attackData[currentShotPattern].GetProjectileAngleInit+ _angleSum;
         Vector2 startPoint = transform.position;
 
         GameObject bullet;
+        //Debug.Log(attackData[currentShotPattern].GetProjectilesPerWave);
+        
         for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
         {
             angle += angleStep;
             Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
-            bullet = BulletsPool.Instance.RequestEnemyrBullet();
+            bullet = BulletsPool.Instance.RequestEnemyBullet();
             bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
+
             //Instantiate(projectile, startPoint, Quaternion.identity);
 
 
             //tmpObj.GetComponent<Rigidbody2D>().velocity = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
         }
-
-
+        
+        
         StartCoroutine(ShootingTimer());
     }
 

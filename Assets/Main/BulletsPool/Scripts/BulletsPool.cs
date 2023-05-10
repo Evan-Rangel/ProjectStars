@@ -61,14 +61,14 @@ public class BulletsPool : MonoBehaviour
     private void AddEnemyBulleToPool(int amount)
     {
         GameObject bullet = Instantiate(bulletPrefab);
-        bulletsPlayerList.Add(bullet);
+        bulletsEnemiesList.Add(bullet);
         bullet.transform.parent = transform;
         bullet.SetActive(false);
     }
 
 
 
-    public GameObject RequestEnemyrBullet()
+    public GameObject RequestEnemyBullet()
     {
         for (int i = 0; i < bulletsEnemiesList.Count; i++)
         {

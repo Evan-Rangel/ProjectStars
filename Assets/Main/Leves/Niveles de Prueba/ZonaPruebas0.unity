@@ -5021,6 +5021,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8652714398948272656, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
+      propertyPath: attackData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_Name
       value: Enemy01 (1)
