@@ -61,7 +61,6 @@ public class EnemyAttackScript : MonoBehaviour
                        // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
-                            Debug.Log(laser);
                             lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
                         }
                         lasera = true;
@@ -163,7 +162,7 @@ public class EnemyAttackScript : MonoBehaviour
     //Gizmo para ver la direccion de lasers de momento
     private void OnDrawGizmos()
     {
-        if (attackData[currentShotPattern].GetAttackType== EnemyAttackData.AttackType.LASER && attackData[currentShotPattern].GetLaserType == EnemyAttackData.LaserType.CUSTOM)
+        if (attackData[currentShotPattern].GetAttackType== EnemyAttackData.AttackType.LASER && attackData[currentShotPattern].GetLaserType == EnemyAttackData.LaserType.DINAMIC)
         {
             for (int i = 0; i < attackData[currentShotPattern].GetLaserAngles.Count; i++)
             {
