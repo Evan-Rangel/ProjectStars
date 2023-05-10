@@ -11,8 +11,10 @@ public class WaveController : MonoBehaviour
        
         public void ActivateEnemies()
         {
+            Debug.Log(enemy.Length);
             for (int i = 0; i < enemy.Length; i++)
             {
+                Debug.Log(i);
                 enemy[i].SetActive(true);
             }
         }
@@ -30,9 +32,9 @@ public class WaveController : MonoBehaviour
             {
                 if (!enemy[i].activeSelf)
                 {
+                    Debug.Log("Enemy dead");
                     count++;
                 }
-                
             }
             if (count== enemy.Length)
             {
@@ -45,13 +47,13 @@ public class WaveController : MonoBehaviour
     [SerializeField] Wave[] waves;
     int waveIndex=0;
 
-    private static WaveController instance;
-    public static WaveController Instance { get { return instance; } }
+    private static WaveController instanceW;
+    public static WaveController InstanceW { get { return instanceW; } }
     private void Awake()
     {
-        if (instance == null)
+        if (instanceW == null)
         {
-            instance = this;
+            instanceW = this;
         }
         else
         {
@@ -62,7 +64,7 @@ public class WaveController : MonoBehaviour
     {
         for (int i = 0; i < waves.Length; i++)
         {
-            waves[i].DisableEnemies();
+            //waves[i].DisableEnemies();
         }
         NextWave();
     }
@@ -73,7 +75,7 @@ public class WaveController : MonoBehaviour
             waveIndex++;
             NextWave();
         }
-        else if(waveIndex<waves.Length)
+        else if(waveIndex== waves.Length-1)
         {
             Debug.Log("NextLevel");
         }
@@ -81,6 +83,9 @@ public class WaveController : MonoBehaviour
 
     void NextWave()
     {
-        waves[waveIndex].ActivateEnemies();
+        if (waveIndex< waves.Length)
+        {
+            waves[waveIndex].ActivateEnemies();
+        }
     }
 }

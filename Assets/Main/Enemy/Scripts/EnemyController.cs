@@ -51,8 +51,12 @@ public class EnemyController : MonoBehaviour
         healt -= _damage;
         if (healt<=0)
         {
-            WaveController.Instance.CheckWave();
             gameObject.SetActive(false);
         }
+    }
+    private void OnDisable()
+    {
+        WaveController.InstanceW.CheckWave();
+
     }
 }

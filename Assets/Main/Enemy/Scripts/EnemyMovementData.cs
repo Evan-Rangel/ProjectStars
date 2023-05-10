@@ -272,6 +272,7 @@ public class EnemyMovementData : ScriptableObject
             //Crea un nuevo movimiento
             if (GUILayout.Button("Create new mov", GUILayout.MaxWidth(250)))
             {
+              
                 enemyMovementData.NewMovementCreation();
             }
             //Crea un nuevo movimiento
@@ -285,7 +286,6 @@ public class EnemyMovementData : ScriptableObject
         //Funcion para confirmar que el tamanio de las listas estan bien
         private static void CheckForData(EnemyMovementData enemyMovementData)
         {
-        
             //Checar si falta
             if (enemyMovementData.movements.Count<enemyMovementData.movementCount)
             {

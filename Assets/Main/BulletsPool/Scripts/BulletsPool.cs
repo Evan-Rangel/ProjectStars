@@ -11,9 +11,10 @@ public class BulletsPool : MonoBehaviour
     [SerializeField] BulletData[] bulletData;
     [Header("Bullet Prefaps")]
     [Tooltip("Aqui se coloca el Prefap de Bullet el cual contiene el script de -Bullets-")]
-    [SerializeField] private GameObject laserPrefab;
-    //[SerializeField, Range(0, 50)] private int poolSize;
-    [SerializeField] private List<GameObject> laserList;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private List<GameObject> bulletsPlayerList;
+    [SerializeField] private List<GameObject> bulletsEnemiesList;
+
     private static BulletsPool instance;
     public static BulletsPool Instance { get { return instance; } }
 
@@ -34,26 +35,51 @@ public class BulletsPool : MonoBehaviour
         //AddLaserToPool(poolSize);
     }
 
-    private void AddLaserToPool(int amount)
+    private void AddPlayerBulletToPool(int amount)
     {
-        GameObject laser = Instantiate(laserPrefab);
-        laserList.Add(laser);
-        laser.transform.parent = transform;
-        laser.SetActive(false);
+        GameObject bullet = Instantiate(bulletPrefab);
+        bulletsPlayerList.Add(bullet);
+        bullet.transform.parent = transform;
+        bullet.SetActive(false);
     }
 
-    public GameObject RequestLaser()
+    public GameObject RequestPlayerBullet()
     {
-        for (int i = 0; i < laserList.Count; i++)
+        for (int i = 0; i < bulletsPlayerList.Count; i++)
         {
-            if (!laserList[i].activeSelf)
+            if (!bulletsPlayerList[i].activeSelf)
             {
-                laserList[i].SetActive(true);
-                return laserList[i];
+                bulletsPlayerList[i].SetActive(true);
+                return bulletsPlayerList[i];
             }
         }
-        AddLaserToPool(1);
-        laserList[laserList.Count - 1].SetActive(true);
-        return laserList[laserList.Count - 1];
+        AddPlayerBulletToPool(1);
+        bulletsPlayerList[bulletsPlayerList.Count - 1].SetActive(true);
+        return bulletsPlayerList[bulletsPlayerList.Count - 1];
+    }
+
+    private void AddEnemyBulleToPool(int amount)
+    {
+        GameObject bullet = Instantiate(bulletPrefab);
+        bulletsPlayerList.Add(bullet);
+        bullet.transform.parent = transform;
+        bullet.SetActive(false);
+    }
+
+
+
+    public GameObject RequestEnemyrBullet()
+    {
+        for (int i = 0; i < bulletsEnemiesList.Count; i++)
+        {
+            if (!bulletsEnemiesList[i].activeSelf)
+            {
+                bulletsEnemiesList[i].SetActive(true);
+                return bulletsEnemiesList[i];
+            }
+        }
+        AddEnemyBulleToPool(1);
+        bulletsEnemiesList[bulletsEnemiesList.Count - 1].SetActive(true);
+        return bulletsEnemiesList[bulletsEnemiesList.Count - 1];
     }
 }

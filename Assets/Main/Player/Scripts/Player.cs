@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     [SerializeField] int shotLevel;
     public int ShotLevel => shotLevel;
     [Tooltip("Espacio que se sumara para ubicar la aparicion de la bala del Player")]
-    [SerializeField] private float laserOffset;
+    [SerializeField] private float bulletOffset;
     [SerializeField] float bulletSpeed;
     //Animacion de Parpadeo
     [Header("Parpadeo Atributes")]
@@ -199,21 +199,21 @@ public class Player : MonoBehaviour
         {
             
             reproductoSonidos.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios[0]);
-            GameObject laser;
+            GameObject bullet;
             if (shotLevel == 1 || shotLevel == 3)
             {
-                laser = BulletsPool.Instance.RequestLaser(); //Aqui se llama para pedir la bala al pool
-                laser.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[0].position.x, bulletsSpawners[0].position.y) + Vector2.up * laserOffset, bulletData);
-                laser.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
+                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
+                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[0].position.x, bulletsSpawners[0].position.y) + Vector2.up * bulletOffset, bulletData);
+                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
             if (shotLevel == 2 || shotLevel == 3)
             {
-                laser = BulletsPool.Instance.RequestLaser();//Aqui se llama para pedir la bala al pool
-                laser.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[1].position.x, bulletsSpawners[1].position.y) + Vector2.up * laserOffset, bulletData);
-                laser.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
-                laser = BulletsPool.Instance.RequestLaser();//Aqui se llama para pedir la bala al pool
-                laser.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[2].position.x, bulletsSpawners[2].position.y) + Vector2.up * laserOffset, bulletData);
-                laser.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
+                bullet = BulletsPool.Instance.RequestPlayerBullet();//Aqui se llama para pedir la bala al pool
+                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[1].position.x, bulletsSpawners[1].position.y) + Vector2.up * bulletOffset, bulletData);
+                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
+                bullet = BulletsPool.Instance.RequestPlayerBullet();//Aqui se llama para pedir la bala al pool
+                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[2].position.x, bulletsSpawners[2].position.y) + Vector2.up * bulletOffset, bulletData);
+                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
         }
     }

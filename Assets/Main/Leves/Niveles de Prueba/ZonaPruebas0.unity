@@ -5025,6 +5025,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8652714398948272671, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -5186,6 +5190,10 @@ PrefabInstance:
     - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_Name
       value: Enemy01 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8652714398948272671, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_RootOrder
@@ -5408,11 +5416,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395546497}
   m_CullTransparentMesh: 1
---- !u!1 &417223829 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
-  m_PrefabInstance: {fileID: 117068118}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &466066096
 GameObject:
   m_ObjectHideFlags: 0
@@ -5716,6 +5719,10 @@ PrefabInstance:
     - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_Name
       value: Enemy01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8652714398948272671, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_RootOrder
@@ -11904,9 +11911,6 @@ MonoBehaviour:
   - enemy:
     - {fileID: 105858290}
     - {fileID: 1724015900}
-  - enemy:
-    - {fileID: 1725401870}
-    - {fileID: 417223829}
 --- !u!4 &1460722861
 Transform:
   m_ObjectHideFlags: 0
@@ -11915,7 +11919,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460722859}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5458755, y: -0.068919055, z: -0.023074225}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12322,6 +12326,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy01
       objectReference: {fileID: 0}
+    - target: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8652714398948272671, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -12373,11 +12381,6 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
   m_PrefabInstance: {fileID: 1724015899}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1725401870 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8652714398948272658, guid: 867925810ff164e4982fc6e5b1d25bc1, type: 3}
-  m_PrefabInstance: {fileID: 541449424}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1733234132
 GameObject:
@@ -13225,5 +13228,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletData:
   - {fileID: 11400000, guid: cdd5c40c207964e448429617a4903847, type: 2}
-  laserPrefab: {fileID: 5367013931080559942, guid: e0d41e54eb7305c4197d36d2898e8f26, type: 3}
-  laserList: []
+  bulletPrefab: {fileID: 5367013931080559942, guid: e0d41e54eb7305c4197d36d2898e8f26, type: 3}
+  bulletsPlayerList: []
+  bulletsEnemiesList: []

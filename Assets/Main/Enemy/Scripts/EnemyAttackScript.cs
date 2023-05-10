@@ -117,13 +117,14 @@ public class EnemyAttackScript : MonoBehaviour
         float angle = attackData[currentShotPattern].GetProjectileAngleInit+anglesum;
         Vector2 startPoint = transform.position;
 
-
+        GameObject bullet;
         for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
         {
             angle += angleStep;
-            GameObject tmpObj = BulletsPool.Instance.RequestLaser();//Instantiate(projectile, startPoint, Quaternion.identity);
             Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
-            tmpObj.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
+            bullet = BulletsPool.Instance.RequestEnemyrBullet();
+            bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
+            //Instantiate(projectile, startPoint, Quaternion.identity);
 
 
             //tmpObj.GetComponent<Rigidbody2D>().velocity = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
