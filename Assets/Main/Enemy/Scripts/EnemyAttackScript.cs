@@ -7,7 +7,7 @@ public class EnemyAttackScript : MonoBehaviour
     [SerializeField] EnemyAttackData[] attackData;
     [SerializeField] GameObject projectile;
     [SerializeField] GameObject laser;
-    List<GameObject> lasers;
+    [SerializeField]List<GameObject> lasers;
     GameObject laserInstance;
     [SerializeField] int currentShotPattern = 0;
     GameObject objectToRotate;
@@ -61,6 +61,7 @@ public class EnemyAttackScript : MonoBehaviour
                        // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
+                            Debug.Log(laser);
                             lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
                         }
                         lasera = true;

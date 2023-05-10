@@ -10,6 +10,7 @@ using UnityEditor;
 
 
 [CreateAssetMenu(fileName = "New Enemy Movement Data", menuName = "Enemy Movement Data")]
+[Serializable]
 
 public class EnemyMovementData : ScriptableObject
 {

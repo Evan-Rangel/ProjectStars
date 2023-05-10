@@ -56,7 +56,7 @@ public class EnemyController : MonoBehaviour
     }
     private void OnDisable()
     {
-        WaveController.InstanceW.CheckWave();
+        //WaveController.InstanceW.CheckWave();
 
     }
 }

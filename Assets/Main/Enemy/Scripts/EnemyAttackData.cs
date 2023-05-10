@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 #if UNITY_EDITOR
 
 using UnityEditor;
 
 #endif
 [CreateAssetMenu(fileName = "New Enemy Attack Data", menuName = "Enemy Attack Data")]
-
+[Serializable]
 public class EnemyAttackData : ScriptableObject
 {
     public enum AttackType
