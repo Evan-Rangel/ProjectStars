@@ -257,7 +257,7 @@ MonoBehaviour:
     xMax: 0
     yMin: 0
     yMax: 0
-  lifePlayer: 10
+  lifePlayer: 4
   speedPlayer: 6
   playerDieAnim: {fileID: 7400000, guid: 95d994d8f1d4e14479b53b62aded4ca9, type: 2}
   bulletData: {fileID: 11400000, guid: cdd5c40c207964e448429617a4903847, type: 2}
@@ -266,7 +266,7 @@ MonoBehaviour:
   - {fileID: 3893930407017804967}
   - {fileID: 3893930408510413468}
   shotLevel: 1
-  laserOffset: 0.9
+  bulletOffset: 0
   bulletSpeed: 7
   tiempo_brillo: 0
   spr:

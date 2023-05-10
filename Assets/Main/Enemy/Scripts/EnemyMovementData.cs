@@ -290,14 +290,14 @@ public class EnemyMovementData : ScriptableObject
             if (enemyMovementData.movements.Count<enemyMovementData.movementCount)
             {
                 enemyMovementData.movements.Add(new Movement());
-                CheckForData(enemyMovementData);
+                //CheckForData(enemyMovementData);
             }
 
             //Checar si sobra
             if (enemyMovementData.movements.Count > enemyMovementData.movementCount)
             {
                 enemyMovementData.RemoveElement(enemyMovementData.movements.Count);
-                CheckForData(enemyMovementData);
+                //CheckForData(enemyMovementData);
             }
         }
 
