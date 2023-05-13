@@ -30,24 +30,25 @@ public class EnemyAttackData : ScriptableObject
 
 
     [SerializeField] AttackType attackType;
+    public AttackType GetAttackType { get { return attackType; } }
 
     //For laser attack type
-    [SerializeField] float laserOnDuration;
+     float laserOnDuration;
     //void SetLaserOnDuration(float _laserOnDuration) { laserOnDuration = _laserOnDuration; }
 
-    [SerializeField] float laserOffDuration;
-    [SerializeField] float laserAngleInit;
-    [SerializeField] float laserCastDuration;
-    [SerializeField] float laserSpeedRotation;
-    [SerializeField] float laserAngleSum;
-    [SerializeField] int laserPerWave;
+     float laserOffDuration;
+     float laserAngleInit;
+     float laserCastDuration;
+    float laserSpeedRotation;
+     float laserAngleSum;
+     int laserPerWave;
 
-    [SerializeField] int laserDamage;
-    [SerializeField] LaserType laserType;
-    [SerializeField] List<float> laserAngles;
-    [SerializeField] bool showLaserDirections;
-    [SerializeField] bool withRotation=false;
-    [SerializeField] float laserDistance;
+     int laserDamage;
+     LaserType laserType;
+     List<float> laserAngles;
+     bool showLaserDirections;
+    bool withRotation=false;
+     float laserDistance;
 
 
 
@@ -66,12 +67,12 @@ public class EnemyAttackData : ScriptableObject
 
 
     //For bullet attack type
-    [SerializeField] int projectilesPerWave;
-    [SerializeField] int projectileAngleInit;
-    [SerializeField] float projectileAngleSum;
-    [SerializeField] float projectileSpeed;
-    [SerializeField] float projectileCadence;
-    [SerializeField] int projectileDamage;
+     int projectilesPerWave;
+    int projectileAngleInit;
+     float projectileAngleSum;
+     float projectileSpeed;
+     float projectileCadence;
+     int projectileDamage;
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
     public int GetProjectileAngleInit { get { return projectileAngleInit; } }
     public float GetProjectileAngleSum { get { return projectileAngleSum; } }
@@ -113,7 +114,7 @@ public class EnemyAttackData : ScriptableObject
 
 
     }
-    /*
+    
     #region Editor
 #if UNITY_EDITOR
 
@@ -160,7 +161,7 @@ public class EnemyAttackData : ScriptableObject
                     break;
                 case AttackType.LASER:
 
-                    enemyAttackData.SetLaserType((LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250)));
+                    enemyAttackData.laserType = ((LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250)));
 
 
                     GUILayout.BeginHorizontal();
@@ -254,12 +255,14 @@ public class EnemyAttackData : ScriptableObject
                     break;
             }
 
+            EditorUtility.SetDirty(enemyAttackData);
+
         }
     }
 
 
 #endif
     #endregion
-    */
+    
 
 }
