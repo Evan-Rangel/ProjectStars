@@ -30,10 +30,10 @@ public class EnemyAttackData : ScriptableObject
 
 
     [SerializeField] AttackType attackType;
-    public AttackType GetAttackType { get { return attackType; } }
 
     //For laser attack type
     [SerializeField] float laserOnDuration;
+    //void SetLaserOnDuration(float _laserOnDuration) { laserOnDuration = _laserOnDuration; }
 
     [SerializeField] float laserOffDuration;
     [SerializeField] float laserAngleInit;
