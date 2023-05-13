@@ -30,27 +30,24 @@ public class EnemyAttackData : ScriptableObject
 
 
     [SerializeField] AttackType attackType;
-    public AttackType GetAttackType { get { return attackType; } }
 
     //For laser attack type
-     float laserOnDuration;
+    [SerializeField] float laserOnDuration;
     //void SetLaserOnDuration(float _laserOnDuration) { laserOnDuration = _laserOnDuration; }
-    
-     float laserOffDuration;
-    float laserAngleInit;
-     float laserCastDuration;
-     float laserSpeedRotation;
-     float laserAngleSum;
-     int laserPerWave;
-    void SetLaserPerWave(int _laserPerWave) { laserPerWave = _laserPerWave; }
 
-    int laserDamage;
-    LaserType laserType;
-    void SetLaserType(LaserType _laserType) { laserType = _laserType; }
-    List<float> laserAngles;
-     bool showLaserDirections;
-     bool withRotation=false;
-     float laserDistance;
+    [SerializeField] float laserOffDuration;
+    [SerializeField] float laserAngleInit;
+    [SerializeField] float laserCastDuration;
+    [SerializeField] float laserSpeedRotation;
+    [SerializeField] float laserAngleSum;
+    [SerializeField] int laserPerWave;
+
+    [SerializeField] int laserDamage;
+    [SerializeField] LaserType laserType;
+    [SerializeField] List<float> laserAngles;
+    [SerializeField] bool showLaserDirections;
+    [SerializeField] bool withRotation=false;
+    [SerializeField] float laserDistance;
 
 
 
@@ -69,12 +66,12 @@ public class EnemyAttackData : ScriptableObject
 
 
     //For bullet attack type
-     int projectilesPerWave;
-    int projectileAngleInit;
-     float projectileAngleSum;
-     float projectileSpeed;
-     float projectileCadence;
-     int projectileDamage;
+    [SerializeField] int projectilesPerWave;
+    [SerializeField] int projectileAngleInit;
+    [SerializeField] float projectileAngleSum;
+    [SerializeField] float projectileSpeed;
+    [SerializeField] float projectileCadence;
+    [SerializeField] int projectileDamage;
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
     public int GetProjectileAngleInit { get { return projectileAngleInit; } }
     public float GetProjectileAngleSum { get { return projectileAngleSum; } }
@@ -116,6 +113,7 @@ public class EnemyAttackData : ScriptableObject
 
 
     }
+    /*
     #region Editor
 #if UNITY_EDITOR
 
@@ -262,5 +260,6 @@ public class EnemyAttackData : ScriptableObject
 
 #endif
     #endregion
+    */
 
 }
