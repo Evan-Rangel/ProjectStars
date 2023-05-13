@@ -33,19 +33,27 @@ public class EnemyAttackData : ScriptableObject
     public AttackType GetAttackType { get { return attackType; } }
 
     //For laser attack type
-    [SerializeField, HideInInspector] float laserOnDuration;
-    [SerializeField, HideInInspector] float laserOffDuration;
-    [SerializeField, HideInInspector] float laserAngleInit;
-    [SerializeField, HideInInspector] float laserCastDuration;
-    [SerializeField, HideInInspector] float laserSpeedRotation;
-    [SerializeField, HideInInspector] float laserAngleSum;
-    [SerializeField, HideInInspector] int laserPerWave;
-    [SerializeField, HideInInspector] int laserDamage;
-    [SerializeField, HideInInspector] LaserType laserType;
-    [SerializeField, HideInInspector] List<float> laserAngles;
-    [SerializeField, HideInInspector] bool showLaserDirections;
-    [SerializeField, HideInInspector] bool withRotation=false;
-    [SerializeField] float laserDistance;
+     float laserOnDuration;
+    //void SetLaserOnDuration(float _laserOnDuration) { laserOnDuration = _laserOnDuration; }
+    
+     float laserOffDuration;
+    float laserAngleInit;
+     float laserCastDuration;
+     float laserSpeedRotation;
+     float laserAngleSum;
+     int laserPerWave;
+    void SetLaserPerWave(int _laserPerWave) { laserPerWave = _laserPerWave; }
+
+    int laserDamage;
+    LaserType laserType;
+    void SetLaserType(LaserType _laserType) { laserType = _laserType; }
+    List<float> laserAngles;
+     bool showLaserDirections;
+     bool withRotation=false;
+     float laserDistance;
+
+
+
 
 
     public float GetLaserOnDuration { get { return laserOnDuration; } }
@@ -61,12 +69,12 @@ public class EnemyAttackData : ScriptableObject
 
 
     //For bullet attack type
-    [SerializeField, HideInInspector] int projectilesPerWave;
-    [SerializeField, HideInInspector] int projectileAngleInit;
-    [SerializeField, HideInInspector] float projectileAngleSum;
-    [SerializeField, HideInInspector] float projectileSpeed;
-    [SerializeField, HideInInspector] float projectileCadence;
-    [SerializeField, HideInInspector] int projectileDamage;
+     int projectilesPerWave;
+    int projectileAngleInit;
+     float projectileAngleSum;
+     float projectileSpeed;
+     float projectileCadence;
+     int projectileDamage;
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
     public int GetProjectileAngleInit { get { return projectileAngleInit; } }
     public float GetProjectileAngleSum { get { return projectileAngleSum; } }
@@ -154,7 +162,7 @@ public class EnemyAttackData : ScriptableObject
                     break;
                 case AttackType.LASER:
 
-                    enemyAttackData.laserType = (LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250));
+                    enemyAttackData.SetLaserType((LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250)));
 
 
                     GUILayout.BeginHorizontal();
