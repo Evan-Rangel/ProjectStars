@@ -45,7 +45,7 @@ public class EnemyAttackData : ScriptableObject
     [SerializeField, HideInInspector] List<float> laserAngles;
     [SerializeField, HideInInspector] bool showLaserDirections;
     [SerializeField, HideInInspector] bool withRotation=false;
-    [SerializeField, HideInInspector] float laserDistance;
+    [SerializeField] float laserDistance;
 
 
     public float GetLaserOnDuration { get { return laserOnDuration; } }
