@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
+
+
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -77,22 +81,23 @@ public class EnemyMovementData : ScriptableObject
             time = 0;
         }
     }
-    List<Movement> movements;
+    [SerializeField, HideInInspector] List<Movement> movements;
 
-    MovType movType;
+    [SerializeField, HideInInspector] MovType movType;
 
     //Aceleration for FOLLOW_PLAYER
-    float aceleration_FP;
-    float time_FP;
+    [SerializeField, HideInInspector] float aceleration_FP;
+    [SerializeField, HideInInspector] float time_FP;
 
     //Variables para ONLY_ONE
-    Vector2 direction_OM;
-    float speed_OM;
+    [SerializeField, HideInInspector] Vector2 direction_OM;
+    [SerializeField, HideInInspector] float speed_OM;
 
     //Todas las variables a partir de aqui, son para el SET_MOVEMENT
-    int movementCount = 0;
+    [SerializeField, HideInInspector] int movementCount = 0;
 
     // direcciones 
+    [SerializeField, HideInInspector]
     Vector2[] directions =
         {
         Vector2.zero,
@@ -110,13 +115,13 @@ public class EnemyMovementData : ScriptableObject
 
 
     // velocidades 
-    float[] speeds = {0, 1, 2, 3, 4, 5, 0};
+    [SerializeField, HideInInspector] float[] speeds = {0, 1, 2, 3, 4, 5, 0};
 
     // tiempos
-    float[] times = {0.2f,0.4f,0.6f,0.8f,1,0 };
+    [SerializeField, HideInInspector] float[] times = {0.2f,0.4f,0.6f,0.8f,1,0 };
 
-    bool showMovements = false;
-    bool cycleMovements = false;
+    [SerializeField, HideInInspector] bool showMovements = false;
+    [SerializeField, HideInInspector] bool cycleMovements = false;
 
     [ContextMenu ("ClearValues()")]
     
@@ -203,6 +208,11 @@ public class EnemyMovementData : ScriptableObject
                 case MovType.CUSTOM_MOVEMENT:
                     SetMovement(enemyMovementData);
                     break;
+            }
+            EditorUtility.SetDirty(enemyMovementData);
+            if (!Application.isPlaying)
+            {
+                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
             }
 
         }

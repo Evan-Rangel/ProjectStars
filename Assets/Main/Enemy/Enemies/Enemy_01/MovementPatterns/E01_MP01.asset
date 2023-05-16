@@ -12,3 +12,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de493d90bacb2c14497bed7984d1eb95, type: 3}
   m_Name: E01_MP01
   m_EditorClassIdentifier: 
+  movements:
+  - movD: 2
+    dir: {x: 0, y: -1}
+    movS: 1
+    speed: 1
+    movT: 3
+    time: 0.8
+  - movD: 1
+    dir: {x: 0, y: 1}
+    movS: 1
+    speed: 1
+    movT: 3
+    time: 0.8
+  - movD: 2
+    dir: {x: 0, y: -1}
+    movS: 1
+    speed: 1
+    movT: 3
+    time: 0.8
+  movType: 2
+  aceleration_FP: 0
+  time_FP: 0
+  direction_OM: {x: 0, y: 0}
+  speed_OM: 0
+  movementCount: 3
+  directions:
+  - {x: 0, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 0.70710677, y: 0.70710677}
+  - {x: -0.70710677, y: 0.70710677}
+  - {x: 0.70710677, y: -0.70710677}
+  - {x: -0.70710677, y: -0.70710677}
+  - {x: 0, y: 0}
+  speeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 0
+  times:
+  - 0.2
+  - 0.4
+  - 0.6
+  - 0.8
+  - 1
+  - 0
+  showMovements: 1
+  cycleMovements: 0

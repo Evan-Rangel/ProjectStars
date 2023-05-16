@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main/Leves/Niveles de Prueba/ZonaPruebas1.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Main/Leves/Niveles de Prueba/EvanTesting.unity
+    guid: b46486a5293f0824a8620c61d6c2fb5e
   m_configObjects: {}

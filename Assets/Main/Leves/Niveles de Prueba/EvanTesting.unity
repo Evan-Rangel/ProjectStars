@@ -376,7 +376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movemenData:
-  - {fileID: 11400000, guid: 352f4d8afb71a374a94b8f703387308e, type: 2}
   - {fileID: 11400000, guid: 285ff8c8eabd04f4cbc91ff481594101, type: 2}
   currentMovementPattern: 0
 --- !u!212 &1179681950
