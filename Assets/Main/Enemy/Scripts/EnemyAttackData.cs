@@ -125,7 +125,10 @@ public class EnemyAttackData : ScriptableObject
         {
             //Necesario par funcionar, si se quita y se carga el unity, se reseta el inspector
             base.OnInspectorGUI();
+
             EnemyAttackData enemyAttackData = (EnemyAttackData)target;
+            //EditorUtility.SetDirty(enemyAttackData);
+
             int labelSize = 125;
             int valueSize = 300;
            
@@ -254,7 +257,7 @@ public class EnemyAttackData : ScriptableObject
                     }
                     break;
             }
-
+            
             EditorUtility.SetDirty(enemyAttackData);
 
         }
