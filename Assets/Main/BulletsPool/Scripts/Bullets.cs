@@ -16,11 +16,48 @@ public class Bullets : MonoBehaviour
     [SerializeField] AudioMaster audioMaster;
     [SerializeField] GameObject reproductoSonidos;
 
+    float rotSum = 0;
+    float rot;
     private void Start()
     {
         audioMaster = GameObject.FindGameObjectWithTag("AudioMaster").GetComponent<AudioMaster>();
         reproductoSonidos = GameObject.Find("SonidosBalas");
     }
+
+    public void GenerateRotation(float _rot)
+    {
+        rotSum = _rot;
+        rot += rotSum;
+        float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
+        float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
+        Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
+        Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * bulletRB.velocity;
+        bulletRB.velocity = MoveDirection;
+        transform.rotation = Quaternion.Euler(0, 0, rot);
+
+        StartCoroutine(TimeRotation());
+
+    }
+    public void GenerateRotation()
+    {
+        rot += rotSum;
+        float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
+        float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
+        Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
+        Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * bulletRB.velocity;
+        bulletRB.velocity = MoveDirection;
+        transform.rotation = Quaternion.Euler(0, 0, rot);
+
+
+        StartCoroutine(TimeRotation());
+
+    }
+    IEnumerator TimeRotation()
+    {
+        yield return new  WaitForEndOfFrame();
+        GenerateRotation();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
