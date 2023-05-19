@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: E01_MP01
   m_EditorClassIdentifier: 
   movements: []
-  movType: 3
-  force_FP: 5
-  time_FP: 0.5
+  movType: 0
+  force_FP: 2
+  time_FP: 3
   direction_OM: {x: 1, y: 0}
   speed_OM: 5
   movementCount: 0

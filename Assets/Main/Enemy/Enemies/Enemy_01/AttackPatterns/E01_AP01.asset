@@ -18,18 +18,18 @@ MonoBehaviour:
   laserCastDuration: 0
   laserSpeedRotation: 20
   laserAngleSum: 0
-  laserPerWave: 5
+  laserPerWave: 7
   laserDamage: 0
   laserType: 1
   laserAngles: []
   showLaserDirections: 0
   withRotation: 0
   laserDistance: 0
-  projectilesPerWave: 0
+  projectilesPerWave: 8
   projectileAngleInit: 0
-  projectileAngleSum: 0
-  projectileSpeed: 0
-  projectileCadence: 0
-  projectileDamage: 0
-  projectileRotation: 0
-  projectileTimeRot: 0
+  projectileAngleSum: 20
+  projectileSpeed: 1.5
+  projectileCadence: 0.3
+  projectileDamage: 1
+  projectileRotation: 10
+  projectileTimeRot: 1
