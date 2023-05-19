@@ -31,3 +31,4 @@ MonoBehaviour:
   projectileSpeed: 1.28
   projectileCadence: 0.96
   projectileDamage: 2
+  projectileRotation: 0

@@ -11,7 +11,6 @@ public class WaveController : MonoBehaviour
        
         public void ActivateEnemies()
         {
-            Debug.Log(enemy.Length);
             for (int i = 0; i < enemy.Length; i++)
             {
                 Debug.Log(i);

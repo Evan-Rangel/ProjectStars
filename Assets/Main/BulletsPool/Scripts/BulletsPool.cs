@@ -70,7 +70,6 @@ public class BulletsPool : MonoBehaviour
 
     public GameObject RequestEnemyBullet()
     {
-        Debug.Log("A");
         for (int i = 0; i < bulletsEnemiesList.Count; i++)
         {
             if (!bulletsEnemiesList[i].activeSelf)

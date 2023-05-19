@@ -127,12 +127,11 @@ public class EnemyAttackScript : MonoBehaviour
         {
             angle += angleStep;
             Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
-            Debug.Log(BulletsPool.Instance.RequestEnemyBullet());
             bullet= BulletsPool.Instance.RequestEnemyBullet();
             bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
             if (attackData[currentShotPattern].GetProjectileRotation!=0)
             {
-                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation-angle);
+                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation+angle, 0.2f, attackData[currentShotPattern].GetProjectileSpeed);
             }
 
             //Instantiate(projectile, startPoint, Quaternion.identity);

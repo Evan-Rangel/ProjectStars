@@ -18,43 +18,48 @@ public class Bullets : MonoBehaviour
 
     float rotSum = 0;
     float rot;
+    float timeRot;
+    float vel;
     private void Start()
     {
         audioMaster = GameObject.FindGameObjectWithTag("AudioMaster").GetComponent<AudioMaster>();
         reproductoSonidos = GameObject.Find("SonidosBalas");
     }
 
-    public void GenerateRotation(float _rot)
+    public void GenerateRotation(float _rot, float _time, float _vel)
     {
-        rotSum = _rot;
-        rot += rotSum;
-        float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
+        rotSum = _rot ;
+        timeRot = _time;
+        rot = rotSum;
+        vel = _vel;
+        /*float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
         float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
         Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
         Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * bulletRB.velocity;
         bulletRB.velocity = MoveDirection;
         transform.rotation = Quaternion.Euler(0, 0, rot);
-
+        */
         StartCoroutine(TimeRotation());
 
     }
     public void GenerateRotation()
     {
-        rot += rotSum;
+        rot += rotSum * Time.deltaTime ;
+        //Debug.Log(rot);
         float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
         float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
         Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
-        Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * bulletRB.velocity;
+        Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * vel;
+        transform.rotation = Quaternion.Euler(0, 0, -rot);
         bulletRB.velocity = MoveDirection;
-        transform.rotation = Quaternion.Euler(0, 0, rot);
-
+        Debug.Log(bulletRB.velocity);
 
         StartCoroutine(TimeRotation());
 
     }
     IEnumerator TimeRotation()
     {
-        yield return new  WaitForEndOfFrame();
+        yield return new  WaitForSeconds(timeRot);
         GenerateRotation();
     }
 
