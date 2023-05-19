@@ -66,5 +66,41 @@ public class W_UIPlayer : MonoBehaviour
         {
             animators[6].SetBool("PulsarPiu3", false);
         }
+        //ShootGun
+        if (_player.ShotLevel == 4)
+        {
+            animators[7].SetBool("EncenderShootGun", true);
+        }
+        else if (_player.ShotLevel != 4)
+        {
+            animators[7].SetBool("EncenderShootGun", false); 
+        }
+        //DamageLevel1
+        if (_player.BulletDamage == 1)
+        {
+            animators[8].SetBool("Damage1", true);
+        }
+        else if (_player.BulletDamage != 1)
+        {
+            animators[8].SetBool("Damage1", false);
+        }
+        //DamageLevel2
+        if (_player.BulletDamage == 2)
+        {
+            animators[9].SetBool("Damage2", true);
+        }
+        else if (_player.BulletDamage != 2)
+        {
+            animators[9].SetBool("Damage2", false);
+        }
+        //DamageLevel3
+        if (_player.BulletDamage == 3)
+        {
+            animators[10].SetBool("Damage3", true);
+        }
+        else if (_player.BulletDamage != 3)
+        {
+            animators[10].SetBool("Damage3", false);
+        }
     }
 }
