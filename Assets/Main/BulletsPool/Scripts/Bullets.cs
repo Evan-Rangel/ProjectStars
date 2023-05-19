@@ -26,11 +26,11 @@ public class Bullets : MonoBehaviour
         reproductoSonidos = GameObject.Find("SonidosBalas");
     }
 
-    public void GenerateRotation(float _rot, float _time, float _vel)
+    public void GenerateRotation(float _rot, float _time, float _vel, float _rotsum)
     {
-        rotSum = _rot ;
+        rotSum = _rotsum;
         timeRot = _time;
-        rot = rotSum;
+        rot = _rot;
         vel = _vel;
         /*float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
         float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
@@ -44,22 +44,26 @@ public class Bullets : MonoBehaviour
     }
     public void GenerateRotation()
     {
-        rot += rotSum * Time.deltaTime ;
-        //Debug.Log(rot);
+        rot += rotSum*Time.deltaTime;//* Time.deltaTime ;
+        
+        Debug.Log(rot);
         float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
         float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
         Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
         Vector2 MoveDirection = (Vector - (Vector2)transform.position).normalized * vel;
         transform.rotation = Quaternion.Euler(0, 0, -rot);
         bulletRB.velocity = MoveDirection;
-        Debug.Log(bulletRB.velocity);
+        //Debug.Log(bulletRB.velocity);
 
         StartCoroutine(TimeRotation());
 
     }
     IEnumerator TimeRotation()
     {
-        yield return new  WaitForSeconds(timeRot);
+        yield return new  WaitForSeconds(timeRot*Time.deltaTime);
+        //yield return new WaitForEndOfFrame();
+        //yield return new WaitForSeconds(Time.deltaTime);
+
         GenerateRotation();
     }
 

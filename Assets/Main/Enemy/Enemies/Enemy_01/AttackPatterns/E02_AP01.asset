@@ -32,3 +32,4 @@ MonoBehaviour:
   projectileCadence: 0.96
   projectileDamage: 2
   projectileRotation: 0
+  projectileTimeRot: 0

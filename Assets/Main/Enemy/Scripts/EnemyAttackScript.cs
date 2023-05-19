@@ -56,6 +56,12 @@ public class EnemyAttackScript : MonoBehaviour
                 switch (attackData[currentShotPattern].GetLaserType)
                 {
                     case EnemyAttackData.LaserType.STATIC:
+                        for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
+                        {
+                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
+                        }
+                        Laser(anglesum);
+
                         break;
                     case EnemyAttackData.LaserType.DINAMIC:
                        // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
@@ -76,10 +82,10 @@ public class EnemyAttackScript : MonoBehaviour
         }
     }
 
-    void Laser(float angleSum)
+    void Laser(float _angleSum)
     {
         float angleStep = 360 / attackData[currentShotPattern].GetLaserPerWave;
-        float angle = attackData[currentShotPattern].GetLaserAngleInit + angleSum;
+        float angle = attackData[currentShotPattern].GetLaserAngleInit + _angleSum;
         Vector2 startPoint = transform.position;
         float rayDistance;
 
@@ -89,7 +95,7 @@ public class EnemyAttackScript : MonoBehaviour
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
 
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
-            if (hit.collider!=null && hit.distance<10)
+            if (hit.collider!=null && hit.distance<5)
             {
                 if (hit.transform.CompareTag("Player"))
                 {
@@ -99,7 +105,7 @@ public class EnemyAttackScript : MonoBehaviour
             }
             else
             {
-                rayDistance = 10;
+                rayDistance = 5;
             }
 
 
@@ -131,7 +137,7 @@ public class EnemyAttackScript : MonoBehaviour
             bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
             if (attackData[currentShotPattern].GetProjectileRotation!=0)
             {
-                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation+angle, 0.2f, attackData[currentShotPattern].GetProjectileSpeed);
+                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation+angle, attackData[currentShotPattern].GetProjectileTimeRot, attackData[currentShotPattern].GetProjectileSpeed, attackData[currentShotPattern].GetProjectileRotation);
             }
 
             //Instantiate(projectile, startPoint, Quaternion.identity);
@@ -160,13 +166,14 @@ public class EnemyAttackScript : MonoBehaviour
     {
         yield return new WaitForSeconds(attackData[currentShotPattern].GetProjectileCadence);
         anglesum += attackData[currentShotPattern].GetProjectileAngleSum;
+        
         Shooting(anglesum);
     }
     IEnumerator LaserTimerRotation()
     {
         yield return new WaitForEndOfFrame();
-        Laser(anglesum);
         anglesum += Time.deltaTime * attackData[currentShotPattern].GetLaserSpeedRotation;
+        Laser(anglesum);
 
     }
 

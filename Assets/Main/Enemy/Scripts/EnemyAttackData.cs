@@ -76,12 +76,16 @@ public class EnemyAttackData : ScriptableObject
     [SerializeField, HideInInspector] float projectileCadence;
     [SerializeField, HideInInspector] int projectileDamage;
     [SerializeField, HideInInspector] float projectileRotation;
+    [SerializeField, HideInInspector] float projectileTimeRot;
+
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
     public int GetProjectileAngleInit { get { return projectileAngleInit; } }
     public float GetProjectileAngleSum { get { return projectileAngleSum; } }
     public float GetProjectileSpeed { get { return projectileSpeed; } }
     public float GetProjectileCadence { get { return projectileCadence; } }
     public float GetProjectileRotation { get { return projectileRotation; } }
+    public float GetProjectileTimeRot { get { return projectileTimeRot; } }
+
     void NewLaserDirection()
     {
         laserAngles.Add(0);
@@ -154,7 +158,7 @@ public class EnemyAttackData : ScriptableObject
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Projectile Angle Sum: ", GUILayout.MaxWidth(labelSize));
-                    enemyAttackData.projectileAngleSum = EditorGUILayout.Slider(enemyAttackData.projectileAngleSum, 0, 359, GUILayout.MaxWidth(valueSize));
+                    enemyAttackData.projectileAngleSum = EditorGUILayout.Slider(enemyAttackData.projectileAngleSum, -359, 359, GUILayout.MaxWidth(valueSize));
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Projectile Speed: ", GUILayout.MaxWidth(labelSize));
@@ -166,7 +170,11 @@ public class EnemyAttackData : ScriptableObject
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Projectile Rotation: ", GUILayout.MaxWidth(labelSize));
-                    enemyAttackData.projectileRotation = EditorGUILayout.Slider(enemyAttackData.projectileRotation, 0, 1, GUILayout.MaxWidth(valueSize));
+                    enemyAttackData.projectileRotation = EditorGUILayout.Slider(enemyAttackData.projectileRotation, -100, 100, GUILayout.MaxWidth(valueSize));
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Projectile Time Rotation: ", GUILayout.MaxWidth(labelSize));
+                    enemyAttackData.projectileTimeRot = EditorGUILayout.Slider(enemyAttackData.projectileTimeRot, 0, 10, GUILayout.MaxWidth(valueSize));
                     GUILayout.EndHorizontal();
                     break;
                 case AttackType.LASER:
