@@ -26,14 +26,7 @@ public class EnemyAttackScript : MonoBehaviour
         }
 
     }
-    private void Update()
-    {
-        /*if (lasera)
-        {
-            Laser(anglesum);
-            anglesum +=Time.deltaTime * attackData[currentShotPattern].GetLaserSpeedRotation;
-        }*/
-    }
+
     public int TotalShotData { get { return attackData.Length; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
 
@@ -64,7 +57,6 @@ public class EnemyAttackScript : MonoBehaviour
 
                         break;
                     case EnemyAttackData.LaserType.DINAMIC:
-                       // laserInstance = Instantiate(laser,transform.position, Quaternion.identity);
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
                             lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
@@ -128,24 +120,19 @@ public class EnemyAttackScript : MonoBehaviour
 
         GameObject bullet;
         //Debug.Log(attackData[currentShotPattern].GetProjectilesPerWave);
-        
+
         for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
         {
             angle += angleStep;
             Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
-            bullet= BulletsPool.Instance.RequestEnemyBullet();
+            bullet = BulletsPool.Instance.RequestEnemyBullet();
             bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
-            if (attackData[currentShotPattern].GetProjectileRotation!=0)
+            if (attackData[currentShotPattern].GetProjectileRotation != 0)
             {
-                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation+angle, attackData[currentShotPattern].GetProjectileTimeRot, attackData[currentShotPattern].GetProjectileSpeed, attackData[currentShotPattern].GetProjectileRotation);
+                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation + angle, attackData[currentShotPattern].GetProjectileTimeRot, attackData[currentShotPattern].GetProjectileSpeed, attackData[currentShotPattern].GetProjectileRotation);
             }
 
-            //Instantiate(projectile, startPoint, Quaternion.identity);
-
-
-            //tmpObj.GetComponent<Rigidbody2D>().velocity = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
         }
-        
         
         StartCoroutine(ShootingTimer());
     }

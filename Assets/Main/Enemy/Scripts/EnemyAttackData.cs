@@ -77,6 +77,7 @@ public class EnemyAttackData : ScriptableObject
     [SerializeField, HideInInspector] int projectileDamage;
     [SerializeField, HideInInspector] float projectileRotation;
     [SerializeField, HideInInspector] float projectileTimeRot;
+    [SerializeField, HideInInspector] int  angleToShot; 
 
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
     public int GetProjectileAngleInit { get { return projectileAngleInit; } }
