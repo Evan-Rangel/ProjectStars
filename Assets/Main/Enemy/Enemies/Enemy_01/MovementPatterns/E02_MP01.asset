@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movements: []
   movType: 0
-  aceleration_FP: 0
+  force_FP: 0
   time_FP: 0
   direction_OM: {x: 0, y: 0}
   speed_OM: 0

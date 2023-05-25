@@ -59,6 +59,7 @@ public class EnemyMovementData : ScriptableObject
         FOLLOW_PLAYER,
         ONE_MOV,
         CUSTOM_MOVEMENT,
+        NONE
     }
 
     [Serializable]
@@ -86,7 +87,7 @@ public class EnemyMovementData : ScriptableObject
     [SerializeField, HideInInspector] MovType movType;
 
     //Aceleration for FOLLOW_PLAYER
-    [SerializeField, HideInInspector] float aceleration_FP;
+    [SerializeField, HideInInspector] float force_FP;
     [SerializeField, HideInInspector] float time_FP;
 
     //Variables para ONLY_ONE
@@ -149,11 +150,11 @@ public class EnemyMovementData : ScriptableObject
     }
 
     //Getter para el tipo de movimiento
-    public int GetMovementType { get { return (int)movType; } }
+    public MovType GetMovementType { get { return movType; } }
 
 
     //Getters si es FOLLOW_PLAYER
-    public float GetAceleration_FP { get { return aceleration_FP; } }
+    public float GetForce_FP { get { return force_FP; } }
     public float GetTime_FP { get { return time_FP; } }
 
     //Getters si es ONLY_ONE_MOV
@@ -165,6 +166,8 @@ public class EnemyMovementData : ScriptableObject
     public List<Movement> GetMovement { get { return movements; } }
     public int GetMovementCount { get { return movementCount; } }
     public bool CycleMovement { get { return cycleMovements; } }
+
+   
   
 
     //----------------------------------------------------------------------------------
@@ -191,7 +194,7 @@ public class EnemyMovementData : ScriptableObject
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Aceleration: ", GUILayout.MaxWidth(100));
 
-                    enemyMovementData.aceleration_FP = EditorGUILayout.FloatField(enemyMovementData.aceleration_FP, GUILayout.MaxWidth(30));
+                    enemyMovementData.force_FP = EditorGUILayout.FloatField(enemyMovementData.force_FP, GUILayout.MaxWidth(30));
                     EditorGUILayout.LabelField("Time: ", GUILayout.MaxWidth(100));
                     enemyMovementData.time_FP = EditorGUILayout.FloatField(enemyMovementData.time_FP, GUILayout.MaxWidth(30));
 

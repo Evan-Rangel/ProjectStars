@@ -90,24 +90,29 @@ public class EnemyMovementScript : MonoBehaviour
     {
         switch (movemenData[currentMovementPattern].GetMovementType)
         {
-            case 0://Follow the player
-                rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * movemenData[currentMovementPattern].GetAceleration_FP;
+            case EnemyMovementData.MovType.FOLLOW_PLAYER:
                 FollowPlayerMovement();
                 break;
-            case 1:
+            case EnemyMovementData.MovType.ONE_MOV:
+                rb.velocity = movemenData[currentMovementPattern].GetDirection_OM * movemenData[currentMovementPattern].GetSpeed_OM;
                 break;
-            case 2:
+            case EnemyMovementData.MovType.CUSTOM_MOVEMENT:
                 CustomMovement();
+                break;
+            case EnemyMovementData.MovType.NONE:
                 break;
         }
     }
     void FollowPlayerMovement()
     {
+        //rb.AddForce((GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * movemenData[currentMovementPattern].GetForce_FP);
+        rb.velocity = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * movemenData[currentMovementPattern].GetForce_FP;
         StartCoroutine(FollowPlayerTime()); ;
     }
     IEnumerator FollowPlayerTime()
     {
         yield return new WaitForSeconds(movemenData[currentMovementPattern].GetTime_FP);
+        FollowPlayerMovement();
     }
     void CustomMovement()
     {
@@ -123,8 +128,8 @@ public class EnemyMovementScript : MonoBehaviour
                 rb.velocity = Vector2.zero;
             }*/
         }
-        StartCoroutine(CustomMovementTime());
         rb.velocity = movemenData[currentMovementPattern].GetMovement[currentMovement].dir * movemenData[currentMovementPattern].GetMovement[currentMovement].speed;
+        StartCoroutine(CustomMovementTime());
 
     }
     IEnumerator CustomMovementTime()
