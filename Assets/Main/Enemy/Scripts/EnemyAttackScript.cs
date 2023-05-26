@@ -13,6 +13,7 @@ public class EnemyAttackScript : MonoBehaviour
     GameObject objectToRotate;
     bool lasera=false;
     float anglesum=0;
+    Collider2D coll;
 
     public int TotalShotData { get { return attackData.Count; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
@@ -30,6 +31,7 @@ public class EnemyAttackScript : MonoBehaviour
     {
         if (attackData.Count>0)
         {
+            coll = GetComponent<Collider2D>();
             StopAllCoroutines();
             GetShotType();
         }
@@ -105,6 +107,7 @@ public class EnemyAttackScript : MonoBehaviour
 
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             
+
             if (hit.collider!=null && hit.distance<5 && hit!=gameObject)
             {
                 if (hit.transform.CompareTag("Player"))
