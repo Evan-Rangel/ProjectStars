@@ -7,11 +7,35 @@ public class EnemyController : MonoBehaviour
     [SerializeField] EnemyAttackScript attackScript;
     [SerializeField] EnemyMovementScript movementScript;
     [SerializeField] int healt;
+    [SerializeField] EnemyData enemyD;
+    BoxCollider2D coll;
+    Rigidbody2D rb;
     private void Awake()
     {
         attackScript = GetComponent<EnemyAttackScript>();
         movementScript = GetComponent<EnemyMovementScript>();
+        coll = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
+    public Rigidbody2D GetRB { get { return rb; } }
+    public void SetEnemyData(EnemyData _data)
+    {
+        enemyD = _data;
+        attackScript.SetAttackData(enemyD.GetEnemyAttackData);
+        movementScript.SetMovementData(enemyD.GetEnemyMovementData);
+        attackScript.enabled = false;
+        movementScript.enabled = false;
+        coll.enabled = false;
+    }
+    public void ActiveComponents()
+    {
+        attackScript.enabled = true;
+        movementScript.enabled = true;
+        coll.enabled = true;
+        attackScript.StartAttack();
+        movementScript.StartMovement();
+    }
+
     private void Update()
     {
         /*if (Input.GetKeyDown(KeyCode.Space))
@@ -51,12 +75,14 @@ public class EnemyController : MonoBehaviour
         healt -= _damage;
         if (healt<=0)
         {
+            attackScript.StopAllCoroutines();
+            movementScript.StopAllCoroutines();
             gameObject.SetActive(false);
         }
     }
     private void OnDisable()
     {
-        //WaveController.InstanceW.CheckWave();
-
+        
+        WaveController.InstanceW.CheckWave();
     }
 }

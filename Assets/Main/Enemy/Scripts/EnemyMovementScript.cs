@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMovementScript : MonoBehaviour
 {
     // Scriptable object
-    [SerializeField] EnemyMovementData[] movemenData;
+    [SerializeField] List<EnemyMovementData> movemenData;
 
 
     // Rigybody
@@ -39,10 +39,12 @@ public class EnemyMovementScript : MonoBehaviour
     }
     private void OnEnable()
     {
-        GetTypeMovement();
-
+        //GetTypeMovement();
     }
-
+    public void StartMovement()
+    {
+        GetTypeMovement();
+    }
     private void Update()
     {
 
@@ -75,17 +77,25 @@ public class EnemyMovementScript : MonoBehaviour
         }
     }
 
-    public int TotalMovementData { get { return movemenData.Length; } }
+    public int TotalMovementData { get { return movemenData.Count; } }
     public int CurrentMovementPattern {  get  {  return currentMovementPattern; } }
     public void SetCurrentMovemetnPattern(int _nextMovementPattern)
     {
-        currentMovement = 0;
         currentMovementPattern = _nextMovementPattern;
+        ResetValues();
+    
+    }
+    public void SetMovementData(List<EnemyMovementData> _movementData)
+    {
+        movemenData = _movementData;
+        ResetValues();
+    }
+    private void ResetValues()
+    {
+        currentMovement = 0;
         StopAllCoroutines();
         GetTypeMovement();
     }
-
-
     void GetTypeMovement()
     {
         switch (movemenData[currentMovementPattern].GetMovementType)

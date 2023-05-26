@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225feff27673e3a41b6b607e5cdb05a1, type: 3}
   m_Name: E01_AP01
   m_EditorClassIdentifier: 
-  attackType: 2
+  attackType: 1
   laserOffDuration: 0
   laserAngleInit: 0
   laserCastDuration: 0
@@ -25,11 +25,12 @@ MonoBehaviour:
   showLaserDirections: 0
   withRotation: 0
   laserDistance: 0
-  projectilesPerWave: 8
+  projectilesPerWave: 3
   projectileAngleInit: 0
   projectileAngleSum: 20
-  projectileSpeed: 1.5
-  projectileCadence: 0.3
+  projectileSpeed: 1.84
+  projectileCadence: 0.6
   projectileDamage: 1
   projectileRotation: 10
   projectileTimeRot: 1
+  angleToShot: 0
