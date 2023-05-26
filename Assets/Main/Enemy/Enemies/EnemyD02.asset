@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc9d584320d6a84d91d854c7fa5292c, type: 3}
+  m_Name: EnemyD02
+  m_EditorClassIdentifier: 
+  health: 0
+  nameE: 
+  score: 0
+  hasShield: 0
+  enemyDifficult: 0
+  enemyAttackData:
+  - {fileID: 11400000, guid: 6799bc9f9754b064b963b5b5fca7611c, type: 2}
+  enemyMovementData:
+  - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}

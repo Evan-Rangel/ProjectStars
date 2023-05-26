@@ -13,20 +13,6 @@ public class EnemyAttackScript : MonoBehaviour
     GameObject objectToRotate;
     bool lasera=false;
     float anglesum=0;
-    private void Start()
-    {
-
-        //GetShotType();
-    }
-    /*
-    private void OnEnable()
-    {
-        if (attackData.Count>0)
-        {
-            GetShotType();
-        }
-
-    }*/
 
     public int TotalShotData { get { return attackData.Count; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
@@ -52,10 +38,11 @@ public class EnemyAttackScript : MonoBehaviour
         currentShotPattern = 0;
         anglesum = 0;
         StopAllCoroutines();
-        GetShotType();
+        //GetShotType();
     }
     void GetShotType()
     {
+        Debug.Log("GetShot");
         switch (attackData[currentShotPattern].GetAttackType)
         {
             case EnemyAttackData.AttackType.NONE:

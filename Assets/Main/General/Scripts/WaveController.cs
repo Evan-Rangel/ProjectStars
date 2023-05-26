@@ -29,13 +29,11 @@ public class WaveController : MonoBehaviour
         public Wave(int _waveSize)
         {
             enemy = new List<GameObject>();
-            Debug.Log(_waveSize);
             for (int i = 0; i < _waveSize; i++)
             {
                 GameObject _enemy = InstanceW.RequestEnemy();
 
                 _enemy.transform.position = new Vector2(0,9);
-                Debug.Log("Llega");
                 enemy.Add(_enemy);
                 RandomEnemies();
             }
@@ -47,14 +45,12 @@ public class WaveController : MonoBehaviour
             {
                 enemy[i].GetComponent<EnemyController>().SetEnemyData(instanceW.RandomEnemy(enemy.Count));
             }
-            //instanceW.MoveEnemies();
         }
 
         public void ActivateEnemies()
         {
             for (int i = 0; i < enemy.Count; i++)
             {
-                Debug.Log(i);
                 enemy[i].SetActive(true);
             }
         }
@@ -154,8 +150,6 @@ public class WaveController : MonoBehaviour
     {
         if (randomizerLevel)
         {
-            waves = new List<Wave>();
-            enemiesList = new List<GameObject>();
             RandomizerLevel();
         }
         NextWave();
@@ -163,6 +157,12 @@ public class WaveController : MonoBehaviour
 
     void RandomizerLevel()
     {
+        waves = new List<Wave>();
+        enemiesList = new List<GameObject>();
+        if (waves.Count%5==0&&waves.Count<14)
+        {
+            randomWaveDifficult++;
+        }
         waves.Add(new Wave(randomWaveDifficult));
         MoveEnemies();
     }
@@ -181,7 +181,6 @@ public class WaveController : MonoBehaviour
         GameObject enemy = Instantiate(enemyPrefab);
         enemiesList.Add(enemy);
         enemy.transform.parent = transform;
-        //enemy.SetActive(false);
     }
 
     public GameObject RequestEnemy()
@@ -196,7 +195,6 @@ public class WaveController : MonoBehaviour
         }
         AddEnemyToPool();
         enemiesList[enemiesList.Count - 1].SetActive(true);
-        //Debug.Log(enemiesList.Count);
         return enemiesList[enemiesList.Count - 1];
     }
 
@@ -233,7 +231,7 @@ public class WaveController : MonoBehaviour
     {
         if (waveIndex< waves.Count)
         {
-            waves[waveIndex].ActivateEnemies();
+           // waves[waveIndex].ActivateEnemies();
         }
     }
 }

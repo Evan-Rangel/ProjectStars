@@ -23,17 +23,13 @@ public class EnemyController : MonoBehaviour
         enemyD = _data;
         attackScript.SetAttackData(enemyD.GetEnemyAttackData);
         movementScript.SetMovementData(enemyD.GetEnemyMovementData);
-        attackScript.enabled = false;
-        movementScript.enabled = false;
         coll.enabled = false;
     }
     public void ActiveComponents()
     {
-        attackScript.enabled = true;
-        movementScript.enabled = true;
-        coll.enabled = true;
         attackScript.StartAttack();
         movementScript.StartMovement();
+        coll.enabled = true;
     }
 
     private void Update()
@@ -82,7 +78,6 @@ public class EnemyController : MonoBehaviour
     }
     private void OnDisable()
     {
-        
         WaveController.InstanceW.CheckWave();
     }
 }

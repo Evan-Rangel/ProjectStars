@@ -94,7 +94,7 @@ public class EnemyMovementScript : MonoBehaviour
     {
         currentMovement = 0;
         StopAllCoroutines();
-        GetTypeMovement();
+       // GetTypeMovement();
     }
     void GetTypeMovement()
     {

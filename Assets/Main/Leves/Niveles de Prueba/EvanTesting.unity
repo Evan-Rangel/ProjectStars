@@ -1113,6 +1113,7 @@ MonoBehaviour:
   waves: []
   enemiesData:
   - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
+  - {fileID: 11400000, guid: 838432d911e4bb54fbfd9a77f4ebc705, type: 2}
   randomWaveDifficult: 1
   randomizerLevel: 1
   enemiesList: []

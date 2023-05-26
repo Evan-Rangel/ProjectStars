@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7701287484667430414}
   - component: {fileID: 3240553517747062600}
   - component: {fileID: 7173241142100720335}
-  - component: {fileID: 8053374396139214649}
-  - component: {fileID: 5744614563015563371}
   - component: {fileID: 2026280156551111676}
+  - component: {fileID: 1453274283089528209}
+  - component: {fileID: 3386257074700494559}
   m_Layer: 0
   m_Name: EnemyGeneralPrefab
   m_TagString: Enemies
@@ -126,37 +126,6 @@ MonoBehaviour:
   movementScript: {fileID: 0}
   healt: 5
   enemyD: {fileID: 0}
---- !u!114 &8053374396139214649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258120923890984653}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edd95c1ddbfd0f84f95cdc6e8de3dbe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackData: []
-  projectile: {fileID: 0}
-  laser: {fileID: 0}
-  lasers: []
-  currentShotPattern: 0
---- !u!114 &5744614563015563371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258120923890984653}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cad0823652fdb74c904405fc406f8c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movemenData: []
-  currentMovementPattern: 0
 --- !u!61 &2026280156551111676
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -183,3 +152,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &1453274283089528209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258120923890984653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd95c1ddbfd0f84f95cdc6e8de3dbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackData: []
+  projectile: {fileID: 5367013931080559942, guid: e0d41e54eb7305c4197d36d2898e8f26, type: 3}
+  laser: {fileID: 0}
+  lasers: []
+  currentShotPattern: 0
+--- !u!114 &3386257074700494559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258120923890984653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cad0823652fdb74c904405fc406f8c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movemenData: []
+  currentMovementPattern: 0
