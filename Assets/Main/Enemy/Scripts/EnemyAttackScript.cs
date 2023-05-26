@@ -38,6 +38,14 @@ public class EnemyAttackScript : MonoBehaviour
     {
         currentShotPattern = 0;
         anglesum = 0;
+        if (lasers.Count>0)
+        {
+            for (int i = 0; i < lasers.Count; i++)
+            {
+                Destroy(lasers[i]);
+            }
+            lasers.Clear();
+        }
         StopAllCoroutines();
         //GetShotType();
     }
@@ -65,7 +73,10 @@ public class EnemyAttackScript : MonoBehaviour
                     case EnemyAttackData.LaserType.DINAMIC:
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
-                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
+                            if (i>= lasers.Count)
+                            {
+                                lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
+                            }
                         }
                         Laser(anglesum);
                         break;
@@ -93,10 +104,12 @@ public class EnemyAttackScript : MonoBehaviour
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
 
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
-            if (hit.collider!=null && hit.distance<5)
+            
+            if (hit.collider!=null && hit.distance<5 && hit!=gameObject)
             {
                 if (hit.transform.CompareTag("Player"))
                 {
+                    Debug.Log("Player");
                     //Funcion del player para hacer danio
                 }
                 rayDistance = hit.distance;
@@ -110,7 +123,8 @@ public class EnemyAttackScript : MonoBehaviour
             lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
             lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
 
-           
+            //Debug.Log(projectileMoveDirection*rayDistance);
+
             Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;
         }
@@ -150,7 +164,6 @@ public class EnemyAttackScript : MonoBehaviour
         float DirYPosition = _startPoint.y + Mathf.Cos((_angle * Mathf.PI) / 180);
         Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
         Vector2 MoveDirection = (Vector - _startPoint).normalized * vectorLength;
-
         return MoveDirection;
     }
 

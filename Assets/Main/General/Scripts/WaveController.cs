@@ -82,7 +82,6 @@ public class WaveController : MonoBehaviour
             {
                 nextWave = false;
             }
-            Debug.Log(nextWave);
             return nextWave;
         }
         public IEnumerator MoveEnemiesToPosition()
@@ -167,7 +166,10 @@ public class WaveController : MonoBehaviour
             enemiesList = new List<GameObject>();
             RandomizerLevel();
         }
-        NextWave();
+        else
+        {
+            NextWave();
+        }
     }
 
     void RandomizerLevel()
@@ -204,9 +206,7 @@ public class WaveController : MonoBehaviour
         {
             if (!enemiesList[i].activeSelf)
             {
-                Debug.Log("Activar enemigo: " + enemiesList[i].activeSelf);
                 enemiesList[i].SetActive(true);
-                Debug.Log("Despues: " + enemiesList[i].activeSelf);
                 return enemiesList[i];
             }
         }
@@ -232,7 +232,6 @@ public class WaveController : MonoBehaviour
             }   
             return;
         }
-        Debug.Log("Siguiente");
         if (waves[waveIndex].CheckEnemies() && waveIndex < waves.Count)
         {
             waveIndex++;
@@ -252,7 +251,7 @@ public class WaveController : MonoBehaviour
     {
         if (waveIndex< waves.Count )
         {
-           // waves[waveIndex].ActivateEnemies();
+            waves[waveIndex].ActivateEnemies();
         }
     }
 }

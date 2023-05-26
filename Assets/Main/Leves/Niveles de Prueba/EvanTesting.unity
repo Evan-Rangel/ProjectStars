@@ -1114,6 +1114,7 @@ MonoBehaviour:
   enemiesData:
   - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
   - {fileID: 11400000, guid: 838432d911e4bb54fbfd9a77f4ebc705, type: 2}
+  - {fileID: 11400000, guid: f6435fd71da24994289e89d217eb3c10, type: 2}
   randomWaveDifficult: 1
   randomizerLevel: 1
   enemiesList: []
@@ -1268,7 +1269,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.71}
+  m_AnchoredPosition: {x: -3.74, y: 1.56}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0, y: 0}
 --- !u!50 &1179681952
@@ -1321,7 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackData:
-  - {fileID: 11400000, guid: 8fadbfb6dea5924458d3989958598943, type: 2}
+  - {fileID: 11400000, guid: c6ea613e7103a284386d403725563010, type: 2}
   projectile: {fileID: 2186201180159306337, guid: 9cce985cb3f3de842a71fe5ddae84f03, type: 3}
   laser: {fileID: 3778948947573968640, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
   lasers: []
@@ -1831,10 +1832,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3778948947573968654, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3778948947573968655, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

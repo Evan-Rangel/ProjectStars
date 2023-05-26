@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackData: []
   projectile: {fileID: 5367013931080559942, guid: e0d41e54eb7305c4197d36d2898e8f26, type: 3}
-  laser: {fileID: 0}
+  laser: {fileID: 3778948947573968640, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
   lasers: []
   currentShotPattern: 0
 --- !u!114 &3386257074700494559
