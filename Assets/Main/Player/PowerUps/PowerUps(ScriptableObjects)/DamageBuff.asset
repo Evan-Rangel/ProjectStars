@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f897a1d1be5a2f44b3c6ecebe245a2a, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 0c6d63b8119bfc94883fd60fd2934b18, type: 3}
+  m_Name: DamageBuff
   m_EditorClassIdentifier: 
-  isPlayer: 0
-  playerVelocity: 0
-  movementType: 
-  velocity: []
-  nextMovementTypeTime: []
-  nextAttackTypeTime: []
-  attackTime: []
-  attackType: 
+  amount: 1

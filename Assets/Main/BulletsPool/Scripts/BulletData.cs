@@ -15,7 +15,7 @@ public class BulletData : ScriptableObject
     [SerializeField] private string tagName;
 
     [Tooltip("Este daño es unicamente para el Player")]
-    [SerializeField] private int bulletDamagePlayer;//Esto es provicional
+    [SerializeField] private int bulletDamagePlayer;//Cambia esto pa los enemigos Evansito uwu
     [SerializeField] UnityEditor.Animations.AnimatorController animator;
     [SerializeField] private Sprite sprite;
 

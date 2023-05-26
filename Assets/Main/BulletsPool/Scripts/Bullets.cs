@@ -12,6 +12,8 @@ public class Bullets : MonoBehaviour
     [Header("Bullet RB")]
     [Tooltip("Aqui arrastra el RigidBody del prefap")]
     [SerializeField] private Rigidbody2D bulletRB;
+    [Header("Bullet Atributes")]
+    [SerializeField] private int bulletDamagePlayer;
     [Header("Sound Atributes")]
     [SerializeField] AudioMaster audioMaster;
     [SerializeField] GameObject reproductoSonidos;
@@ -73,7 +75,7 @@ public class Bullets : MonoBehaviour
         if (other.CompareTag("Enemies") && transform.CompareTag("PlayerBullets"))
         {
 
-            other.GetComponent<EnemyController>().DealDamage(bulletData[0].BulletDamagePlayer);         
+            other.GetComponent<EnemyController>().DealDamage(bulletDamagePlayer);         
             ResetProps();
         }
 
@@ -105,12 +107,13 @@ public class Bullets : MonoBehaviour
         transform.position = _pos;
         bulletRB.velocity = _vel;
     }
-    public void SetPropsPlayer(Vector2 _pos, BulletData _bulletData)
+    public void SetPropsPlayer(Vector2 _pos, BulletData _bulletData, int _damage)
     {
         bulletData[0] = _bulletData;
         gameObject.GetComponent<SpriteRenderer>().sprite = bulletData[0].Sprite;
         gameObject.GetComponent<Animator>().runtimeAnimatorController = bulletData[0].Animator;
         gameObject.tag = bulletData[0].TagName;
         transform.position = _pos;
+        bulletDamagePlayer = _damage;
     }
 }

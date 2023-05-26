@@ -21,21 +21,41 @@ public class W_UIPlayer : MonoBehaviour
 
     private void UIAnimatios ()
     {
-        if (_player.LifePlayer == 3)
+        //Pantalla de Vida
+        if (_player.LifePlayer == 4)
         {
             animators[3].SetBool("Vida4", true);
-        }
-        else if (_player.LifePlayer == 2)
-        {
             animators[2].SetBool("Vida3", true);
-        }
-        else if (_player.LifePlayer == 1)
-        {
             animators[1].SetBool("Vida2", true);
-        }
-        else if (_player.LifePlayer == 0)
-        {
             animators[0].SetBool("Vida1", true);
+        }
+        if (_player.LifePlayer == 3)
+        {
+            animators[3].SetBool("Vida4", false);
+            animators[2].SetBool("Vida3", true);
+            animators[1].SetBool("Vida2", true);
+            animators[0].SetBool("Vida1", true);
+        }
+        if (_player.LifePlayer == 2)
+        {
+            animators[3].SetBool("Vida4", false);
+            animators[2].SetBool("Vida3", false);
+            animators[1].SetBool("Vida2", true);
+            animators[0].SetBool("Vida1", true);
+        }
+        if (_player.LifePlayer == 1)
+        {
+            animators[3].SetBool("Vida4", false);
+            animators[2].SetBool("Vida3", false);
+            animators[1].SetBool("Vida2", false);
+            animators[0].SetBool("Vida1", true);
+        }
+        if (_player.LifePlayer <= 0)
+        {
+            animators[3].SetBool("Vida4", false);
+            animators[2].SetBool("Vida3", false);
+            animators[1].SetBool("Vida2", false);
+            animators[0].SetBool("Vida1", false);
         }
 
         //Botones
