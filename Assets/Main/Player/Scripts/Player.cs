@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         //Player Dash (Parte de lo de Winona)
         trailRenderer = GetComponent<TrailRenderer>();
         activeMoveSpeed = speedPlayer;
+        audioMaster = GameObject.FindGameObjectWithTag("AudioMaster").GetComponent<AudioMaster>();
 
     }
 

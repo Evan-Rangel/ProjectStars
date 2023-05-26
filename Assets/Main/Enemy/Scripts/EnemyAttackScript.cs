@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackScript : MonoBehaviour
 {
-    [SerializeField] EnemyAttackData[] attackData;
+    [SerializeField] List<EnemyAttackData>attackData;
     [SerializeField] GameObject projectile;
     [SerializeField] GameObject laser;
     [SerializeField]List<GameObject> lasers;
@@ -18,23 +18,42 @@ public class EnemyAttackScript : MonoBehaviour
 
         //GetShotType();
     }
+    /*
     private void OnEnable()
     {
-        if (attackData.Length>0)
+        if (attackData.Count>0)
         {
             GetShotType();
         }
 
-    }
+    }*/
 
-    public int TotalShotData { get { return attackData.Length; } }
+    public int TotalShotData { get { return attackData.Count; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
 
     public void SetCurrentShotPattern(int _nextShotPattern)
     {
         currentShotPattern = _nextShotPattern;
     }
-
+    public void SetAttackData(List<EnemyAttackData> _attackData)
+    {
+        attackData = _attackData;
+        ResetValues();
+    }
+    public void StartAttack()
+    {
+        if (attackData.Count>0)
+        {
+            GetShotType();
+        }
+    }
+    private void ResetValues()
+    {
+        currentShotPattern = 0;
+        anglesum = 0;
+        StopAllCoroutines();
+        GetShotType();
+    }
     void GetShotType()
     {
         switch (attackData[currentShotPattern].GetAttackType)
@@ -163,7 +182,7 @@ public class EnemyAttackScript : MonoBehaviour
         Laser(anglesum);
 
     }
-
+    /*
     //Gizmo para ver la direccion de lasers de momento
     private void OnDrawGizmos()
     {
@@ -174,5 +193,5 @@ public class EnemyAttackScript : MonoBehaviour
                 Gizmos.DrawLine(transform.position, GenerateRotation(attackData[currentShotPattern].GetLaserAngles[i], 10, transform.position));
             }
         }
-    }
+    }*/
 }

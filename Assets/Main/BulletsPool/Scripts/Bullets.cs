@@ -48,7 +48,7 @@ public class Bullets : MonoBehaviour
     {
         rot += rotSum*Time.deltaTime;//* Time.deltaTime ;
         
-        Debug.Log(rot);
+        //Debug.Log(rot);
         float DirXPosition = transform.position.x + Mathf.Sin((rot * Mathf.PI) / 180);
         float DirYPosition = transform.position.y + Mathf.Cos((rot * Mathf.PI) / 180);
         Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
