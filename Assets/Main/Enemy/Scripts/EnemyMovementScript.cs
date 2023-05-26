@@ -43,6 +43,7 @@ public class EnemyMovementScript : MonoBehaviour
     }
     public void StartMovement()
     {
+        StopAllCoroutines();
         GetTypeMovement();
     }
     private void Update()
@@ -90,7 +91,7 @@ public class EnemyMovementScript : MonoBehaviour
         movemenData = _movementData;
         ResetValues();
     }
-    private void ResetValues()
+    public void ResetValues()
     {
         currentMovement = 0;
         StopAllCoroutines();

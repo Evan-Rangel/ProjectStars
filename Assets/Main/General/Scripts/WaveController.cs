@@ -66,6 +66,7 @@ public class WaveController : MonoBehaviour
         public bool CheckEnemies()
         {
             int count = 0;
+            bool nextWave;
             for (int i = 0; i < enemy.Count; i++)
             {
                 if (!enemy[i].activeSelf)
@@ -75,9 +76,14 @@ public class WaveController : MonoBehaviour
             }
             if (count == enemy.Count)
             {
-                return true;
+                nextWave = true ;
             }
-            return false;
+            else
+            {
+                nextWave = false;
+            }
+            Debug.Log(nextWave);
+            return nextWave;
         }
         public IEnumerator MoveEnemiesToPosition()
         {
@@ -86,24 +92,31 @@ public class WaveController : MonoBehaviour
             {
                 if (enemy.Count != 2)
                 {
-                    enemy[i].transform.position = Vector2.Lerp(enemy[i].transform.position, enemypostitions[i], Time.deltaTime);
+                    enemy[i].transform.position = Vector2.Lerp(enemy[i].transform.position, enemypostitions[i], Time.deltaTime*2.5f);
                 }
                 else
                 {
-                    enemy[i].transform.position = Vector2.Lerp(enemy[i].transform.position, enemypostitions[i + 1], Time.deltaTime);
+                    enemy[i].transform.position = Vector2.Lerp(enemy[i].transform.position, enemypostitions[i + 1], Time.deltaTime*2.5f);
                 }
             }
 
             int index = 0;
             for (int i = 0; i < enemy.Count; i++)
             {
-                if (enemy.Count != 2 && Vector2.Distance(enemy[i].transform.position, enemypostitions[i]) < 0.1f)
+
+                if (enemy.Count != 2 )
                 {
-                    index++;
+                    if (Vector2.Distance(enemy[i].transform.position, enemypostitions[i]) < 0.1f)
+                    {
+                        index++;
+                    }
                 }
-                else if(Vector2.Distance(enemy[i].transform.position, enemypostitions[i + 1]) < 0.1f)
+                else 
                 {
-                    index++;
+                    if(Vector2.Distance(enemy[i].transform.position, enemypostitions[i + 1]) < 0.1f)
+                    {
+                        index++;
+                    }
                 }
             }
             if (index != enemy.Count)
@@ -150,6 +163,8 @@ public class WaveController : MonoBehaviour
     {
         if (randomizerLevel)
         {
+            waves = new List<Wave>();
+            enemiesList = new List<GameObject>();
             RandomizerLevel();
         }
         NextWave();
@@ -157,21 +172,21 @@ public class WaveController : MonoBehaviour
 
     void RandomizerLevel()
     {
-        waves = new List<Wave>();
-        enemiesList = new List<GameObject>();
+        
+        waves.Add(new Wave(randomWaveDifficult));
+        waveIndex = waves.Count - 1 ;
+        MoveEnemies();
         if (waves.Count%5==0&&waves.Count<14)
         {
             randomWaveDifficult++;
         }
-        waves.Add(new Wave(randomWaveDifficult));
-        MoveEnemies();
     }
     public EnemyData RandomEnemy(int difficulty)
     {
         int rand = UnityEngine.Random.Range(0,enemiesData.Count);
-        while ((int)enemiesData[rand].GetEnemyDifficulty != difficulty )
+        //while ((int)enemiesData[rand].GetEnemyDifficulty != difficulty )
         {
-            rand = UnityEngine.Random.Range(0, enemiesData.Count);
+          //  rand = UnityEngine.Random.Range(0, enemiesData.Count);
         }
         return enemiesData[rand];
     }
@@ -189,7 +204,9 @@ public class WaveController : MonoBehaviour
         {
             if (!enemiesList[i].activeSelf)
             {
+                Debug.Log("Activar enemigo: " + enemiesList[i].activeSelf);
                 enemiesList[i].SetActive(true);
+                Debug.Log("Despues: " + enemiesList[i].activeSelf);
                 return enemiesList[i];
             }
         }
@@ -211,11 +228,11 @@ public class WaveController : MonoBehaviour
         {
             if (waves[waveIndex].CheckEnemies())
             {
-                RandomizerLevel();
+                StartCoroutine(TimeNextWave());
             }   
             return;
         }
-
+        Debug.Log("Siguiente");
         if (waves[waveIndex].CheckEnemies() && waveIndex < waves.Count)
         {
             waveIndex++;
@@ -226,10 +243,14 @@ public class WaveController : MonoBehaviour
             Debug.Log("NextLevel");
         }
     }
-
+    IEnumerator TimeNextWave()
+    {
+        yield return new WaitForEndOfFrame();
+        RandomizerLevel();
+    }
     void NextWave()
     {
-        if (waveIndex< waves.Count)
+        if (waveIndex< waves.Count )
         {
            // waves[waveIndex].ActivateEnemies();
         }

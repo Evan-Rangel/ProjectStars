@@ -29,6 +29,6 @@ public class EnemyData : ScriptableObject
     public List<EnemyMovementData> GetEnemyMovementData { get { return enemyMovementData; } }
     public List<EnemyAttackData> GetEnemyAttackData { get { return enemyAttackData; } }
     public EnemyDifficult GetEnemyDifficulty { get { return enemyDifficult; } }
-
+    public int GetHealth { get { return health; } }
 
 }

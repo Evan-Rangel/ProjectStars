@@ -12,13 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de493d90bacb2c14497bed7984d1eb95, type: 3}
   m_Name: Enemy02MD
   m_EditorClassIdentifier: 
-  movements: []
-  movType: 0
+  movements:
+  - movD: 2
+    dir: {x: 0, y: -1}
+    movS: 2
+    speed: 2
+    movT: 1
+    time: 0.4
+  - movD: 3
+    dir: {x: 1, y: 0}
+    movS: 2
+    speed: 2
+    movT: 1
+    time: 0.4
+  - movD: 1
+    dir: {x: 0, y: 1}
+    movS: 2
+    speed: 2
+    movT: 1
+    time: 0.4
+  - movD: 4
+    dir: {x: -1, y: 0}
+    movS: 2
+    speed: 2
+    movT: 1
+    time: 0.4
+  movType: 2
   force_FP: 0
   time_FP: 0
   direction_OM: {x: 0, y: 0}
   speed_OM: 0
-  movementCount: 0
+  movementCount: 4
   directions:
   - {x: 0, y: 0}
   - {x: 0, y: 1}
@@ -45,5 +69,5 @@ MonoBehaviour:
   - 0.8
   - 1
   - 0
-  showMovements: 0
+  showMovements: 1
   cycleMovements: 0

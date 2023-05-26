@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
     }
     public void ActiveComponents()
     {
+        healt = enemyD.GetHealth;
         attackScript.StartAttack();
         movementScript.StartMovement();
         coll.enabled = true;
@@ -71,8 +72,8 @@ public class EnemyController : MonoBehaviour
         healt -= _damage;
         if (healt<=0)
         {
-            attackScript.StopAllCoroutines();
-            movementScript.StopAllCoroutines();
+            attackScript.ResetValues();
+            movementScript.ResetValues();
             gameObject.SetActive(false);
         }
     }

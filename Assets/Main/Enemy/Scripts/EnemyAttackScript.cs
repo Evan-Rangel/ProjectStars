@@ -30,10 +30,11 @@ public class EnemyAttackScript : MonoBehaviour
     {
         if (attackData.Count>0)
         {
+            StopAllCoroutines();
             GetShotType();
         }
     }
-    private void ResetValues()
+    public void ResetValues()
     {
         currentShotPattern = 0;
         anglesum = 0;
@@ -42,7 +43,6 @@ public class EnemyAttackScript : MonoBehaviour
     }
     void GetShotType()
     {
-        Debug.Log("GetShot");
         switch (attackData[currentShotPattern].GetAttackType)
         {
             case EnemyAttackData.AttackType.NONE:
