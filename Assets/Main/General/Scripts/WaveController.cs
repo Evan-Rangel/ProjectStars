@@ -14,7 +14,9 @@ public class WaveController : MonoBehaviour
             HARD
         }
 
-        public List<GameObject> enemy;
+        private List<GameObject> enemy;
+        public List<EnemyData> enemyD;
+        public Texture2D image;
         WaveDifficult waveDifficult;
 
         Vector2[] enemypostitions =
@@ -52,6 +54,9 @@ public class WaveController : MonoBehaviour
             for (int i = 0; i < enemy.Count; i++)
             {
                 enemy[i].SetActive(true);
+                //enemy[i].GetComponent<EnemyController>().SetEnemyData();
+
+                //enemy[]
             }
         }
 
