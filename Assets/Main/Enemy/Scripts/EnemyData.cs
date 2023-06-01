@@ -25,10 +25,10 @@ public class EnemyData : ScriptableObject
     [SerializeField] EnemyDifficult enemyDifficult;
     [SerializeField] List< EnemyAttackData> enemyAttackData;
     [SerializeField] List<EnemyMovementData> enemyMovementData;
-
+    [SerializeField] Color color;
     public List<EnemyMovementData> GetEnemyMovementData { get { return enemyMovementData; } }
     public List<EnemyAttackData> GetEnemyAttackData { get { return enemyAttackData; } }
     public EnemyDifficult GetEnemyDifficulty { get { return enemyDifficult; } }
     public int GetHealth { get { return health; } }
-
+    public Color GetColor { get { return color; } }
 }

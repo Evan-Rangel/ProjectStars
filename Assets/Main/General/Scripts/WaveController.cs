@@ -5,6 +5,21 @@ using System;
 public class WaveController : MonoBehaviour
 {
     [Serializable]
+    public class ColorPos
+    {
+        public Color color;
+        public Vector2 position;
+        public bool posUsed;
+        public ColorPos(Color _color, Vector2 _pos)
+        {
+            color = _color;
+            position = _pos;
+            posUsed = false;
+        }
+
+    }
+
+    [Serializable]
     public class Wave
     {
         public enum WaveDifficult
@@ -14,9 +29,10 @@ public class WaveController : MonoBehaviour
             HARD
         }
 
-        private List<GameObject> enemy;
+        public List<GameObject> enemy;
         public List<EnemyData> enemyD;
         public Texture2D image;
+        public List<ColorPos> colorPos;
         WaveDifficult waveDifficult;
 
         Vector2[] enemypostitions =
@@ -51,14 +67,55 @@ public class WaveController : MonoBehaviour
 
         public void ActivateEnemies()
         {
-            for (int i = 0; i < enemy.Count; i++)
+            enemy = new List<GameObject>();
+            colorPos = new List<ColorPos>();
+            for (int y = 0; y < image.height; y++)
             {
-                enemy[i].SetActive(true);
-                //enemy[i].GetComponent<EnemyController>().SetEnemyData();
+                for (int x = 0; x < image.width; x++)
+                {
+                    GetPixelColor(x, y);
+                }
+            }
 
-                //enemy[]
+            foreach (EnemyData _enemyD in enemyD)
+            {
+                InstanceEnemyInPos(_enemyD);
             }
         }
+        void InstanceEnemyInPos(EnemyData _enemyD)
+        {
+            GameObject enemyR = instanceW.RequestEnemy();
+            enemy.Add(enemyR);
+            foreach (ColorPos _colorPos in colorPos)
+            {
+                if (_enemyD.GetColor == _colorPos.color && !_colorPos.posUsed)
+                {
+                    _colorPos.posUsed = true;
+                    enemyR.transform.position = SetPosition(_colorPos.position);
+                    Debug.Log(_enemyD.GetColor + " _ " + _colorPos.color);
+                    enemyR.GetComponent<EnemyController>().SetEnemyData(_enemyD);
+                    return;
+                }
+            }
+        }
+        
+        Vector2 SetPosition(Vector2 _pixelPos)
+        {
+            Vector2 worldPos = (_pixelPos / 10) - new Vector2(3,5) ;
+            Debug.Log(_pixelPos + " _ " + worldPos);
+            return worldPos;
+        }
+        void GetPixelColor(int x, int y)
+        {
+            Color pixelColor = image.GetPixel(x, y);
+            if (pixelColor.a == 0)
+            {
+                return;
+            }
+            colorPos.Add(new ColorPos(pixelColor, new Vector2(x,y)));
+
+        }
+
 
         public void DisableEnemies()
         {
@@ -136,6 +193,7 @@ public class WaveController : MonoBehaviour
             }
         }
     }
+
 
 
     [SerializeField] GameObject enemyPrefab;
