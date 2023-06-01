@@ -29,10 +29,10 @@ public class WaveController : MonoBehaviour
             HARD
         }
 
-        public List<GameObject> enemy;
+        private List<GameObject> enemy;
         public List<EnemyData> enemyD;
         public Texture2D image;
-        public List<ColorPos> colorPos;
+        private List<ColorPos> colorPos;
         WaveDifficult waveDifficult;
 
         Vector2[] enemypostitions =
