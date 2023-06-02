@@ -14,10 +14,14 @@ public class EnemyAttackScript : MonoBehaviour
     bool lasera=false;
     float anglesum=0;
     Collider2D coll;
-
+    Material mat;
     public int TotalShotData { get { return attackData.Count; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
 
+
+    void PruebasMat()
+    {
+    }
     public void SetCurrentShotPattern(int _nextShotPattern)
     {
         currentShotPattern = _nextShotPattern;
@@ -108,7 +112,7 @@ public class EnemyAttackScript : MonoBehaviour
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             
 
-            if (hit.collider!=null && hit.distance<5 && hit!=gameObject)
+            if (hit.collider!=null && hit.distance<5 )
             {
                 if (hit.transform.CompareTag("Player"))
                 {
