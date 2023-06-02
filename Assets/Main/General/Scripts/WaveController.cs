@@ -33,6 +33,7 @@ public class WaveController : MonoBehaviour
         public List<EnemyData> enemyD;
         public Texture2D image;
         private List<ColorPos> colorPos;
+        List<Vector2> targetPositions;
         WaveDifficult waveDifficult;
 
         Vector2[] enemypostitions =
@@ -69,6 +70,8 @@ public class WaveController : MonoBehaviour
         {
             enemy = new List<GameObject>();
             colorPos = new List<ColorPos>();
+            targetPositions = new List<Vector2>();
+
             for (int y = 0; y < image.height; y++)
             {
                 for (int x = 0; x < image.width; x++)
@@ -79,10 +82,44 @@ public class WaveController : MonoBehaviour
 
             foreach (EnemyData _enemyD in enemyD)
             {
-                InstanceEnemyInPos(_enemyD);
+                SetEnemyPositions(_enemyD);
+            }
+            instanceW.MoveEnemies();
+        }
+
+        public IEnumerator MoveEnemyToPos()
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+
+            for (int i = 0; i < enemy.Count; i++)
+            {
+                Vector2 enemyPos= enemy[i].transform.position;
+                enemyPos = Vector2.Lerp(enemyPos, targetPositions[i], Time.deltaTime*2.5f);
+                enemy[i].transform.position = enemyPos;
+            }
+
+            int index=0;
+            for (int i = 0; i < enemy.Count; i++)
+            {
+                if (Vector2.Distance(enemy[i].transform.position, targetPositions[i]) < 0.1f)
+                {
+                    index++;
+                }
+            }
+            if (index!=enemy.Count)
+            {
+                instanceW.MoveEnemies();
+
+            }
+            else
+            {
+                for (int i = 0; i < enemy.Count; i++)
+                {
+                    enemy[i].GetComponent<EnemyController>().ActiveComponents();
+                }
             }
         }
-        void InstanceEnemyInPos(EnemyData _enemyD)
+        void SetEnemyPositions(EnemyData _enemyD)
         {
             GameObject enemyR = instanceW.RequestEnemy();
             enemy.Add(enemyR);
@@ -91,8 +128,10 @@ public class WaveController : MonoBehaviour
                 if (_enemyD.GetColor == _colorPos.color && !_colorPos.posUsed)
                 {
                     _colorPos.posUsed = true;
-                    enemyR.transform.position = SetPosition(_colorPos.position);
-                    Debug.Log(_enemyD.GetColor + " _ " + _colorPos.color);
+                    enemyR.transform.position = new Vector2(0, 9);
+
+                    targetPositions.Add(SetPosition(_colorPos.position));
+                    
                     enemyR.GetComponent<EnemyController>().SetEnemyData(_enemyD);
                     return;
                 }
@@ -280,7 +319,15 @@ public class WaveController : MonoBehaviour
 
     public void MoveEnemies()
     {
-        StartCoroutine(waves[waveIndex].MoveEnemiesToPosition());
+        if (randomizerLevel)
+        {
+            StartCoroutine(waves[waveIndex].MoveEnemiesToPosition());
+        }
+        else
+        {
+            StartCoroutine(waves[waveIndex].MoveEnemyToPos());
+
+        }
     }
 
 
