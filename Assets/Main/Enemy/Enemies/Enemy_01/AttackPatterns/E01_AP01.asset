@@ -34,3 +34,4 @@ MonoBehaviour:
   projectileRotation: 10
   projectileTimeRot: 1
   angleToShot: 0
+  anlgesSteps: 0

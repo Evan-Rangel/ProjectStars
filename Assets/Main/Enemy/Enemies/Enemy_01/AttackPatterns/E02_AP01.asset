@@ -33,3 +33,5 @@ MonoBehaviour:
   projectileDamage: 2
   projectileRotation: 0
   projectileTimeRot: 0
+  angleToShot: 0
+  anlgesSteps: 0

@@ -349,7 +349,7 @@ public class WaveController : MonoBehaviour
         }
         else if(waveIndex== waves.Count - 1)
         {
-            Debug.Log("NextLevel");
+            //Debug.Log("NextLevel");
         }
     }
     IEnumerator TimeNextWave()

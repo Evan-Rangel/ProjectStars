@@ -14,14 +14,11 @@ public class EnemyAttackScript : MonoBehaviour
     bool lasera=false;
     float anglesum=0;
     Collider2D coll;
-    Material mat;
     public int TotalShotData { get { return attackData.Count; } }
     public int CurrentShotPattern { get { return currentShotPattern; } }
 
 
-    void PruebasMat()
-    {
-    }
+  
     public void SetCurrentShotPattern(int _nextShotPattern)
     {
         currentShotPattern = _nextShotPattern;
@@ -71,7 +68,9 @@ public class EnemyAttackScript : MonoBehaviour
                     case EnemyAttackData.LaserType.STATIC:
                         for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
                         {
-                            lasers.Add(Instantiate(laser, transform.position, Quaternion.identity, transform));
+                            GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, transform);
+                            lasers.Add(_laser);
+                            _laser.GetComponent<LaserController>().CastLaserFunc(attackData[currentShotPattern].GetLaserCastDuration);
                         }
                         Laser(anglesum);
 
@@ -130,7 +129,6 @@ public class EnemyAttackScript : MonoBehaviour
             lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
             lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
 
-            //Debug.Log(projectileMoveDirection*rayDistance);
 
             Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;
@@ -141,24 +139,24 @@ public class EnemyAttackScript : MonoBehaviour
     //Funcion para projectiles
     void Shooting(float _angleSum)
     {
-        float angleStep = 360 / attackData[currentShotPattern].GetProjectilesPerWave;
-        float angle = attackData[currentShotPattern].GetProjectileAngleInit+ _angleSum;
+        float angleStep = attackData[currentShotPattern].GetAngleToShot / attackData[currentShotPattern].GetProjectilesPerWave;
+        float angle = attackData[currentShotPattern].GetProjectileAngleInit + _angleSum;
         Vector2 startPoint = transform.position;
 
         GameObject bullet;
-        //Debug.Log(attackData[currentShotPattern].GetProjectilesPerWave);
-
-        for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
+        for (int j = 0; j < attackData[currentShotPattern].GetAnglesSteps; j++)
         {
-            angle += angleStep;
-            Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
-            bullet = BulletsPool.Instance.RequestEnemyBullet();
-            bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
-            if (attackData[currentShotPattern].GetProjectileRotation != 0)
+            for (int i = 0; i < attackData[currentShotPattern].GetProjectilesPerWave; i++)
             {
-                bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation + angle, attackData[currentShotPattern].GetProjectileTimeRot, attackData[currentShotPattern].GetProjectileSpeed, attackData[currentShotPattern].GetProjectileRotation);
+                angle += angleStep;
+                Vector2 vel = GenerateRotation(angle, attackData[currentShotPattern].GetProjectileSpeed, startPoint);
+                bullet = BulletsPool.Instance.RequestEnemyBullet();
+                bullet.GetComponent<Bullets>().SetProps(vel, startPoint, -angle);
+                if (attackData[currentShotPattern].GetProjectileRotation != 0)
+                {
+                    bullet.GetComponent<Bullets>().GenerateRotation(attackData[currentShotPattern].GetProjectileRotation + angle, attackData[currentShotPattern].GetProjectileTimeRot, attackData[currentShotPattern].GetProjectileSpeed, attackData[currentShotPattern].GetProjectileRotation);
+                }
             }
-
         }
         
         StartCoroutine(ShootingTimer());

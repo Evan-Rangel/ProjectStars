@@ -15,12 +15,12 @@ MonoBehaviour:
   attackType: 2
   laserOffDuration: 0
   laserAngleInit: 0
-  laserCastDuration: 0
+  laserCastDuration: 2
   laserSpeedRotation: 50
   laserAngleSum: 0
   laserPerWave: 3
   laserDamage: 0
-  laserType: 1
+  laserType: 0
   laserAngles: []
   showLaserDirections: 0
   withRotation: 0
@@ -34,3 +34,4 @@ MonoBehaviour:
   projectileRotation: 0
   projectileTimeRot: 0
   angleToShot: 0
+  anlgesSteps: 0

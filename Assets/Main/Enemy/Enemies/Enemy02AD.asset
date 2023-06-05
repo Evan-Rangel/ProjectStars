@@ -25,12 +25,13 @@ MonoBehaviour:
   showLaserDirections: 0
   withRotation: 0
   laserDistance: 0
-  projectilesPerWave: 5
-  projectileAngleInit: 0
-  projectileAngleSum: 10
+  projectilesPerWave: 4
+  projectileAngleInit: 120
+  projectileAngleSum: 0
   projectileSpeed: 2.5
   projectileCadence: 1
   projectileDamage: 1
   projectileRotation: 0
   projectileTimeRot: 0
-  angleToShot: 0
+  angleToShot: 90
+  anlgesSteps: 1

@@ -13,3 +13,25 @@ MonoBehaviour:
   m_Name: New Enemy Attack Data
   m_EditorClassIdentifier: 
   attackType: 2
+  laserOffDuration: 0
+  laserAngleInit: 0
+  laserCastDuration: 0
+  laserSpeedRotation: 0
+  laserAngleSum: 0
+  laserPerWave: 0
+  laserDamage: 0
+  laserType: 0
+  laserAngles: []
+  showLaserDirections: 0
+  withRotation: 0
+  laserDistance: 0
+  projectilesPerWave: 0
+  projectileAngleInit: 0
+  projectileAngleSum: 0
+  projectileSpeed: 0
+  projectileCadence: 0
+  projectileDamage: 0
+  projectileRotation: 0
+  projectileTimeRot: 0
+  angleToShot: 0
+  anlgesSteps: 0
