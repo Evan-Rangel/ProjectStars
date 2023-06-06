@@ -102,12 +102,12 @@ public class EnemyAttackScript : MonoBehaviour
         float angle = attackData[currentShotPattern].GetLaserAngleInit + _angleSum;
         Vector2 startPoint = transform.position;
         float rayDistance;
-
+        bool isHit = false; ;
         
-        for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
+        for (int i = 0; i < lasers.Count; i++)
         {
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
-
+            
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             
 
@@ -115,22 +115,25 @@ public class EnemyAttackScript : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Player"))
                 {
-                    Debug.Log("Player");
+                   // Debug.Log("Player");
                     //Funcion del player para hacer danio
                 }
                 rayDistance = hit.distance;
+                isHit = true;
             }
             else
             {
+                isHit = false;
                 rayDistance = 5;
             }
+            lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
 
 
-            lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
-            lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
+            //lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
+            //lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
+            
 
-
-            Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
+           // Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;
         }
         StartCoroutine(LaserTimerRotation());
