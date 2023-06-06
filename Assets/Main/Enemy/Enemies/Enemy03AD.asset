@@ -15,10 +15,10 @@ MonoBehaviour:
   attackType: 2
   laserOffDuration: 0
   laserAngleInit: 0
-  laserCastDuration: 2
+  laserCastDuration: 30
   laserSpeedRotation: 50
   laserAngleSum: 0
-  laserPerWave: 3
+  laserPerWave: 1
   laserDamage: 0
   laserType: 0
   laserAngles: []

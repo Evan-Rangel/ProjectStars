@@ -141,7 +141,7 @@ public class WaveController : MonoBehaviour
         Vector2 SetPosition(Vector2 _pixelPos)
         {
             Vector2 worldPos = (_pixelPos / 10) - new Vector2(3,5) ;
-            Debug.Log(_pixelPos + " _ " + worldPos);
+            //Debug.Log(_pixelPos + " _ " + worldPos);
             return worldPos;
         }
         void GetPixelColor(int x, int y)

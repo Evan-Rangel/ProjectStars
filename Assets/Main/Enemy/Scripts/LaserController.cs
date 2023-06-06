@@ -4,37 +4,42 @@ using UnityEngine;
 
 public class LaserController : MonoBehaviour
 {
-    [SerializeField] Material laserMat;
     [SerializeField] LineRenderer laserRenderer;
-    [SerializeField] float maxLaserPower;
-    float currentLaserPower = 0;
+    float maxLaserPower;
+    [SerializeField]float currentLaserPower = 1.1f;
+    [SerializeField] Renderer rend;
+    [SerializeField] float laserCastDuration;
+    public float SetLaserCastDuration { set { laserCastDuration = value; } }
     public float SetMaxLaserPower { set { maxLaserPower= value; } }
-    public Material SetLaserMaterial {set { laserMat = value; } }
     private void Start()
     {
+        rend = GetComponent<Renderer>();
         //laserMat = GetComponent<Material>();
         laserRenderer = GetComponent<LineRenderer>();
-        laserMat.SetFloat("LaserPower", currentLaserPower);
-        laserRenderer.materials[0] = laserMat;
+        rend.material.SetFloat("_LaserPower", currentLaserPower);
+        maxLaserPower = 8;
     }
 
-    public void CastLaserFunc( float _maxLaserPower)
+    public void CastLaserFunc( float _laserCastDuration)
     {
-        maxLaserPower = _maxLaserPower;
+        laserCastDuration = _laserCastDuration;
+        //Debug.Log(laserCastDuration);
+        StartCoroutine(CastLaser());
+    }
+    public void CastLaserFunc()
+    {
         StartCoroutine(CastLaser());
     }
 
     IEnumerator CastLaser()
     {
-        if (currentLaserPower<= maxLaserPower)
+        if (currentLaserPower<= 8)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            laserRenderer.materials[0] = laserMat;
-            currentLaserPower += Time.deltaTime;
-            laserMat.SetFloat("LaserPower", currentLaserPower);
-            Debug.Log( laserMat.GetFloat("LaserPower"));
-           // Debug.Log(currentLaserPower);
-            CastLaserFunc(maxLaserPower);
+            currentLaserPower += Time.deltaTime*laserCastDuration;
+            Debug.Log(currentLaserPower);
+            rend.material.SetFloat("_LaserPower", currentLaserPower);
+            CastLaserFunc();
         }
         else
         {

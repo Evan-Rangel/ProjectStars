@@ -65,13 +65,13 @@ Material:
     - _EnableExternalAlpha: 0
     - _Float0: 0.001
     - _LaserIntensity: 20
-    - _LaserPower: 8.06
-    - _Velocity: 1
+    - _LaserPower: 1.1
+    - _Velocity: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0, g: 0.08247185, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _LaserColor: {r: 0.19425917, g: 1, b: 0, a: 1}
+    - _LaserColor: {r: 0.19425914, g: 1, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
