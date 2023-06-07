@@ -215,6 +215,7 @@ public class EnemyAttackData : ScriptableObject
                     switch (enemyAttackData.laserType)
                     {
                         case LaserType.STATIC:
+                            enemyAttackData.laserSpeedRotation = 0;
                             break;
                         case LaserType.DINAMIC:
                             GUILayout.BeginHorizontal();
@@ -294,9 +295,7 @@ public class EnemyAttackData : ScriptableObject
                             break;
                     }
                     break;
-            
             }
-
             EditorUtility.SetDirty(enemyAttackData);
             if (!Application.isPlaying)
             {

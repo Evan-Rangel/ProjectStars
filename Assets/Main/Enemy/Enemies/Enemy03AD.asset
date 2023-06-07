@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackType: 2
   laserOffDuration: 0
-  laserAngleInit: 0
-  laserCastDuration: 30
-  laserSpeedRotation: 50
+  laserAngleInit: 180
+  laserCastDuration: 10
+  laserSpeedRotation: 0
   laserAngleSum: 0
-  laserPerWave: 1
+  laserPerWave: 5
   laserDamage: 0
   laserType: 0
   laserAngles: []

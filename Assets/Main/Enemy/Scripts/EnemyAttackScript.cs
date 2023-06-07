@@ -86,6 +86,15 @@ public class EnemyAttackScript : MonoBehaviour
                         Laser(anglesum);
                         break;
                     case EnemyAttackData.LaserType.SWITCH:
+                        for (int i = 0; i < attackData[currentShotPattern].GetLaserPerWave; i++)
+                        {
+                            GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, transform);
+                            lasers.Add(_laser);
+                            _laser.GetComponent<LaserController>().SwtichLaserFunc(attackData[currentShotPattern].GetLaserOffDuration, attackData[currentShotPattern].GetLaserOnDuration, attackData[currentShotPattern].GetLaserCastDuration);
+                            
+
+                        }
+
                         break;
                     case EnemyAttackData.LaserType.CUSTOM:
                         break;
@@ -107,16 +116,13 @@ public class EnemyAttackScript : MonoBehaviour
         for (int i = 0; i < lasers.Count; i++)
         {
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
-            
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             
-
             if (hit.collider!=null && hit.distance<5 )
             {
                 if (hit.transform.CompareTag("Player"))
                 {
-                   // Debug.Log("Player");
-                    //Funcion del player para hacer danio
+
                 }
                 rayDistance = hit.distance;
                 isHit = true;
@@ -128,10 +134,6 @@ public class EnemyAttackScript : MonoBehaviour
             }
             lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
 
-
-            //lasers[i].GetComponent<LineRenderer>().SetPosition(0, Vector3.zero);
-            //lasers[i].GetComponent<LineRenderer>().SetPosition(1, projectileMoveDirection*rayDistance);
-            
 
            // Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
             angle += angleStep;

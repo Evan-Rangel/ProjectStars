@@ -25,7 +25,7 @@ MonoBehaviour:
     speed: 1
     movT: 1
     time: 0.4
-  movType: 2
+  movType: 3
   force_FP: 2
   time_FP: 3
   direction_OM: {x: 1, y: 0}

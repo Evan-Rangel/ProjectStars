@@ -475,7 +475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371130996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -8, z: 0}
+  m_LocalPosition: {x: -8, y: -5.5, z: 0}
   m_LocalScale: {x: 30, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1273,7 +1273,8 @@ MonoBehaviour:
   waves:
   - enemyD:
     - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
-    image: {fileID: 2800000, guid: bce29f3569bf3114aa3f8df3139a59fb, type: 3}
+    - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
+    image: {fileID: 2800000, guid: a4703daf5cafb904eb141d3855c4565b, type: 3}
   enemiesData:
   - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
   - {fileID: 11400000, guid: 838432d911e4bb54fbfd9a77f4ebc705, type: 2}
@@ -2032,10 +2033,6 @@ PrefabInstance:
     - target: {fileID: 3778948947573968640, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3778948947573968653, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
-      propertyPath: m_Positions.Array.data[0].x
-      value: -0.94
       objectReference: {fileID: 0}
     - target: {fileID: 3778948947573968654, guid: 9566e80f9ca4fd940926d105d33cfb3e, type: 3}
       propertyPath: m_RootOrder

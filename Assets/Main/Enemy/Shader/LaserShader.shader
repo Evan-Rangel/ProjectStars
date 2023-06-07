@@ -183,16 +183,16 @@ Shader "LaserShader"
 
 				float time38 = 2.0;
 				float2 voronoiSmoothId38 = 0;
-				float2 texCoord59 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 panner56 = ( ( _TimeParameters.x * 0.05 ) * _LaserSpeed + texCoord59);
+				float4 texCoord63 = IN.texCoord0;
+				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
+				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
 				float2 coords38 = panner56 * _LaserSize;
 				float2 id38 = 0;
 				float2 uv38 = 0;
 				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
-				float4 texCoord63 = IN.texCoord0;
-				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float4 Color = ( (0.2 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.2) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
 
 				#if ETC1_EXTERNAL_ALPHA
 					float4 alpha = SAMPLE_TEXTURE2D( _AlphaTex, sampler_AlphaTex, IN.texCoord0.xy );
@@ -369,16 +369,16 @@ Shader "LaserShader"
 
 				float time38 = 2.0;
 				float2 voronoiSmoothId38 = 0;
-				float2 texCoord59 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 panner56 = ( ( _TimeParameters.x * 0.05 ) * _LaserSpeed + texCoord59);
+				float4 texCoord63 = IN.texCoord0;
+				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
+				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
 				float2 coords38 = panner56 * _LaserSize;
 				float2 id38 = 0;
 				float2 uv38 = 0;
 				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
-				float4 texCoord63 = IN.texCoord0;
-				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float4 Color = ( (0.2 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.2) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
 
 				#if ETC1_EXTERNAL_ALPHA
 					float4 alpha = SAMPLE_TEXTURE2D( _AlphaTex, sampler_AlphaTex, IN.texCoord0.xy );
@@ -536,16 +536,16 @@ Shader "LaserShader"
 			{
 				float time38 = 2.0;
 				float2 voronoiSmoothId38 = 0;
-				float2 texCoord59 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 panner56 = ( ( _TimeParameters.x * 0.05 ) * _LaserSpeed + texCoord59);
+				float4 texCoord63 = IN.ase_texcoord;
+				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
+				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
 				float2 coords38 = panner56 * _LaserSize;
 				float2 id38 = 0;
 				float2 uv38 = 0;
 				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
-				float4 texCoord63 = IN.ase_texcoord;
-				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float4 Color = ( (0.2 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.2) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
 
 				half4 outColor = half4(_ObjectId, _PassValue, 1.0, 1.0);
 				return outColor;
@@ -681,16 +681,16 @@ Shader "LaserShader"
 			{
 				float time38 = 2.0;
 				float2 voronoiSmoothId38 = 0;
-				float2 texCoord59 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 panner56 = ( ( _TimeParameters.x * 0.05 ) * _LaserSpeed + texCoord59);
+				float4 texCoord63 = IN.ase_texcoord;
+				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
+				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
 				float2 coords38 = panner56 * _LaserSize;
 				float2 id38 = 0;
 				float2 uv38 = 0;
 				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
-				float4 texCoord63 = IN.ase_texcoord;
-				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float4 Color = ( (0.2 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.2) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
 				half4 outColor = _SelectionID;
 				return outColor;
 			}
@@ -708,50 +708,61 @@ Version=19105
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit Forward;0;1;Sprite Unlit Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;ScenePickingPass;0;3;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.OneMinusNode;28;-999.2834,-791.1345;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;29;-782.2834,-905.1345;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;31;-527.2834,-840.1345;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;37;-316.3708,-823.3423;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;27;-770.2834,-633.1345;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;3.04;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;39.53799,-1254.775;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.VoronoiNode;38;-210.3965,-1293.037;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.TextureCoordinatesNode;59;-841.3732,-1616.119;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PannerNode;56;-533.3732,-1499.119;Inherit;True;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TimeNode;62;-818.3732,-1304.119;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.Vector2Node;54;-836.3732,-1478.119;Inherit;False;Property;_LaserSpeed;LaserSpeed;3;0;Create;True;0;0;0;False;0;False;100,0;-10,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;39;-596.0747,-1189.144;Inherit;False;Constant;_Float0;Float 0;6;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;33;-168.2834,-832.1345;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;9.04;False;1;FLOAT;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;66;-1283.929,-737.8694;Inherit;True;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.RangedFloatNode;34;-417.1567,-543.3874;Inherit;False;Property;_LaserIntensity;LaserIntensity;2;0;Create;True;0;0;0;False;0;False;20;-0.5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;35;-117.3708,-549.3423;Inherit;False;Property;_LaserColor;LaserColor;1;0;Create;True;0;0;0;False;0;False;1,0,0,1;1,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;30;-1098.433,-528.3469;Inherit;False;Property;_LaserPower;LaserPower;0;0;Create;True;0;0;0;False;0;False;4.857852;100;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;63;-1547.929,-762.8694;Inherit;False;0;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;484.42,-837.6198;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;818.593,-837.481;Float;False;True;-1;2;ASEMaterialInspector;0;15;LaserShader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.RangedFloatNode;40;-528.0747,-1105.144;Inherit;False;Property;_LaserSize;LaserSize;4;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;68;312.1353,-1144.948;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.2;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;54;-836.3732,-1478.119;Inherit;False;Property;_LaserSpeed;LaserSpeed;3;0;Create;True;0;0;0;False;0;False;100,0;-0.1,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;40;-385.0748,-1196.144;Inherit;False;Property;_LaserSize;LaserSize;4;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;39;-385.1748,-1269.444;Inherit;False;Constant;_Float0;Float 0;6;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;102.538,-1164.775;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;28;-1087.295,-977.8268;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;29;-870.2959,-1091.826;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;31;-615.2959,-1026.827;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;27;-858.2959,-819.8268;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;3.04;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;37;-401.3825,-1027.035;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;66;-1363.486,-926.5388;Inherit;True;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.TextureCoordinatesNode;63;-1862.34,-929.6649;Inherit;False;0;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;70;-1579.166,-727.2666;Inherit;True;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.FloorOpNode;72;-1301.166,-693.2666;Inherit;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.GetLocalVarNode;79;-548.782,-1653.017;Inherit;False;76;Pixelate;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.PowerNode;33;-171.4458,-1014.594;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;9.04;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-403.8441,-922.512;Inherit;False;Property;_LaserIntensity;LaserIntensity;2;0;Create;True;0;0;0;False;0;False;20;5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;73;-1134.084,-490.0958;Inherit;True;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;76;-812.5206,-484.1739;Inherit;True;Pixelate;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;71;-1597.615,-399.7406;Inherit;False;Constant;_Float1;Float 1;5;0;Create;True;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1323.249,-1219.056;Float;False;True;-1;2;ASEMaterialInspector;0;15;LaserShader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;830.4203,-1208.81;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;35;434.1167,-1047.136;Inherit;False;Property;_LaserColor;LaserColor;1;0;Create;True;0;0;0;False;0;False;1,0,0,1;1,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TFHCRemapNode;68;376.1353,-1309.948;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.05;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;30;-1091.51,-799.871;Inherit;False;Property;_LaserPower;LaserPower;0;0;Create;True;0;0;0;False;0;False;4.857852;10;0;0;0;1;FLOAT;0
+WireConnection;38;0;56;0
+WireConnection;38;1;39;0
+WireConnection;38;2;40;0
+WireConnection;56;0;79;0
+WireConnection;56;2;54;0
+WireConnection;56;1;62;2
+WireConnection;42;0;38;0
+WireConnection;42;1;33;0
 WireConnection;28;0;66;1
 WireConnection;29;0;28;0
 WireConnection;29;1;30;0
 WireConnection;31;0;29;0
 WireConnection;31;1;27;0
-WireConnection;37;0;31;0
 WireConnection;27;0;66;1
 WireConnection;27;1;30;0
-WireConnection;42;0;38;0
-WireConnection;42;1;33;0
-WireConnection;38;0;56;0
-WireConnection;38;1;39;0
-WireConnection;38;2;40;0
-WireConnection;56;0;59;0
-WireConnection;56;2;54;0
-WireConnection;56;1;62;1
+WireConnection;37;0;31;0
+WireConnection;66;0;63;0
+WireConnection;70;0;63;0
+WireConnection;70;1;71;0
+WireConnection;72;0;70;0
 WireConnection;33;0;37;0
 WireConnection;33;1;34;0
-WireConnection;66;0;63;0
+WireConnection;73;0;72;0
+WireConnection;73;1;71;0
+WireConnection;76;0;73;0
+WireConnection;0;1;36;0
 WireConnection;36;0;68;0
 WireConnection;36;1;35;0
-WireConnection;0;1;36;0
 WireConnection;68;0;42;0
 ASEEND*/
-//CHKSM=BC55A6830A9328893475336374BFF2236CD309AA
+//CHKSM=918D9D5437245E1ABBA775247D64F3F601657167
