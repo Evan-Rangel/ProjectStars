@@ -17,26 +17,26 @@ MonoBehaviour:
     dir: {x: 0, y: -1}
     movS: 2
     speed: 2
-    movT: 1
-    time: 0.4
+    movT: 3
+    time: 0.8
   - movD: 3
     dir: {x: 1, y: 0}
     movS: 2
     speed: 2
-    movT: 1
-    time: 0.4
+    movT: 3
+    time: 0.8
   - movD: 1
     dir: {x: 0, y: 1}
     movS: 2
     speed: 2
-    movT: 1
-    time: 0.4
+    movT: 3
+    time: 0.8
   - movD: 4
     dir: {x: -1, y: 0}
     movS: 2
     speed: 2
-    movT: 1
-    time: 0.4
+    movT: 3
+    time: 0.8
   movType: 2
   force_FP: 0
   time_FP: 0

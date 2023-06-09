@@ -6,44 +6,52 @@ public class LaserController : MonoBehaviour
 {
     [SerializeField] LineRenderer laserRenderer;
     float maxLaserPower;
-    [SerializeField]float currentLaserPower = 1.1f;
+    [SerializeField] float laserCastValue = 0;
     [SerializeField] Renderer rend;
-    [SerializeField] float laserCastDuration;
+    [SerializeField] float laserCastSpeed;
     [SerializeField] GameObject startParticles, endParticles;
-
-    public float SetLaserCastDuration { set { laserCastDuration = value; } }
-    public float SetMaxLaserPower { set { maxLaserPower= value; } }
+    bool canDamage = false;
+    public float SetLaserCastDuration { set { laserCastSpeed = value; } }
+    public float SetMaxLaserPower { set { maxLaserPower = value; } }
+    public bool GetCanDamage { get { return canDamage; } }
     private void Start()
     {
         rend = GetComponent<Renderer>();
-        //laserMat = GetComponent<Material>();
-        //laserRenderer = GetComponent<LineRenderer>();
-        rend.material.SetFloat("_LaserPower", currentLaserPower);
+        laserCastValue = 0;
+        rend.material.SetFloat("_LaserCastValue", laserCastValue);
         maxLaserPower = 8;
     }
 
-    public void CastLaserFunc( float _laserCastDuration)
+    public void CastLaserFunc( float _laserCastSpeed)
     {
-        laserCastDuration = _laserCastDuration;
+        laserCastSpeed = _laserCastSpeed;
         StartCoroutine(CastLaser());
     }
     public void CastLaserFunc()
     {
-        StartCoroutine(CastLaser());
+        if (rend.material.GetFloat("_LaserCastValue")<1)
+        {
+            StartCoroutine(CastLaser());
+        }
+        else
+        {
+            rend.material.SetFloat("_LaserCastValue", 1);
+            canDamage = true;
+        }
     }
     public void LaserRaycast(Vector2 _targetPosition, Vector2 _currentPosition, bool _isHit)
     {
         laserRenderer.SetPosition(0, Vector2.zero);
         //startParticles.transform.position = _currentPosition;
         //startParticles.transform.rotation = transform.rotation * Quaternion.AngleAxis(90,Vector2.right);
-        //Debug.Log(_targetPosition);
+
+
         laserRenderer.SetPosition(1, _targetPosition);
-        if (_isHit)
+        if (_isHit && canDamage)
         {
             endParticles.SetActive(true);
             endParticles.transform.localPosition = _targetPosition - (_targetPosition.normalized/4);
             endParticles.transform.rotation = transform.rotation * Quaternion.AngleAxis(-90, Vector2.right);
-
         }
         else
         {
@@ -53,45 +61,54 @@ public class LaserController : MonoBehaviour
   
     IEnumerator CastLaser()
     {
-        if (currentLaserPower<= 20)
+        yield return new WaitForEndOfFrame();
+        laserCastValue += Time.deltaTime*laserCastSpeed;
+        rend.material.SetFloat("_LaserCastValue", laserCastValue);
+        CastLaserFunc();
+
+    }
+
+    public void SwtichLaserFunc(float _offDuration, float _onDuration, float _castSpeed)
+    {
+        StartCoroutine(SwitchLaserCorr(_offDuration, _onDuration, _castSpeed));
+    }
+
+
+
+    IEnumerator SwitchLaserCorr(float _offduration, float _onDuration, float _castSpeed)
+    {
+        laserCastValue = 0f;
+        rend.material.SetFloat("_LaserCastValue", laserCastValue);
+        canDamage = false;
+        yield return new WaitForSeconds(_offduration);
+        
+        
+        while (rend.material.GetFloat("_LaserCastValue")<1)
         {
-            yield return new WaitForSeconds(Time.deltaTime);
-            currentLaserPower += Time.deltaTime*laserCastDuration;
-            rend.material.SetFloat("_LaserPower", currentLaserPower);
-            CastLaserFunc();
+            laserCastValue += Time.deltaTime * _castSpeed;
+            rend.material.SetFloat("_LaserCastValue", laserCastValue);
+            yield return new WaitForEndOfFrame();
         }
-        else
+
+
+        laserCastValue = 1f;
+        rend.material.SetFloat("_LaserCastValue", laserCastValue);
+        canDamage = true;
+
+        yield return new WaitForSeconds(_onDuration);
+
+        while (rend.material.GetFloat("_LaserCastValue") > 0)
         {
-            StopCoroutine(CastLaser());
+            laserCastValue -= Time.deltaTime * _castSpeed;
+            rend.material.SetFloat("_LaserCastValue", laserCastValue);
+            yield return new WaitForEndOfFrame();
         }
-    }
-
-    public void SwtichLaserFunc(float _offDuration, float _onDuration, float _castDuration)
-    {
-        StartCoroutine(LaserOffTime(_offDuration, _onDuration, _castDuration));
-    }
-
-
-
-    IEnumerator LaserOffTime(float _duration, float _onDuration, float _castDuration)
-    {
-        currentLaserPower = 1.1f;
-        rend.material.SetFloat("_LaserPower", currentLaserPower);
-        yield return new WaitForSeconds(_duration);
-
-        //StartCoroutine(DecastLaser(_offDuration));
+        StartCoroutine(SwitchLaserCorr(_offduration, _onDuration,_castSpeed));
 
     }
-    /*
-    IEnumerator LaserOnTime(float _duration)
-    {
-        StartCoroutine(LaserOffTime(_offDuration));
 
-    }
-    IEnumerator DecastLaser(float _duration)
-    {
 
-    }
-    */
+
+
 
 }

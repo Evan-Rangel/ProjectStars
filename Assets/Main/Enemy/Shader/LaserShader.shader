@@ -6,11 +6,15 @@ Shader "LaserShader"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_LaserPower("LaserPower", Float) = 4.857852
-		_LaserColor("LaserColor", Color) = (1,0,0,1)
-		_LaserIntensity("LaserIntensity", Float) = 20
-		_LaserSpeed("LaserSpeed", Vector) = (100,0,0,0)
-		_LaserSize("LaserSize", Float) = 5
+		[HDR]_LaserColor("LaserColor", Color) = (1,0,0,1)
+		_Voronoi_Intensity("Voronoi_Intensity", Float) = 0.15
+		_Nosie_Intencity("Nosie_Intencity", Float) = 0.05
+		_Fade("Fade", Range( 0 , 0.5)) = 0.1345602
+		_PixelateValue("PixelateValue", Float) = 0
+		_Tickness("Tickness", Range( 0 , 1)) = 0
+		_Power("Power", Range( 0 , 10)) = 2.470588
+		_Power2("Power2", Range( 0 , 10)) = 2.470588
+		_LaserCastValue("LaserCastValue", Range( 0 , 1)) = 0
 
 		[HideInInspector][NoScaleOffset] unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset] unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
@@ -74,10 +78,14 @@ Shader "LaserShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _LaserColor;
-			float2 _LaserSpeed;
-			float _LaserSize;
-			float _LaserPower;
-			float _LaserIntensity;
+			float _Power2;
+			float _PixelateValue;
+			float _Nosie_Intencity;
+			float _Voronoi_Intensity;
+			float _Tickness;
+			float _Fade;
+			float _Power;
+			float _LaserCastValue;
 			CBUFFER_END
 
 
@@ -110,14 +118,42 @@ Shader "LaserShader"
 
 			float4 _RendererColor;
 
-					float2 voronoihash38( float2 p )
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
+					float2 voronoihash84( float2 p )
 					{
 						
 						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
 						return frac( sin( p ) *43758.5453);
 					}
 			
-					float voronoi38( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					float voronoi84( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 					{
 						float2 n = floor( v );
 						float2 f = frac( v );
@@ -128,7 +164,7 @@ Shader "LaserShader"
 							for ( int i = -1; i <= 1; i++ )
 						 	{
 						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash38( n + g );
+						 		float2 o = voronoihash84( n + g );
 								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 								float d = 0.5 * dot( r, r );
 						 		if( d<F1 ) {
@@ -181,18 +217,33 @@ Shader "LaserShader"
 				UNITY_SETUP_INSTANCE_ID( IN );
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
 
-				float time38 = 2.0;
-				float2 voronoiSmoothId38 = 0;
-				float4 texCoord63 = IN.texCoord0;
-				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
-				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
-				float2 coords38 = panner56 * _LaserSize;
-				float2 id38 = 0;
-				float2 uv38 = 0;
-				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
+				float2 texCoord132 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float CastLaser120 = pow( ( 1.0 - abs( (-1.0 + (texCoord132.y - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) , exp2( _Power2 ) );
+				float2 texCoord126 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 Pixel131 = ( floor( ( texCoord126 * _PixelateValue ) ) / _PixelateValue );
+				float2 panner81 = ( 1.0 * _Time.y * float2( -0.3,0.5 ) + Pixel131);
+				float simplePerlin2D88 = snoise( panner81*4.0 );
+				float time84 = 0.0;
+				float2 voronoiSmoothId84 = 0;
+				float2 panner83 = ( 1.0 * _Time.y * float2( 0.3,0.5 ) + Pixel131);
+				float2 coords84 = panner83 * 4.5;
+				float2 id84 = 0;
+				float2 uv84 = 0;
+				float fade84 = 0.5;
+				float voroi84 = 0;
+				float rest84 = 0;
+				for( int it84 = 0; it84 <2; it84++ ){
+				voroi84 += fade84 * voronoi84( coords84, time84, id84, uv84, 0,voronoiSmoothId84 );
+				rest84 += fade84;
+				coords84 *= 2;
+				fade84 *= 0.5;
+				}//Voronoi84
+				voroi84 /= rest84;
+				float temp_output_103_0 = ( 1.0 - _Tickness );
+				float temp_output_1_0_g1 = ( temp_output_103_0 - _Fade );
+				float4 lerpResult137 = lerp( ( CastLaser120 * _LaserColor ) , ( pow( ( ( ( 1.0 - abs( (-1.0 + (( texCoord132.y + ( simplePerlin2D88 * _Nosie_Intencity ) + ( (0.0 + (voroi84 - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) * _Voronoi_Intensity ) ) - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) - temp_output_1_0_g1 ) / ( temp_output_103_0 - temp_output_1_0_g1 ) ) , exp2( _Power ) ) * 1.0 * _LaserColor ) , _LaserCastValue);
 				
-				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = lerpResult137;
 
 				#if ETC1_EXTERNAL_ALPHA
 					float4 alpha = SAMPLE_TEXTURE2D( _AlphaTex, sampler_AlphaTex, IN.texCoord0.xy );
@@ -260,10 +311,14 @@ Shader "LaserShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _LaserColor;
-			float2 _LaserSpeed;
-			float _LaserSize;
-			float _LaserPower;
-			float _LaserIntensity;
+			float _Power2;
+			float _PixelateValue;
+			float _Nosie_Intencity;
+			float _Voronoi_Intensity;
+			float _Tickness;
+			float _Fade;
+			float _Power;
+			float _LaserCastValue;
 			CBUFFER_END
 
 
@@ -296,14 +351,42 @@ Shader "LaserShader"
 
 			float4 _RendererColor;
 
-					float2 voronoihash38( float2 p )
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
+					float2 voronoihash84( float2 p )
 					{
 						
 						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
 						return frac( sin( p ) *43758.5453);
 					}
 			
-					float voronoi38( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					float voronoi84( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 					{
 						float2 n = floor( v );
 						float2 f = frac( v );
@@ -314,7 +397,7 @@ Shader "LaserShader"
 							for ( int i = -1; i <= 1; i++ )
 						 	{
 						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash38( n + g );
+						 		float2 o = voronoihash84( n + g );
 								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 								float d = 0.5 * dot( r, r );
 						 		if( d<F1 ) {
@@ -367,18 +450,33 @@ Shader "LaserShader"
 				UNITY_SETUP_INSTANCE_ID( IN );
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
 
-				float time38 = 2.0;
-				float2 voronoiSmoothId38 = 0;
-				float4 texCoord63 = IN.texCoord0;
-				texCoord63.xy = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
-				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
-				float2 coords38 = panner56 * _LaserSize;
-				float2 id38 = 0;
-				float2 uv38 = 0;
-				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
+				float2 texCoord132 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float CastLaser120 = pow( ( 1.0 - abs( (-1.0 + (texCoord132.y - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) , exp2( _Power2 ) );
+				float2 texCoord126 = IN.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 Pixel131 = ( floor( ( texCoord126 * _PixelateValue ) ) / _PixelateValue );
+				float2 panner81 = ( 1.0 * _Time.y * float2( -0.3,0.5 ) + Pixel131);
+				float simplePerlin2D88 = snoise( panner81*4.0 );
+				float time84 = 0.0;
+				float2 voronoiSmoothId84 = 0;
+				float2 panner83 = ( 1.0 * _Time.y * float2( 0.3,0.5 ) + Pixel131);
+				float2 coords84 = panner83 * 4.5;
+				float2 id84 = 0;
+				float2 uv84 = 0;
+				float fade84 = 0.5;
+				float voroi84 = 0;
+				float rest84 = 0;
+				for( int it84 = 0; it84 <2; it84++ ){
+				voroi84 += fade84 * voronoi84( coords84, time84, id84, uv84, 0,voronoiSmoothId84 );
+				rest84 += fade84;
+				coords84 *= 2;
+				fade84 *= 0.5;
+				}//Voronoi84
+				voroi84 /= rest84;
+				float temp_output_103_0 = ( 1.0 - _Tickness );
+				float temp_output_1_0_g1 = ( temp_output_103_0 - _Fade );
+				float4 lerpResult137 = lerp( ( CastLaser120 * _LaserColor ) , ( pow( ( ( ( 1.0 - abs( (-1.0 + (( texCoord132.y + ( simplePerlin2D88 * _Nosie_Intencity ) + ( (0.0 + (voroi84 - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) * _Voronoi_Intensity ) ) - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) - temp_output_1_0_g1 ) / ( temp_output_103_0 - temp_output_1_0_g1 ) ) , exp2( _Power ) ) * 1.0 * _LaserColor ) , _LaserCastValue);
 				
-				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = lerpResult137;
 
 				#if ETC1_EXTERNAL_ALPHA
 					float4 alpha = SAMPLE_TEXTURE2D( _AlphaTex, sampler_AlphaTex, IN.texCoord0.xy );
@@ -444,10 +542,14 @@ Shader "LaserShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _LaserColor;
-			float2 _LaserSpeed;
-			float _LaserSize;
-			float _LaserPower;
-			float _LaserIntensity;
+			float _Power2;
+			float _PixelateValue;
+			float _Nosie_Intencity;
+			float _Voronoi_Intensity;
+			float _Tickness;
+			float _Fade;
+			float _Power;
+			float _LaserCastValue;
 			CBUFFER_END
 
 
@@ -471,14 +573,42 @@ Shader "LaserShader"
             int _ObjectId;
             int _PassValue;
 
-					float2 voronoihash38( float2 p )
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
+					float2 voronoihash84( float2 p )
 					{
 						
 						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
 						return frac( sin( p ) *43758.5453);
 					}
 			
-					float voronoi38( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					float voronoi84( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 					{
 						float2 n = floor( v );
 						float2 f = frac( v );
@@ -489,7 +619,7 @@ Shader "LaserShader"
 							for ( int i = -1; i <= 1; i++ )
 						 	{
 						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash38( n + g );
+						 		float2 o = voronoihash84( n + g );
 								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 								float d = 0.5 * dot( r, r );
 						 		if( d<F1 ) {
@@ -512,7 +642,10 @@ Shader "LaserShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -534,18 +667,33 @@ Shader "LaserShader"
 
 			half4 frag(VertexOutput IN ) : SV_TARGET
 			{
-				float time38 = 2.0;
-				float2 voronoiSmoothId38 = 0;
-				float4 texCoord63 = IN.ase_texcoord;
-				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
-				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
-				float2 coords38 = panner56 * _LaserSize;
-				float2 id38 = 0;
-				float2 uv38 = 0;
-				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
+				float2 texCoord132 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float CastLaser120 = pow( ( 1.0 - abs( (-1.0 + (texCoord132.y - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) , exp2( _Power2 ) );
+				float2 texCoord126 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 Pixel131 = ( floor( ( texCoord126 * _PixelateValue ) ) / _PixelateValue );
+				float2 panner81 = ( 1.0 * _Time.y * float2( -0.3,0.5 ) + Pixel131);
+				float simplePerlin2D88 = snoise( panner81*4.0 );
+				float time84 = 0.0;
+				float2 voronoiSmoothId84 = 0;
+				float2 panner83 = ( 1.0 * _Time.y * float2( 0.3,0.5 ) + Pixel131);
+				float2 coords84 = panner83 * 4.5;
+				float2 id84 = 0;
+				float2 uv84 = 0;
+				float fade84 = 0.5;
+				float voroi84 = 0;
+				float rest84 = 0;
+				for( int it84 = 0; it84 <2; it84++ ){
+				voroi84 += fade84 * voronoi84( coords84, time84, id84, uv84, 0,voronoiSmoothId84 );
+				rest84 += fade84;
+				coords84 *= 2;
+				fade84 *= 0.5;
+				}//Voronoi84
+				voroi84 /= rest84;
+				float temp_output_103_0 = ( 1.0 - _Tickness );
+				float temp_output_1_0_g1 = ( temp_output_103_0 - _Fade );
+				float4 lerpResult137 = lerp( ( CastLaser120 * _LaserColor ) , ( pow( ( ( ( 1.0 - abs( (-1.0 + (( texCoord132.y + ( simplePerlin2D88 * _Nosie_Intencity ) + ( (0.0 + (voroi84 - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) * _Voronoi_Intensity ) ) - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) - temp_output_1_0_g1 ) / ( temp_output_103_0 - temp_output_1_0_g1 ) ) , exp2( _Power ) ) * 1.0 * _LaserColor ) , _LaserCastValue);
 				
-				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = lerpResult137;
 
 				half4 outColor = half4(_ObjectId, _PassValue, 1.0, 1.0);
 				return outColor;
@@ -591,10 +739,14 @@ Shader "LaserShader"
 
 			CBUFFER_START( UnityPerMaterial )
 			float4 _LaserColor;
-			float2 _LaserSpeed;
-			float _LaserSize;
-			float _LaserPower;
-			float _LaserIntensity;
+			float _Power2;
+			float _PixelateValue;
+			float _Nosie_Intencity;
+			float _Voronoi_Intensity;
+			float _Tickness;
+			float _Fade;
+			float _Power;
+			float _LaserCastValue;
 			CBUFFER_END
 
 
@@ -616,14 +768,42 @@ Shader "LaserShader"
 
             float4 _SelectionID;
 
-					float2 voronoihash38( float2 p )
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
+					float2 voronoihash84( float2 p )
 					{
 						
 						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
 						return frac( sin( p ) *43758.5453);
 					}
 			
-					float voronoi38( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					float voronoi84( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 					{
 						float2 n = floor( v );
 						float2 f = frac( v );
@@ -634,7 +814,7 @@ Shader "LaserShader"
 							for ( int i = -1; i <= 1; i++ )
 						 	{
 						 		float2 g = float2( i, j );
-						 		float2 o = voronoihash38( n + g );
+						 		float2 o = voronoihash84( n + g );
 								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 								float d = 0.5 * dot( r, r );
 						 		if( d<F1 ) {
@@ -657,7 +837,10 @@ Shader "LaserShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -679,18 +862,33 @@ Shader "LaserShader"
 
 			half4 frag(VertexOutput IN ) : SV_TARGET
 			{
-				float time38 = 2.0;
-				float2 voronoiSmoothId38 = 0;
-				float4 texCoord63 = IN.ase_texcoord;
-				texCoord63.xy = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float4 Pixelate76 = ( floor( ( texCoord63 * 5.0 ) ) / 5.0 );
-				float2 panner56 = ( ( _TimeParameters.x ) * _LaserSpeed + Pixelate76.xy);
-				float2 coords38 = panner56 * _LaserSize;
-				float2 id38 = 0;
-				float2 uv38 = 0;
-				float voroi38 = voronoi38( coords38, time38, id38, uv38, 0, voronoiSmoothId38 );
+				float2 texCoord132 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float CastLaser120 = pow( ( 1.0 - abs( (-1.0 + (texCoord132.y - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) , exp2( _Power2 ) );
+				float2 texCoord126 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 Pixel131 = ( floor( ( texCoord126 * _PixelateValue ) ) / _PixelateValue );
+				float2 panner81 = ( 1.0 * _Time.y * float2( -0.3,0.5 ) + Pixel131);
+				float simplePerlin2D88 = snoise( panner81*4.0 );
+				float time84 = 0.0;
+				float2 voronoiSmoothId84 = 0;
+				float2 panner83 = ( 1.0 * _Time.y * float2( 0.3,0.5 ) + Pixel131);
+				float2 coords84 = panner83 * 4.5;
+				float2 id84 = 0;
+				float2 uv84 = 0;
+				float fade84 = 0.5;
+				float voroi84 = 0;
+				float rest84 = 0;
+				for( int it84 = 0; it84 <2; it84++ ){
+				voroi84 += fade84 * voronoi84( coords84, time84, id84, uv84, 0,voronoiSmoothId84 );
+				rest84 += fade84;
+				coords84 *= 2;
+				fade84 *= 0.5;
+				}//Voronoi84
+				voroi84 /= rest84;
+				float temp_output_103_0 = ( 1.0 - _Tickness );
+				float temp_output_1_0_g1 = ( temp_output_103_0 - _Fade );
+				float4 lerpResult137 = lerp( ( CastLaser120 * _LaserColor ) , ( pow( ( ( ( 1.0 - abs( (-1.0 + (( texCoord132.y + ( simplePerlin2D88 * _Nosie_Intencity ) + ( (0.0 + (voroi84 - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) * _Voronoi_Intensity ) ) - 0.0) * (1.0 - -1.0) / (1.0 - 0.0)) ) ) - temp_output_1_0_g1 ) / ( temp_output_103_0 - temp_output_1_0_g1 ) ) , exp2( _Power ) ) * 1.0 * _LaserColor ) , _LaserCastValue);
 				
-				float4 Color = ( (0.05 + (( voroi38 * pow( ( 1.0 - ( pow( ( 1.0 - texCoord63.y ) , _LaserPower ) + pow( texCoord63.y , _LaserPower ) ) ) , _LaserIntensity ) ) - 0.0) * (1.0 - 0.05) / (1.0 - 0.0)) * _LaserColor );
+				float4 Color = lerpResult137;
 				half4 outColor = _SelectionID;
 				return outColor;
 			}
@@ -708,61 +906,100 @@ Version=19105
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit Forward;0;1;Sprite Unlit Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;ASEMaterialInspector;0;15;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;ScenePickingPass;0;3;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.VoronoiNode;38;-210.3965,-1293.037;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
-Node;AmplifyShaderEditor.PannerNode;56;-533.3732,-1499.119;Inherit;True;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TimeNode;62;-818.3732,-1304.119;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.Vector2Node;54;-836.3732,-1478.119;Inherit;False;Property;_LaserSpeed;LaserSpeed;3;0;Create;True;0;0;0;False;0;False;100,0;-0.1,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;40;-385.0748,-1196.144;Inherit;False;Property;_LaserSize;LaserSize;4;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;39;-385.1748,-1269.444;Inherit;False;Constant;_Float0;Float 0;6;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;102.538,-1164.775;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;28;-1087.295,-977.8268;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;29;-870.2959,-1091.826;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;31;-615.2959,-1026.827;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;27;-858.2959,-819.8268;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;3.04;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;37;-401.3825,-1027.035;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;66;-1363.486,-926.5388;Inherit;True;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.TextureCoordinatesNode;63;-1862.34,-929.6649;Inherit;False;0;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;70;-1579.166,-727.2666;Inherit;True;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.FloorOpNode;72;-1301.166,-693.2666;Inherit;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.GetLocalVarNode;79;-548.782,-1653.017;Inherit;False;76;Pixelate;1;0;OBJECT;;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.PowerNode;33;-171.4458,-1014.594;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;9.04;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;34;-403.8441,-922.512;Inherit;False;Property;_LaserIntensity;LaserIntensity;2;0;Create;True;0;0;0;False;0;False;20;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;73;-1134.084,-490.0958;Inherit;True;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;76;-812.5206,-484.1739;Inherit;True;Pixelate;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RangedFloatNode;71;-1597.615,-399.7406;Inherit;False;Constant;_Float1;Float 1;5;0;Create;True;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;1323.249,-1219.056;Float;False;True;-1;2;ASEMaterialInspector;0;15;LaserShader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;830.4203,-1208.81;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;35;434.1167,-1047.136;Inherit;False;Property;_LaserColor;LaserColor;1;0;Create;True;0;0;0;False;0;False;1,0,0,1;1,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TFHCRemapNode;68;376.1353,-1309.948;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0.05;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;30;-1091.51,-799.871;Inherit;False;Property;_LaserPower;LaserPower;0;0;Create;True;0;0;0;False;0;False;4.857852;10;0;0;0;1;FLOAT;0
-WireConnection;38;0;56;0
-WireConnection;38;1;39;0
-WireConnection;38;2;40;0
-WireConnection;56;0;79;0
-WireConnection;56;2;54;0
-WireConnection;56;1;62;2
-WireConnection;42;0;38;0
-WireConnection;42;1;33;0
-WireConnection;28;0;66;1
-WireConnection;29;0;28;0
-WireConnection;29;1;30;0
-WireConnection;31;0;29;0
-WireConnection;31;1;27;0
-WireConnection;27;0;66;1
-WireConnection;27;1;30;0
-WireConnection;37;0;31;0
-WireConnection;66;0;63;0
-WireConnection;70;0;63;0
-WireConnection;70;1;71;0
-WireConnection;72;0;70;0
-WireConnection;33;0;37;0
-WireConnection;33;1;34;0
-WireConnection;73;0;72;0
-WireConnection;73;1;71;0
-WireConnection;76;0;73;0
-WireConnection;0;1;36;0
-WireConnection;36;0;68;0
-WireConnection;36;1;35;0
-WireConnection;68;0;42;0
+Node;AmplifyShaderEditor.TFHCRemapNode;85;-653.496,374.2396;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;82;-1518.25,362.8649;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;80;-1414.378,51.85714;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;86;-223.9097,355.9204;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PannerNode;81;-1085.784,63.67952;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.3,0.5;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.AbsOpNode;114;-575.2785,-943.905;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;113;-859.0386,-940.3807;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-1;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;115;-390.2067,-932.4617;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;107;1355.584,-574.959;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Exp2OpNode;118;92.68244,-1040.501;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;119;-196.0517,-945.7889;Inherit;False;Property;_Power2;Power2;7;0;Create;True;0;0;0;False;0;False;2.470588;4.421712;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;117;252.0304,-1323.757;Inherit;True;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;2489.653,-531.7992;Float;False;True;-1;2;ASEMaterialInspector;0;15;LaserShader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;104;590.0237,-778.2153;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;87;-412.2834,573.5989;Inherit;False;Property;_Voronoi_Intensity;Voronoi_Intensity;1;0;Create;True;0;0;0;False;0;False;0.15;0.15;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;99;-1319.345,-199.4985;Inherit;False;131;Pixel;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;100;-1334.801,231.8995;Inherit;False;131;Pixel;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;120;582.0488,-1240.135;Inherit;False;CastLaser;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;131;-1852.928,-385.0985;Inherit;False;Pixel;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;127;-2613.297,-625.329;Inherit;True;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.FloorOpNode;129;-2335.296,-615.329;Inherit;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;130;-2189.084,-422.1338;Inherit;True;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;128;-2820.19,-346.2292;Inherit;False;Property;_PixelateValue;PixelateValue;4;0;Create;True;0;0;0;False;0;False;0;20;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Exp2OpNode;108;1248.997,-211.0968;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;98;710.3076,-97.47182;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;101;-184.5046,-624.6595;Inherit;True;Property;_Tickness;Tickness;5;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;103;120.704,-597.8228;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;102;326.2427,-364.3353;Inherit;False;Property;_Fade;Fade;3;0;Create;True;0;0;0;False;0;False;0.1345602;0.5;0;0.5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.PannerNode;83;-1233.396,370.4012;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0.3,0.5;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.VoronoiNode;84;-982.2205,374.2519;Inherit;True;0;0;1;0;2;False;100;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;4.5;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.NoiseGeneratorNode;88;-801.147,65.40003;Inherit;True;Simplex2D;False;False;2;0;FLOAT2;0,0;False;1;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;90;-376.9155,63.21188;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;126;-2926.446,-655.1927;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;132;-1265.445,-447.5522;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;106;975.3154,-189.3514;Inherit;False;Property;_Power;Power;6;0;Create;True;0;0;0;False;0;False;2.470588;0;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;109;1748.847,-573.7324;Inherit;True;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;35;1517.194,-793.4528;Inherit;False;Property;_LaserColor;LaserColor;0;1;[HDR];Create;True;0;0;0;False;0;False;1,0,0,1;1,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;124;1979.781,-850.6949;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;121;1737.336,-894.1899;Inherit;False;120;CastLaser;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;137;2213.853,-479.5844;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;123;1885.553,-189.7063;Inherit;False;Property;_LaserCastValue;LaserCastValue;8;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;110;1578.909,-492.7138;Inherit;False;Constant;_Float3;Float 3;5;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;89;-568.5952,199.9112;Inherit;False;Property;_Nosie_Intencity;Nosie_Intencity;2;0;Create;True;0;0;0;False;0;False;0.05;0.05;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.AbsOpNode;96;497.699,-97.17716;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;95;182.875,-101.5597;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-1;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;94;-92.21787,-100.8608;Inherit;True;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RelayNode;112;-1118.742,-664.3909;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;105;860.8188,-456.0287;Inherit;True;Inverse Lerp;-1;;1;09cbe79402f023141a4dc1fddd4c9511;0;3;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT;0
+WireConnection;85;0;84;0
+WireConnection;86;0;85;0
+WireConnection;86;1;87;0
+WireConnection;81;0;99;0
+WireConnection;114;0;113;0
+WireConnection;113;0;112;0
+WireConnection;115;0;114;0
+WireConnection;107;0;105;0
+WireConnection;107;1;108;0
+WireConnection;118;0;119;0
+WireConnection;117;0;115;0
+WireConnection;117;1;118;0
+WireConnection;0;1;137;0
+WireConnection;104;0;103;0
+WireConnection;104;1;102;0
+WireConnection;120;0;117;0
+WireConnection;131;0;130;0
+WireConnection;127;0;126;0
+WireConnection;127;1;128;0
+WireConnection;129;0;127;0
+WireConnection;130;0;129;0
+WireConnection;130;1;128;0
+WireConnection;108;0;106;0
+WireConnection;98;0;96;0
+WireConnection;103;0;101;0
+WireConnection;83;0;100;0
+WireConnection;84;0;83;0
+WireConnection;88;0;81;0
+WireConnection;90;0;88;0
+WireConnection;90;1;89;0
+WireConnection;109;0;107;0
+WireConnection;109;1;110;0
+WireConnection;109;2;35;0
+WireConnection;124;0;121;0
+WireConnection;124;1;35;0
+WireConnection;137;0;124;0
+WireConnection;137;1;109;0
+WireConnection;137;2;123;0
+WireConnection;96;0;95;0
+WireConnection;95;0;94;0
+WireConnection;94;0;112;0
+WireConnection;94;1;90;0
+WireConnection;94;2;86;0
+WireConnection;112;0;132;2
+WireConnection;105;1;104;0
+WireConnection;105;2;103;0
+WireConnection;105;3;98;0
 ASEEND*/
-//CHKSM=918D9D5437245E1ABBA775247D64F3F601657167
+//CHKSM=1E692A60814CB4B51F6065C74531E672083B4FE7

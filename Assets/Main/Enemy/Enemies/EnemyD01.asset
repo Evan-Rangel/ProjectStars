@@ -20,5 +20,5 @@ MonoBehaviour:
   enemyAttackData:
   - {fileID: 11400000, guid: c6ea613e7103a284386d403725563010, type: 2}
   enemyMovementData:
-  - {fileID: 11400000, guid: 285ff8c8eabd04f4cbc91ff481594101, type: 2}
+  - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}
   color: {r: 1, g: 0, b: 0, a: 1}

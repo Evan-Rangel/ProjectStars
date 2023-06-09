@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.56078434, b: 0.5834338, a: 1}
+      maxColor: {r: 0.63403344, g: 0.92405844, b: 0.9811321, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9694,7 +9694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1592002357
 Transform:
   m_ObjectHideFlags: 0
@@ -14758,7 +14758,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.56078434, b: 0.5834338, a: 1}
+      maxColor: {r: 0.63403344, g: 0.92405844, b: 0.9811321, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19391,7 +19391,7 @@ Transform:
   - {fileID: 903458492}
   - {fileID: 1592002357}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &3778948947573968653
 LineRenderer:
@@ -19445,8 +19445,17 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.5398336
-        value: 0.23333801
+        time: 0.091569774
+        value: 0.537037
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5412999
+        value: 0.517299
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -19509,8 +19518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserRenderer: {fileID: 3778948947573968653}
-  currentLaserPower: 1.1
-  rend: {fileID: 0}
-  laserCastDuration: 0
+  laserCastValue: 0
+  rend: {fileID: 3778948947573968653}
+  laserCastSpeed: 0
   startParticles: {fileID: 903458491}
   endParticles: {fileID: 1592002356}

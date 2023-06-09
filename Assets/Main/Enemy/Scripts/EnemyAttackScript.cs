@@ -70,7 +70,7 @@ public class EnemyAttackScript : MonoBehaviour
                         {
                             GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, transform);
                             lasers.Add(_laser);
-                            _laser.GetComponent<LaserController>().CastLaserFunc(attackData[currentShotPattern].GetLaserCastDuration);
+                            _laser.GetComponent<LaserController>().CastLaserFunc(attackData[currentShotPattern].GetLaserCastSpeed);
                         }
                         Laser(anglesum);
 
@@ -90,11 +90,10 @@ public class EnemyAttackScript : MonoBehaviour
                         {
                             GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, transform);
                             lasers.Add(_laser);
-                            _laser.GetComponent<LaserController>().SwtichLaserFunc(attackData[currentShotPattern].GetLaserOffDuration, attackData[currentShotPattern].GetLaserOnDuration, attackData[currentShotPattern].GetLaserCastDuration);
+                            _laser.GetComponent<LaserController>().SwtichLaserFunc(attackData[currentShotPattern].GetLaserOffDuration, attackData[currentShotPattern].GetLaserOnDuration, attackData[currentShotPattern].GetLaserCastSpeed);
                             
-
                         }
-
+                        Laser(anglesum);
                         break;
                     case EnemyAttackData.LaserType.CUSTOM:
                         break;
@@ -118,11 +117,11 @@ public class EnemyAttackScript : MonoBehaviour
             Vector2 projectileMoveDirection = GenerateRotation(angle, 1, startPoint).normalized;
             RaycastHit2D hit= Physics2D.Raycast(transform.position, projectileMoveDirection);
             
-            if (hit.collider!=null && hit.distance<5 )
+            if (hit.collider!=null && hit.distance<attackData[currentShotPattern].GetLaserDistance )
             {
-                if (hit.transform.CompareTag("Player"))
+                if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
                 {
-
+                    Debug.Log("Damage to player");
                 }
                 rayDistance = hit.distance;
                 isHit = true;
@@ -130,7 +129,7 @@ public class EnemyAttackScript : MonoBehaviour
             else
             {
                 isHit = false;
-                rayDistance = 5;
+                rayDistance = attackData[currentShotPattern].GetLaserDistance;
             }
             lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
 

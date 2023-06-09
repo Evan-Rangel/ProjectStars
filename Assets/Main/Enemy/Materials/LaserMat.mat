@@ -63,17 +63,27 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _EnableExternalAlpha: 0
+    - _Fade: 0.25
     - _Float0: 0.001
+    - _Float2: 0.05
+    - _LaserCastValue: 0
     - _LaserIntensity: 5
     - _LaserPower: 10
     - _LaserSize: 5
+    - _Nosie_Intencity: 0.05
+    - _PixelScale: 6
+    - _PixelateValue: 20
+    - _Power: 0
+    - _Power2: 6
+    - _Tickness: 0.1
     - _Velocity: 0
+    - _Voronoi_Intensity: 0.15
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0, g: 0.08247185, b: 1, a: 1}
+    - _Color0: {r: 0.4026344, g: 0.9811321, b: 0.76621467, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _LaserColor: {r: 1, g: 0, b: 0, a: 1}
+    - _LaserColor: {r: 0.23487425, g: 0, b: 1, a: 1}
     - _LaserSpeed: {r: -0.1, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
