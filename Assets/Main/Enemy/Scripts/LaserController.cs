@@ -67,12 +67,26 @@ public class LaserController : MonoBehaviour
         CastLaserFunc();
 
     }
+    public void LaserRandomFunc(float _timeOn, float _timeOff, float _laserCastSpeed)
+    {
+        StartCoroutine(LaserRandomCorr(_timeOn));
+        StartCoroutine(LaserRandomTimeOff(_timeOff, _laserCastSpeed));
+    }
+    IEnumerator LaserRandomCorr(float _timeOn)
+    {
+        yield return new WaitForSeconds(_timeOn);
+        gameObject.SetActive(false);
+    }
+    IEnumerator LaserRandomTimeOff(float _timeOff, float _laserCastSpeed)
+    {
+        yield return new WaitForSeconds(_timeOff);
+        CastLaserFunc(_laserCastSpeed);
+    }
 
     public void SwtichLaserFunc(float _offDuration, float _onDuration, float _castSpeed)
     {
         StartCoroutine(SwitchLaserCorr(_offDuration, _onDuration, _castSpeed));
     }
-
 
 
     IEnumerator SwitchLaserCorr(float _offduration, float _onDuration, float _castSpeed)

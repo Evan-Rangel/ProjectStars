@@ -51,6 +51,9 @@ public class EnemyAttackData : ScriptableObject
     [SerializeField, HideInInspector] bool showLaserDirections;
     [SerializeField, HideInInspector] bool withRotation= false;
     [SerializeField, HideInInspector] float laserDistance;
+    [SerializeField, HideInInspector] float laserRandomTime;
+    [SerializeField, HideInInspector] float laserRandomOnTime;
+
 
 
 
@@ -67,6 +70,9 @@ public class EnemyAttackData : ScriptableObject
     public LaserType GetLaserType { get { return laserType; } }
     public List<float> GetLaserAngles { get { return laserAngles; } }
     public float GetLaserDistance { get { return laserDistance; } }
+    public float GetLaserRandomTime { get { return laserRandomTime; }   }
+    public float GetLaserRandomOnTime { get { return laserRandomOnTime; } }
+
 
 
     //For bullet attack type
@@ -197,21 +203,26 @@ public class EnemyAttackData : ScriptableObject
 
                     enemyAttackData.laserType = ((LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250)));
 
-
+                    
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Laser Max Distance: ", GUILayout.MaxWidth(labelSize));
                     enemyAttackData.laserDistance = EditorGUILayout.FloatField(enemyAttackData.laserDistance, GUILayout.MaxWidth(valueSize));
                     GUILayout.EndHorizontal();
 
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Total Lasers: ", GUILayout.MaxWidth(labelSize));
-                    enemyAttackData.laserPerWave = EditorGUILayout.IntField(enemyAttackData.laserPerWave, GUILayout.MaxWidth(valueSize));
-                    GUILayout.EndHorizontal();
 
-                    GUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Laser Angle Init: ", GUILayout.MaxWidth(labelSize));
-                    enemyAttackData.laserAngleInit = EditorGUILayout.FloatField(enemyAttackData.laserAngleInit, GUILayout.MaxWidth(valueSize));
-                    GUILayout.EndHorizontal();
+                    if (enemyAttackData.laserType!=LaserType.RANDOM)
+                    {
+                        GUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Total Lasers: ", GUILayout.MaxWidth(labelSize));
+                        enemyAttackData.laserPerWave = EditorGUILayout.IntField(enemyAttackData.laserPerWave, GUILayout.MaxWidth(valueSize));
+                        GUILayout.EndHorizontal();
+
+
+                        GUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Laser Angle Init: ", GUILayout.MaxWidth(labelSize));
+                        enemyAttackData.laserAngleInit = EditorGUILayout.FloatField(enemyAttackData.laserAngleInit, GUILayout.MaxWidth(valueSize));
+                        GUILayout.EndHorizontal();
+                    }
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Laser Cast Speed: ", GUILayout.MaxWidth(labelSize));
                     enemyAttackData.laserCastSpeed = EditorGUILayout.FloatField(enemyAttackData.laserCastSpeed, GUILayout.MaxWidth(valueSize));
@@ -238,7 +249,7 @@ public class EnemyAttackData : ScriptableObject
                             enemyAttackData.laserOnDuration = EditorGUILayout.FloatField(enemyAttackData.laserOnDuration, GUILayout.MaxWidth(valueSize));
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField("Laser Of Duration: ", GUILayout.MaxWidth(labelSize));
+                            EditorGUILayout.LabelField("Laser Off Duration: ", GUILayout.MaxWidth(labelSize));
                             enemyAttackData.laserOffDuration = EditorGUILayout.FloatField(enemyAttackData.laserOffDuration, GUILayout.MaxWidth(valueSize));
                             GUILayout.EndHorizontal();
 
@@ -250,31 +261,25 @@ public class EnemyAttackData : ScriptableObject
                           
                             break;
                         case LaserType.CUSTOM:
+
                             GUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField("Laser Cast Duration: ", GUILayout.MaxWidth(labelSize));
-                            enemyAttackData.laserCastSpeed = EditorGUILayout.FloatField(enemyAttackData.laserCastSpeed, GUILayout.MaxWidth(valueSize));
-                            GUILayout.EndHorizontal();
-                    
-                            GUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField("Laser Angle Sum: ", GUILayout.MaxWidth(labelSize));
-                            enemyAttackData.laserAngleSum = EditorGUILayout.FloatField(enemyAttackData.laserAngleSum, GUILayout.MaxWidth(valueSize));
+                            EditorGUILayout.LabelField("Laser Speed Rotation: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserSpeedRotation = EditorGUILayout.FloatField(enemyAttackData.laserSpeedRotation, GUILayout.MaxWidth(valueSize));
                             GUILayout.EndHorizontal();
                             EditorGUILayout.Space();
+
+                            while (enemyAttackData.laserAngles.Count<enemyAttackData.laserPerWave)
+                            {
+                                enemyAttackData.laserAngles.Add(0);
+                            }
+                            while (enemyAttackData.laserAngles.Count > enemyAttackData.laserPerWave)
+                            {
+                                enemyAttackData.laserAngles.RemoveAt(enemyAttackData.laserAngles.Count-1);
+                            }
 
                             enemyAttackData.showLaserDirections = EditorGUILayout.Foldout(enemyAttackData.showLaserDirections,"Laser Directions",true);
                             if (enemyAttackData.showLaserDirections)
                             {
-                                GUILayout.BeginHorizontal();
-                                if (GUILayout.Button("New Laser Angle Direction", GUILayout.MaxWidth(250)))
-                                {
-                                    enemyAttackData.NewLaserDirection();
-                                }
-
-                                if (GUILayout.Button("Delete all Laser", GUILayout.MaxWidth(250)))
-                                {
-                                    enemyAttackData.DeleteLaser();
-                                }
-                                GUILayout.EndHorizontal();
                                 for (int i = 0; i < enemyAttackData.laserAngles.Count; i++)
                                 {
                                     EditorGUILayout.BeginHorizontal();
@@ -287,10 +292,19 @@ public class EnemyAttackData : ScriptableObject
                             }
                             break;
                         case LaserType.RANDOM:
-                            EditorGUILayout.LabelField("Laser Angle: ");
-                            enemyAttackData.laserAngleInit = EditorGUILayout.FloatField(enemyAttackData.laserAngleInit);
-                            EditorGUILayout.LabelField("Laser Distance: ");
 
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Random Time: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserRandomTime = EditorGUILayout.FloatField(enemyAttackData.laserRandomTime, GUILayout.MaxWidth(valueSize));
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Laser On Time: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserRandomOnTime = EditorGUILayout.FloatField(enemyAttackData.laserRandomOnTime, GUILayout.MaxWidth(valueSize));
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Laser Off Duration: ", GUILayout.MaxWidth(labelSize));
+                            enemyAttackData.laserOffDuration = EditorGUILayout.FloatField(enemyAttackData.laserOffDuration, GUILayout.MaxWidth(valueSize));
+                            GUILayout.EndHorizontal();
                             break;
                     }
                     break;

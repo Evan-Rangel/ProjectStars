@@ -13,18 +13,25 @@ MonoBehaviour:
   m_Name: Enemy03AD
   m_EditorClassIdentifier: 
   attackType: 2
-  laserOffDuration: 1.5
+  laserOffDuration: 1
   laserAngleInit: 180
   laserCastSpeed: 15
-  laserSpeedRotation: -30
+  laserSpeedRotation: -20
   laserAngleSum: 0
   laserPerWave: 5
   laserDamage: 0
-  laserType: 2
-  laserAngles: []
-  showLaserDirections: 0
+  laserType: 4
+  laserAngles:
+  - 179
+  - 94
+  - 75
+  - 0
+  - 233
+  showLaserDirections: 1
   withRotation: 1
   laserDistance: 20
+  laserRandomTime: 0.6
+  laserRandomOnTime: 3
   projectilesPerWave: 0
   projectileAngleInit: 0
   projectileAngleSum: 0
