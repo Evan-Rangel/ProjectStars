@@ -63,10 +63,10 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _EnableExternalAlpha: 0
-    - _Fade: 0.25
+    - _Fade: 0.188
     - _Float0: 0.001
     - _Float2: 0.05
-    - _LaserCastValue: 0
+    - _LaserCastValue: 1
     - _LaserIntensity: 5
     - _LaserPower: 10
     - _LaserSize: 5
@@ -74,8 +74,8 @@ Material:
     - _PixelScale: 6
     - _PixelateValue: 20
     - _Power: 0
-    - _Power2: 6
-    - _Tickness: 0.1
+    - _Power2: 3.35
+    - _Tickness: 0.112
     - _Velocity: 0
     - _Voronoi_Intensity: 0.15
     m_Colors:

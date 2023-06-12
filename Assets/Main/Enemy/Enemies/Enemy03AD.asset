@@ -16,21 +16,20 @@ MonoBehaviour:
   laserOffDuration: 1
   laserAngleInit: 180
   laserCastSpeed: 15
-  laserSpeedRotation: -20
+  laserSpeedRotation: 0
   laserAngleSum: 0
-  laserPerWave: 5
+  laserPerWave: 4
   laserDamage: 0
   laserType: 4
   laserAngles:
-  - 179
-  - 94
-  - 75
+  - 268
+  - 21
+  - 93
   - 0
-  - 233
   showLaserDirections: 1
   withRotation: 1
   laserDistance: 20
-  laserRandomTime: 0.6
+  laserRandomTime: 0.3
   laserRandomOnTime: 3
   projectilesPerWave: 0
   projectileAngleInit: 0
