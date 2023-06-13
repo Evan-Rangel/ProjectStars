@@ -1273,7 +1273,6 @@ MonoBehaviour:
   waves:
   - enemyD:
     - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
-    - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
     image: {fileID: 2800000, guid: a4703daf5cafb904eb141d3855c4565b, type: 3}
   enemiesData:
   - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
