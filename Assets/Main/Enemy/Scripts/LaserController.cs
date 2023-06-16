@@ -11,6 +11,9 @@ public class LaserController : MonoBehaviour
     [SerializeField] float laserCastSpeed;
     [SerializeField] GameObject startParticles, endParticles;
     bool canDamage = false;
+    bool canFollowPlayer;
+    Vector2 targetPos;
+    public bool GetCanFollowPlayer { get { return canFollowPlayer; } }
     public float SetLaserCastDuration { set { laserCastSpeed = value; } }
     public float SetMaxLaserPower { set { maxLaserPower = value; } }
     public bool GetCanDamage { get { return canDamage; } }
@@ -39,7 +42,7 @@ public class LaserController : MonoBehaviour
             canDamage = true;
         }
     }
-    public void LaserRaycast(Vector2 _targetPosition, Vector2 _currentPosition, bool _isHit)
+    public void LaserRaycast(Vector2 _targetPosition, bool _isHit)
     {
         laserRenderer.SetPosition(0, Vector2.zero);
         //startParticles.transform.position = _currentPosition;
@@ -58,7 +61,33 @@ public class LaserController : MonoBehaviour
             endParticles.SetActive(false);
         }
     }
-  
+    //Follow Player functions
+    public Vector2 FPRaycastDirection(Vector2 _playerPos)
+    {
+        
+        if (canFollowPlayer)
+        {
+            targetPos = _playerPos;
+        }
+        //Debug.Log(canFollowPlayer);
+        return targetPos;
+    }
+    public void StartFPCorr(float _OffTime, float _onTime, float _castSpeed)
+    {
+        StartCoroutine(LaserRandomCorr(_onTime));
+        StartCoroutine(FPCorr(_OffTime));
+        StartCoroutine(LaserRandomTimeOff(_OffTime, _castSpeed));
+
+
+    }
+    IEnumerator FPCorr(float _OffTime)
+    {
+
+        canFollowPlayer = true;
+        yield return new WaitForSeconds(_OffTime-0.4f);
+        canFollowPlayer = false;
+    }
+    
     IEnumerator CastLaser()
     {
         yield return new WaitForEndOfFrame();

@@ -29,7 +29,7 @@ MonoBehaviour:
   showLaserDirections: 1
   withRotation: 1
   laserDistance: 20
-  laserRandomTime: 0.6
+  laserRandomTime: 2
   laserRandomOnTime: 3
   projectilesPerWave: 29
   projectileAngleInit: 0
@@ -40,4 +40,4 @@ MonoBehaviour:
   projectileRotation: 0
   projectileTimeRot: 0
   angleToShot: 351
-  anlgesSteps: 1
+  anglesSteps: 0

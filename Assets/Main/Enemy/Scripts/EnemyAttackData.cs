@@ -86,7 +86,7 @@ public class EnemyAttackData : ScriptableObject
     [SerializeField, HideInInspector] float projectileRotation;
     [SerializeField, HideInInspector] float projectileTimeRot;
     [SerializeField, HideInInspector] int  angleToShot;
-    [SerializeField, HideInInspector] int anlgesSteps;
+    [SerializeField, HideInInspector] int anglesSteps;
 
 
     public int GetProjectilesPerWave { get { return projectilesPerWave; } }
@@ -97,7 +97,7 @@ public class EnemyAttackData : ScriptableObject
     public float GetProjectileRotation { get { return projectileRotation; } }
     public float GetProjectileTimeRot { get { return projectileTimeRot; } }
     public int GetAngleToShot { get { return angleToShot; } }
-    public int GetAnglesSteps { get { return anlgesSteps; } }
+    public int GetAnglesSteps { get { return anglesSteps; } }
 
 
     void NewLaserDirection()
@@ -196,7 +196,7 @@ public class EnemyAttackData : ScriptableObject
                     GUILayout.EndHorizontal();
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Projectile Angle Stepst: ", GUILayout.MaxWidth(labelSize));
-                    enemyAttackData.anlgesSteps = EditorGUILayout.IntSlider(enemyAttackData.anlgesSteps, 0, 10, GUILayout.MaxWidth(valueSize));
+                    enemyAttackData.anglesSteps = EditorGUILayout.IntSlider(enemyAttackData.anglesSteps, 0, 10, GUILayout.MaxWidth(valueSize));
                     GUILayout.EndHorizontal();
 
                     break;

@@ -112,9 +112,8 @@ public class EnemyAttackScript : MonoBehaviour
                         LaserRandom();
                         break;
                     case EnemyAttackData.LaserType.CAST_TO_PLAYER:
-                        laserAngles = new List<float>();
                         LaserCastToPlayer();
-                        LaserRandom();
+                        StartCoroutine( LaserToPlayer());
                         break;
 
                 }
@@ -124,20 +123,46 @@ public class EnemyAttackScript : MonoBehaviour
 
     void LaserCastToPlayer()
     {
-        Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-        float angle = Vector2.Angle(transform.position, (Vector2)transform.position + playerPos);
-        Debug.Log(angle);
-        laserAngles.Add(angle);
         GameObject _laser = Instantiate(laser, transform.position, Quaternion.identity, transform);
         lasers.Add(_laser);
-        _laser.GetComponent<LaserController>().LaserRandomFunc(attackData[currentShotPattern].GetLaserRandomOnTime, attackData[currentShotPattern].GetLaserOffDuration, attackData[currentShotPattern].GetLaserCastSpeed);
+        _laser.GetComponent<LaserController>().StartFPCorr(attackData[currentShotPattern].GetLaserOffDuration, attackData[currentShotPattern].GetLaserRandomOnTime, attackData[currentShotPattern].GetLaserCastSpeed);
         StartCoroutine(LaserCastToPlayerTimer());
     }
-    void AngleWithPlayer()
+    IEnumerator LaserToPlayer()
     {
-       // Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+        float rayDistance;
+        bool isHit = false;
+        Vector2 startPoint = transform.position;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Vector2 playerPos = ( (Vector2)player.transform.position- startPoint).normalized;
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            if (lasers[i].activeSelf)
+            {
+                Vector2 laserDirection = lasers[i].GetComponent<LaserController>().FPRaycastDirection(playerPos);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, laserDirection);
+                if (hit.collider != null && hit.distance < attackData[currentShotPattern].GetLaserDistance)
+                {
+                    if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
+                    {
+                        Debug.Log("Damage to player");
+                    }
+                    rayDistance = hit.distance;
+                    isHit = true;
+                }
+                else
+                {
+                    isHit = false;
+                    rayDistance = attackData[currentShotPattern].GetLaserDistance;
+                }
+                lasers[i].GetComponent<LaserController>().LaserRaycast(laserDirection * rayDistance, isHit);
 
+            }
+        }
+        yield return new WaitForEndOfFrame();
+        StartCoroutine(LaserToPlayer());
     }
+    
     IEnumerator LaserCastToPlayerTimer()
     {
         yield return new WaitForSeconds(attackData[currentShotPattern].GetLaserRandomTime);
@@ -146,7 +171,7 @@ public class EnemyAttackScript : MonoBehaviour
     void LaserRandom()
     {
         float rayDistance;
-        bool isHit = false;
+        bool isHit;
         Vector2 startPoint = transform.position;
 
         for (int i = 0; i < lasers.Count; i++)
@@ -171,7 +196,7 @@ public class EnemyAttackScript : MonoBehaviour
                     isHit = false;
                     rayDistance = attackData[currentShotPattern].GetLaserDistance;
                 }
-                lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
+                lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, isHit);
             }
         }
      
@@ -206,7 +231,7 @@ public class EnemyAttackScript : MonoBehaviour
     {
         Vector2 startPoint = transform.position;
         float rayDistance;
-        bool isHit = false;
+        bool isHit;
         float angle = _angleSum;
 
         for (int i = 0; i < lasers.Count; i++)
@@ -227,7 +252,7 @@ public class EnemyAttackScript : MonoBehaviour
                 isHit = false;
                 rayDistance = attackData[currentShotPattern].GetLaserDistance;
             }
-            lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
+            lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, isHit);
         }
         StartCoroutine(LaserCustomTimerRotation());
 
@@ -239,7 +264,7 @@ public class EnemyAttackScript : MonoBehaviour
         float angle = attackData[currentShotPattern].GetLaserAngleInit + _angleSum;
         Vector2 startPoint = transform.position;
         float rayDistance;
-        bool isHit = false;
+        bool isHit;
         
         for (int i = 0; i < lasers.Count; i++)
         {
@@ -260,7 +285,7 @@ public class EnemyAttackScript : MonoBehaviour
                 isHit = false;
                 rayDistance = attackData[currentShotPattern].GetLaserDistance;
             }
-            lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, startPoint, isHit);
+            lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, isHit);
 
 
            // Debug.DrawRay(startPoint,projectileMoveDirection*rayDistance, Color.green);
