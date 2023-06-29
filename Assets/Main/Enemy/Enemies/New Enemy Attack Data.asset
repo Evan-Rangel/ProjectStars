@@ -10,34 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 225feff27673e3a41b6b607e5cdb05a1, type: 3}
-  m_Name: Enemy03AD
+  m_Name: New Enemy Attack Data
   m_EditorClassIdentifier: 
   attackType: 1
-  laserOffDuration: 1
-  laserAngleInit: 180
-  laserCastSpeed: 15
-  laserSpeedRotation: 20
+  laserOffDuration: 0
+  laserAngleInit: 0
+  laserCastSpeed: 0
+  laserSpeedRotation: 0
   laserAngleSum: 0
-  laserPerWave: 8
+  laserPerWave: 0
   laserDamage: 0
-  laserType: 1
-  laserAngles:
-  - 268
-  - 21
-  - 93
-  - 0
-  showLaserDirections: 1
-  withRotation: 1
-  laserDistance: 20
-  laserRandomTime: 2
-  laserRandomOnTime: 3
-  projectilesPerWave: 8
+  laserType: 0
+  laserAngles: []
+  showLaserDirections: 0
+  withRotation: 0
+  laserDistance: 0
+  laserRandomTime: 0
+  laserRandomOnTime: 0
+  projectilesPerWave: 95
   projectileAngleInit: 0
-  projectileAngleSum: 170
-  projectileSpeed: 2.69
-  projectileCadence: 0.32
+  projectileAngleSum: 0
+  projectileSpeed: 0.01
+  projectileCadence: 0.001
   projectileDamage: 1
   projectileRotation: 0
   projectileTimeRot: 0
-  angleToShot: 360
-  anglesSteps: 1
+  angleToShot: 0
+  anglesSteps: 0
