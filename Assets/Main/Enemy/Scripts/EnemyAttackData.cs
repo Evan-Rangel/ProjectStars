@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
+using UnityEditor.SceneManagement;
 
 using UnityEditor;
 
@@ -326,10 +326,12 @@ public class EnemyAttackData : ScriptableObject
                     break;
             }
             EditorUtility.SetDirty(enemyAttackData);
+#if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
             }
+#endif
         }
     }
 

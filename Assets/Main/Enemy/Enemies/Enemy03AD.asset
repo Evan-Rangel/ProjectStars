@@ -20,7 +20,7 @@ MonoBehaviour:
   laserAngleSum: 0
   laserPerWave: 8
   laserDamage: 0
-  laserType: 1
+  laserType: 4
   laserAngles:
   - 268
   - 21
@@ -34,7 +34,7 @@ MonoBehaviour:
   projectilesPerWave: 2
   projectileAngleInit: 140
   projectileAngleSum: 0
-  projectileSpeed: 2.69
+  projectileSpeed: 4
   projectileCadence: 1.5
   projectileDamage: 1
   projectileRotation: 0

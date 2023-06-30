@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class W_UIPlayer : MonoBehaviour
 {
     private Player _player;
     [SerializeField] private Animator[] animators;
+    [SerializeField] GameObject panelLose;
 
     private void Start()
     {
+        panelLose.SetActive(false);
+
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         animators = GetComponentsInChildren<Animator>(); 
     }
@@ -56,6 +61,7 @@ public class W_UIPlayer : MonoBehaviour
             animators[2].SetBool("Vida3", false);
             animators[1].SetBool("Vida2", false);
             animators[0].SetBool("Vida1", false);
+            StartCoroutine(ActivarPanel());
         }
 
         //Botones
@@ -122,5 +128,16 @@ public class W_UIPlayer : MonoBehaviour
         {
             animators[10].SetBool("Damage3", false);
         }
+    }
+    IEnumerator ActivarPanel()
+    {
+        yield return new WaitForSeconds(1.5f);
+        panelLose.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("W_MainMenu");
     }
 }

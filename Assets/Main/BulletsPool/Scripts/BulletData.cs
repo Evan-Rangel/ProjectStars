@@ -16,14 +16,14 @@ public class BulletData : ScriptableObject
 
     [Tooltip("Este daño es unicamente para el Player")]
     [SerializeField] private int bulletDamagePlayer;//Cambia esto pa los enemigos Evansito uwu
-    [SerializeField] UnityEditor.Animations.AnimatorController animator;
+    [SerializeField] RuntimeAnimatorController animator;
     [SerializeField] private Sprite sprite;
 
     public string BulletName { get { return bulletName; } }
     public string Description { get { return description; } }
     public string TagName { get { return tagName; } }
     public int BulletDamagePlayer { get { return bulletDamagePlayer; } }
-    public UnityEditor.Animations.AnimatorController Animator { get { return animator; } }
+    public RuntimeAnimatorController Animator { get { return animator; } }
     public Sprite Sprite { get { return sprite; } }
 }
 
