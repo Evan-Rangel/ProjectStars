@@ -157,4 +157,8 @@ public class EnemyMovementScript : MonoBehaviour
             dir = Vector2.zero;
         }
     }
+    public void StopCorrutines()
+    {
+        StopAllCoroutines();
+    }
 }

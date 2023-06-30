@@ -270,7 +270,8 @@ public class WaveController : MonoBehaviour
         }
         else
         {
-            NextWave();
+            StartCoroutine(NextWave());
+
         }
     }
 
@@ -345,7 +346,7 @@ public class WaveController : MonoBehaviour
         if (waves[waveIndex].CheckEnemies() && waveIndex < waves.Count)
         {
             waveIndex++;
-            NextWave();
+            StartCoroutine(NextWave());
         }
         else if(waveIndex== waves.Count - 1)
         {
@@ -357,8 +358,9 @@ public class WaveController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         RandomizerLevel();
     }
-    void NextWave()
+    IEnumerator NextWave()
     {
+        yield return new WaitForSeconds(0.5f);
         if (waveIndex< waves.Count )
         {
             waves[waveIndex].ActivateEnemies();

@@ -29,6 +29,10 @@ public class EnemyAttackScript : MonoBehaviour
         attackData = _attackData;
         ResetValues();
     }
+    public void StopCorrutines()
+    {
+        StopAllCoroutines();
+    }
     public void StartAttack()
     {
         if (attackData.Count > 0)

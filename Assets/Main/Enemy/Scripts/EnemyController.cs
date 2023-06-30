@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] EnemyMovementScript movementScript;
     [SerializeField] int healt;
     [SerializeField] EnemyData enemyD;
+    [SerializeField] Animator animator; 
     BoxCollider2D coll;
     Rigidbody2D rb;
     private void Awake()
@@ -16,6 +17,8 @@ public class EnemyController : MonoBehaviour
         movementScript = GetComponent<EnemyMovementScript>();
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        //animator.runtimeAnimatorController = enemyD.NewController;
     }
     public Rigidbody2D GetRB { get { return rb; } }
     public void SetEnemyData(EnemyData _data)
@@ -23,6 +26,8 @@ public class EnemyController : MonoBehaviour
         enemyD = _data;
         attackScript.SetAttackData(enemyD.GetEnemyAttackData);
         movementScript.SetMovementData(enemyD.GetEnemyMovementData);
+        animator.runtimeAnimatorController = enemyD.NewController;
+
         coll.enabled = false;
     }
     public void ActiveComponents()
@@ -74,6 +79,8 @@ public class EnemyController : MonoBehaviour
         {
             attackScript.ResetValues();
             movementScript.ResetValues();
+            attackScript.StopAllCoroutines();
+            movementScript.StopAllCoroutines();
             gameObject.SetActive(false);
         }
     }

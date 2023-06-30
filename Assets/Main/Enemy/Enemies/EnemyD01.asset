@@ -22,3 +22,4 @@ MonoBehaviour:
   enemyMovementData:
   - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}
   color: {r: 1, g: 0, b: 0, a: 1}
+  newController: {fileID: 9100000, guid: 2fe18478c5dbc0e4e8bed0d45514ae84, type: 2}

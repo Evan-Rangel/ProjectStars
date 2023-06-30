@@ -2982,7 +2982,12 @@ MonoBehaviour:
   waves:
   - enemyD:
     - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
+    - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
     image: {fileID: 2800000, guid: bce29f3569bf3114aa3f8df3139a59fb, type: 3}
+  - enemyD:
+    - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
+    - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
+    image: {fileID: 2800000, guid: a4703daf5cafb904eb141d3855c4565b, type: 3}
   enemiesData:
   - {fileID: 11400000, guid: 936105ce506a8374186e4b07c523913d, type: 2}
   - {fileID: 11400000, guid: 838432d911e4bb54fbfd9a77f4ebc705, type: 2}
@@ -3629,6 +3634,7 @@ MonoBehaviour:
   movementScript: {fileID: 0}
   healt: 5
   enemyD: {fileID: 11400000, guid: f6435fd71da24994289e89d217eb3c10, type: 2}
+  animator: {fileID: 0}
 --- !u!114 &1179681955
 MonoBehaviour:
   m_ObjectHideFlags: 0
