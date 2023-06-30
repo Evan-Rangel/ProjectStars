@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225feff27673e3a41b6b607e5cdb05a1, type: 3}
   m_Name: Enemy03AD
   m_EditorClassIdentifier: 
-  attackType: 1
+  attackType: 2
   laserOffDuration: 1
   laserAngleInit: 180
   laserCastSpeed: 15
