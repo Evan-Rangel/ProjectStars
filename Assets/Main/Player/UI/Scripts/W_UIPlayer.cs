@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 
 public class W_UIPlayer : MonoBehaviour
 {
     private Player _player;
     [SerializeField] private Animator[] animators;
     [SerializeField] GameObject panelLose;
-
+    [SerializeField] TMP_Text puntajeText;
     private void Start()
     {
         panelLose.SetActive(false);
-
+        PlayerPrefs.SetInt("Puntaje", 0);
+        puntajeText.text = PlayerPrefs.GetInt("Puntaje").ToString();
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         animators = GetComponentsInChildren<Animator>(); 
     }
@@ -140,4 +141,5 @@ public class W_UIPlayer : MonoBehaviour
     {
         SceneManager.LoadScene("W_MainMenu");
     }
+
 }
