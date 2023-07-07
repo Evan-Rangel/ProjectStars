@@ -12,7 +12,7 @@ public class EnemyData : ScriptableObject
 
     public enum EnemyDifficult
     {
-        EASY=1,
+        EASY = 1,
         NORMAL,
         HARD,
     }
@@ -23,7 +23,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] int score;
     [SerializeField] bool hasShield;
     [SerializeField] EnemyDifficult enemyDifficult;
-    [SerializeField] List< EnemyAttackData> enemyAttackData;
+    [SerializeField] List<EnemyAttackData> enemyAttackData;
     [SerializeField] List<EnemyMovementData> enemyMovementData;
     [SerializeField] Color color;
     [SerializeField] RuntimeAnimatorController newController;
@@ -32,5 +32,7 @@ public class EnemyData : ScriptableObject
     public EnemyDifficult GetEnemyDifficulty { get { return enemyDifficult; } }
     public int GetHealth { get { return health; } }
     public Color GetColor { get { return color; } }
-    public RuntimeAnimatorController NewController { get { return newController; } }
+    public RuntimeAnimatorController NewController { get { return newController; } } 
+    public int GetScore { get { return score; } }
+    
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
   laserSpeedRotation: 20
   laserAngleSum: 0
   laserPerWave: 1
-  laserDamage: 0
+  laserDamage: 1
   laserType: 4
   laserAngles: []
   showLaserDirections: 0

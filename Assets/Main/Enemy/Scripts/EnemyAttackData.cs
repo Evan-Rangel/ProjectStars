@@ -204,7 +204,11 @@ public class EnemyAttackData : ScriptableObject
 
                     enemyAttackData.laserType = ((LaserType)EditorGUILayout.EnumPopup(enemyAttackData.laserType, GUILayout.MaxWidth(250)));
 
-                    
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Laser Damage: ", GUILayout.MaxWidth(labelSize));
+                    enemyAttackData.laserDamage = EditorGUILayout.IntField(enemyAttackData.laserDamage, GUILayout.MaxWidth(valueSize));
+                    GUILayout.EndHorizontal();
+
                     GUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Laser Max Distance: ", GUILayout.MaxWidth(labelSize));
                     enemyAttackData.laserDistance = EditorGUILayout.FloatField(enemyAttackData.laserDistance, GUILayout.MaxWidth(valueSize));

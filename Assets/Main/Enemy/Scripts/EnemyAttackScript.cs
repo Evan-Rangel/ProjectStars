@@ -149,6 +149,8 @@ public class EnemyAttackScript : MonoBehaviour
                 {
                     if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
                     {
+                        hit.transform.gameObject.GetComponent<Player>().RecibirDanio(attackData[currentShotPattern].GetLaserDamage);
+
                         Debug.Log("Damage to player");
                     }
                     rayDistance = hit.distance;
@@ -190,6 +192,7 @@ public class EnemyAttackScript : MonoBehaviour
                 {
                     if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
                     {
+                        hit.transform.gameObject.GetComponent<Player>().RecibirDanio(attackData[currentShotPattern].GetLaserDamage);
                         Debug.Log("Damage to player");
                     }
                     rayDistance = hit.distance;
@@ -246,6 +249,8 @@ public class EnemyAttackScript : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
                 {
+                    hit.transform.gameObject.GetComponent<Player>().RecibirDanio(attackData[currentShotPattern].GetLaserDamage);
+
                     Debug.Log("Damage to player");
                 }
                 rayDistance = hit.distance;
@@ -279,6 +284,8 @@ public class EnemyAttackScript : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
                 {
+                    hit.transform.gameObject.GetComponent<Player>().RecibirDanio(attackData[currentShotPattern].GetLaserDamage);
+
                     Debug.Log("Damage to player");
                 }
                 rayDistance = hit.distance;

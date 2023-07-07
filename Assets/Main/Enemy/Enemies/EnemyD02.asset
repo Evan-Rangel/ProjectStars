@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   nameE: 
-  score: 0
+  score: 200
   hasShield: 0
   enemyDifficult: 0
   enemyAttackData:

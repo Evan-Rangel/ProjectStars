@@ -77,6 +77,7 @@ public class EnemyController : MonoBehaviour
         healt -= _damage;
         if (healt<=0)
         {
+            GameObject.FindGameObjectWithTag("UIPlayer").GetComponent<W_UIPlayer>().SetScore(enemyD.GetScore);
             attackScript.ResetValues();
             movementScript.ResetValues();
             attackScript.StopAllCoroutines();

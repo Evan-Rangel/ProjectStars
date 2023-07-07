@@ -10,15 +10,22 @@ public class W_UIPlayer : MonoBehaviour
     [SerializeField] private Animator[] animators;
     [SerializeField] GameObject panelLose;
     [SerializeField] TMP_Text puntajeText;
+    [SerializeField] TMP_Text lastScoreText;
+
+    int score;
     private void Start()
     {
         panelLose.SetActive(false);
-        PlayerPrefs.SetInt("Puntaje", 0);
-        puntajeText.text = PlayerPrefs.GetInt("Puntaje").ToString();
+        score = 0;
+        puntajeText.text = score.ToString();
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         animators = GetComponentsInChildren<Animator>(); 
     }
-
+    public void SetScore(int _score)
+    {
+        score+=_score;
+        puntajeText.text = score.ToString();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -133,6 +140,7 @@ public class W_UIPlayer : MonoBehaviour
     IEnumerator ActivarPanel()
     {
         yield return new WaitForSeconds(1.5f);
+        lastScoreText.text = score.ToString();
         panelLose.SetActive(true);
         Time.timeScale = 0;
     }
@@ -141,5 +149,4 @@ public class W_UIPlayer : MonoBehaviour
     {
         SceneManager.LoadScene("W_MainMenu");
     }
-
 }
