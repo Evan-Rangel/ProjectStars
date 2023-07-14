@@ -108,10 +108,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //Parpadeo al recibir daño
-        Brillo();
+        //Brillo();
 
         //Player Die
-        PlayerDie();
+       // PlayerDie();
 
         //Player Movimiento
         PlayerMovimiento();       
@@ -131,8 +131,10 @@ public class Player : MonoBehaviour
     public void RecibirDanio(int danio)
     {
         lifePlayer = lifePlayer - danio;
+        PlayerDie();
         Recuperarse();
         cronometro = 1.5f;
+        StartCoroutine(BrilloCorr());
     }
 
     //Player inmunidad despues de recibir daño Funcion
@@ -254,10 +256,44 @@ public class Player : MonoBehaviour
                 bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[7].position.x, bulletsSpawners[7].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
                 bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
-
         }
     }
 
+    IEnumerator BrilloCorr()
+    {
+        yield return new WaitForSeconds(Time.deltaTime);
+        if (cronometro>0)
+        {
+            cronometro -= 1 * Time.deltaTime;
+            spr[1].sprite = spr[0].sprite;
+            tiempo_brillo += speed_shine * Time.deltaTime;
+
+            switch (cambio)
+            {
+                case true:
+
+                    spr[1].color = color_[0];
+                    break;
+
+                case false:
+                    spr[1].color = color_[1];
+                    break;
+            }
+
+            if (tiempo_brillo > 1)
+            {
+                cambio = !cambio;
+                tiempo_brillo = 0;
+            }
+            StartCoroutine(BrilloCorr());
+        }
+        else
+        {
+            cronometro = 0;
+            spr[1].color = color_[0];
+
+        }
+    }
     //Parpadeo del Player
     public void Brillo()
     {

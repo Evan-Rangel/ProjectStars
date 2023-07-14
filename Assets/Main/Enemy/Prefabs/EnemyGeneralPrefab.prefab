@@ -128,6 +128,9 @@ MonoBehaviour:
   healt: 5
   enemyD: {fileID: 0}
   animator: {fileID: 0}
+  brillo:
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 9914bf4ed89fe1c4fa024686184a9322, type: 2}
 --- !u!61 &2026280156551111676
 BoxCollider2D:
   m_ObjectHideFlags: 0

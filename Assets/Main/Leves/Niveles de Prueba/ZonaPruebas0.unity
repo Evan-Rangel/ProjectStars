@@ -16021,6 +16021,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4518783317527343198, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929333202915084878, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5743ed62b0ae3468cb8f3c86db6dbc, type: 3}
@@ -19965,6 +19973,8 @@ MonoBehaviour:
   healt: 8
   enemyD: {fileID: 0}
   animator: {fileID: 0}
+  brillo: []
+  color_: []
 --- !u!212 &2035625593
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21523,6 +21533,8 @@ MonoBehaviour:
   healt: 8
   enemyD: {fileID: 0}
   animator: {fileID: 0}
+  brillo: []
+  color_: []
 --- !u!212 &8652714398923782984
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21662,6 +21674,8 @@ MonoBehaviour:
   healt: 8
   enemyD: {fileID: 0}
   animator: {fileID: 0}
+  brillo: []
+  color_: []
 --- !u!1 &8652714399489717954
 GameObject:
   m_ObjectHideFlags: 0

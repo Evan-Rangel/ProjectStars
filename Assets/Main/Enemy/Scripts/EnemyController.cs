@@ -8,17 +8,28 @@ public class EnemyController : MonoBehaviour
     [SerializeField] EnemyMovementScript movementScript;
     [SerializeField] int healt;
     [SerializeField] EnemyData enemyD;
-    [SerializeField] Animator animator; 
+    [SerializeField] Animator animator;
+    [SerializeField] Material[] brillo;
+    [SerializeField] Color[] color_;
+    
     BoxCollider2D coll;
     Rigidbody2D rb;
     private void Awake()
     {
+        brillo[0] = GetComponent<Renderer>().material;
         attackScript = GetComponent<EnemyAttackScript>();
         movementScript = GetComponent<EnemyMovementScript>();
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        gameObject.GetComponent<Renderer>().material = brillo[0];
+
         //animator.runtimeAnimatorController = enemyD.NewController;
+    }
+    private void Start()
+    {
+        gameObject.GetComponent<Renderer>().material = brillo[0];
+
     }
     public Rigidbody2D GetRB { get { return rb; } }
     public void SetEnemyData(EnemyData _data)
@@ -75,6 +86,7 @@ public class EnemyController : MonoBehaviour
     public void DealDamage(int _damage)
     {
         healt -= _damage;
+        StartCoroutine(Brillo());
         if (healt<=0)
         {
             GameObject.FindGameObjectWithTag("UIPlayer").GetComponent<W_UIPlayer>().SetScore(enemyD.GetScore);
@@ -82,11 +94,30 @@ public class EnemyController : MonoBehaviour
             movementScript.ResetValues();
             attackScript.StopAllCoroutines();
             movementScript.StopAllCoroutines();
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
+            animator.SetBool("Morir", true);
+            StartCoroutine(Deshabilitar());
         }
+    }
+    IEnumerator Brillo()
+    {
+        gameObject.GetComponent<Renderer>().material = brillo[1];
+        yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponent<Renderer>().material = brillo[0];
+
+    }
+    IEnumerator Deshabilitar()
+    {
+        
+
+        yield return new WaitForSeconds(0.46f);
+        gameObject.SetActive(false);
     }
     private void OnDisable()
     {
+        gameObject.GetComponent<Renderer>().material = brillo[0];
+        animator.SetBool("Morir", false);
+
         WaveController.InstanceW.CheckWave();
     }
 }
