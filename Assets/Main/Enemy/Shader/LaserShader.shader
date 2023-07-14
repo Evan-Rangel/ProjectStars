@@ -910,7 +910,6 @@ Node;AmplifyShaderEditor.TFHCRemapNode;85;-653.496,374.2396;Inherit;True;5;0;FLO
 Node;AmplifyShaderEditor.TextureCoordinatesNode;82;-1518.25,362.8649;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;80;-1414.378,51.85714;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;86;-223.9097,355.9204;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PannerNode;81;-1085.784,63.67952;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.3,0.5;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.AbsOpNode;114;-575.2785,-943.905;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;113;-859.0386,-940.3807;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-1;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;115;-390.2067,-932.4617;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
@@ -954,10 +953,10 @@ Node;AmplifyShaderEditor.TFHCRemapNode;95;182.875,-101.5597;Inherit;True;5;0;FLO
 Node;AmplifyShaderEditor.SimpleAddOpNode;94;-92.21787,-100.8608;Inherit;True;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RelayNode;112;-1118.742,-664.3909;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;105;860.8188,-456.0287;Inherit;True;Inverse Lerp;-1;;1;09cbe79402f023141a4dc1fddd4c9511;0;3;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PannerNode;81;-1085.784,63.67952;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;-0.3,0.5;False;1;FLOAT;1;False;1;FLOAT2;0
 WireConnection;85;0;84;0
 WireConnection;86;0;85;0
 WireConnection;86;1;87;0
-WireConnection;81;0;99;0
 WireConnection;114;0;113;0
 WireConnection;113;0;112;0
 WireConnection;115;0;114;0
@@ -1001,5 +1000,6 @@ WireConnection;112;0;132;2
 WireConnection;105;1;104;0
 WireConnection;105;2;103;0
 WireConnection;105;3;98;0
+WireConnection;81;0;99;0
 ASEEND*/
-//CHKSM=1E692A60814CB4B51F6065C74531E672083B4FE7
+//CHKSM=D58CB19433538ADC67EA00E96BB55A8B57BCE1F4
