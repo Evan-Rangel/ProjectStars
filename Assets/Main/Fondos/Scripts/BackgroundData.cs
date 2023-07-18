@@ -123,6 +123,7 @@ public class BackgroundData : ScriptableObject
             EditorGUILayout.EndHorizontal();
             /*
             EditorGUILayout.BeginHorizontal();
+            tdtdydtdfhsdyghvhjvjhfdytdrtsrwsevsasrtunnbfgfgh
 
             EditorGUILayout.LabelField("Direction: ", GUILayout.MaxWidth(labelSize));
             backgroundData.direction = EditorGUILayout.Vector2Field("",backgroundData.direction, GUILayout.MaxWidth(labelSize));
