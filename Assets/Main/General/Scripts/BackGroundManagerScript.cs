@@ -5,80 +5,29 @@ using UnityEngine;
 public class BackGroundManagerScript : MonoBehaviour
 {
     
-
-
-
-    [SerializeField] GameObject[] nebulaBackgrounds, secondBackground, thirdBackground;
-    [SerializeField] Vector2 limits, reposition, middelPos;
-
-    [SerializeField] float nebulaSpeed, secondSpeed, thirdSpeed;
-    int indexSeconBackground;
+    [SerializeField] BackgroundData[] backgroundsD;
+    [SerializeField] GameObject backgroundPrefab;
+    List<GameObject> backgrounds= new List<GameObject>();
+    void StartBackgrounds()
+    {
+        backgrounds = new List<GameObject>();
+        for (int i = 0; i < backgroundsD.Length; i++)
+        {
+            backgrounds.Add(Instantiate(backgroundPrefab, Vector2.zero, Quaternion.identity, transform));
+        }
+    }
     private void Start()
     {
-        indexSeconBackground =0;
-        reposition = nebulaBackgrounds[2].transform.position;
-    }
-    private void Update()
-    {
-        for (int i = 0; i < nebulaBackgrounds.Length; i++)
-        {
-            nebulaBackgrounds[i].transform.Translate(Vector2.down*nebulaSpeed*Time.deltaTime);
-            if (nebulaBackgrounds[i].transform.position.y<limits.y)
-            {
-                nebulaBackgrounds[i].transform.position = reposition;
-            }
-        }
+        //indexSeconBackground = 0;
+        //reposition = nebulaBackgrounds[2].transform.position;
+        backgrounds = new List<GameObject>();
 
-        /*   for (int i = 0; i < thirdBackground.Length; i++)
-           {
-               thirdBackground[i].transform.Translate(Vector2.down * thirdSpeed * Time.deltaTime);
-               if (thirdBackground[i].transform.position.y < limits.y)
-               {
-                   thirdBackground[i].transform.position = reposition;
-               }
-           }*/
-        if (Input.GetKeyDown(KeyCode.O))
+        for (int i = 0; i < backgroundsD.Length; i++)
         {
-            StartSecondBackground();
+            backgrounds.Add(Instantiate(backgroundPrefab, transform.position, Quaternion.identity, transform));
+            backgrounds[i].GetComponent<BackgroundControllerScript>().SetProperties(backgroundsD[i]);
         }
     }
-    public void StartSecondBackground()
-    {
-        StartCoroutine(StartSecondBackgroundCorr());
-    }
-    IEnumerator SecondBackgroundCorr()
-    {
-        yield return new WaitForEndOfFrame();
-        for (int i = 0; i < secondBackground.Length; i++)
-        {
-            secondBackground[i].transform.Translate(Vector2.down * secondSpeed * Time.deltaTime);
-            if (secondBackground[i].transform.position.y < limits.y)
-            {
-                secondBackground[i].transform.position = reposition;
-            }
-        }
-        StartCoroutine(SecondBackgroundCorr());
-    }
-    IEnumerator StartSecondBackgroundCorr()
-    {
-        switch (indexSeconBackground)
-        {
-            case 0:
-                secondBackground[0].transform.Translate(Vector2.down * secondSpeed * Time.deltaTime);
-                if (secondBackground[0].transform.position.y< middelPos.y)
-                {
 
-                }
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                Debug.Log("Error: indexSecondBackground.enter_to_default");
-                break;
-        }
-        yield return new WaitForSeconds(1);
-        StartCoroutine(SecondBackgroundCorr());
-    }
+
 }
