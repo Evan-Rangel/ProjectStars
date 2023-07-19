@@ -139,9 +139,10 @@ public class W_UIPlayer : MonoBehaviour
     }
     IEnumerator ActivarPanel()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1);
         //lastScoreText.text = score.ToString();
         panelLose.SetActive(true);
+        yield return new WaitForSeconds(1f);
         Time.timeScale = 0;
     }
 

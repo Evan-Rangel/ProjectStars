@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class BackGroundManagerScript : MonoBehaviour
 {
-    
     [SerializeField] BackgroundData[] backgroundsD;
     [SerializeField] GameObject backgroundPrefab;
     List<GameObject> backgrounds= new List<GameObject>();
-    void StartBackgrounds()
-    {
-        backgrounds = new List<GameObject>();
-        for (int i = 0; i < backgroundsD.Length; i++)
-        {
-            backgrounds.Add(Instantiate(backgroundPrefab, Vector2.zero, Quaternion.identity, transform));
-        }
-    }
+  
     private void Start()
     {
         //indexSeconBackground = 0;
@@ -28,6 +20,4 @@ public class BackGroundManagerScript : MonoBehaviour
             backgrounds[i].GetComponent<BackgroundControllerScript>().SetProperties(backgroundsD[i]);
         }
     }
-
-
 }

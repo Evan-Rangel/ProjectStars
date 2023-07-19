@@ -32,6 +32,7 @@ public class WaveController : MonoBehaviour
         private List<GameObject> enemy;
         public List<EnemyData> enemyD;
         public Texture2D image;
+        public EnemyData bossD;
         private List<ColorPos> colorPos;
         List<Vector2> targetPositions;
         WaveDifficult waveDifficult;
@@ -47,15 +48,29 @@ public class WaveController : MonoBehaviour
         //Constructor
         public Wave(int _waveSize)
         {
-            enemy = new List<GameObject>();
-            for (int i = 0; i < _waveSize; i++)
+            if (_waveSize == 4)
             {
+                enemy = new List<GameObject>();
                 GameObject _enemy = InstanceW.RequestEnemy();
-
-                _enemy.transform.position = new Vector2(0,9);
+                _enemy.transform.position = new Vector2(0, 9);
                 enemy.Add(_enemy);
-                RandomEnemies();
             }
+            else 
+            { 
+                enemy = new List<GameObject>();
+                for (int i = 0; i < _waveSize; i++)
+                {
+                    GameObject _enemy = InstanceW.RequestEnemy();
+
+                    _enemy.transform.position = new Vector2(0,9);
+                    enemy.Add(_enemy);
+                    RandomEnemies();
+                }
+            }
+        }
+        public void BossEnemy()
+        {
+            enemy[0].GetComponent<EnemyController>().SetEnemyData(bossD);
         }
 
         public void RandomEnemies()
@@ -233,6 +248,7 @@ public class WaveController : MonoBehaviour
         }
     }
 
+    
 
 
     [SerializeField] GameObject enemyPrefab;
@@ -285,6 +301,10 @@ public class WaveController : MonoBehaviour
         {
             randomWaveDifficult++;
         }
+        if (waves.Count >= 14)
+        {
+            randomWaveDifficult = 4;
+        }
     }
     public EnemyData RandomEnemy(int difficulty)
     {
@@ -327,10 +347,8 @@ public class WaveController : MonoBehaviour
         else
         {
             StartCoroutine(waves[waveIndex].MoveEnemyToPos());
-
         }
     }
-
 
     public void CheckWave()
     {
