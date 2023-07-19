@@ -308,7 +308,7 @@ MonoBehaviour:
   - {fileID: 4594608426485592033}
   - {fileID: 6415040262886052640}
   - {fileID: 7241422501509817601}
-  shotLevel: 4
+  shotLevel: 1
   bulletOffset: 0
   bulletSpeed: 7
   bulletDamage: 1
