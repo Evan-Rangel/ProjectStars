@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class Boundary
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     {
         lifePlayer = _Life;
     }
+    private PlayerInput playerInput;
     //public int LifePlayer => lifePlayer;
     [SerializeField] private float speedPlayer;
     public float SpeedPlayer => speedPlayer;
@@ -102,6 +104,8 @@ public class Player : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         activeMoveSpeed = speedPlayer;
         audioMaster = GameObject.FindGameObjectWithTag("AudioMaster").GetComponent<AudioMaster>();
+        //PlayerInput
+        playerInput = GetComponent<PlayerInput>();
 
     }
 
@@ -118,6 +122,9 @@ public class Player : MonoBehaviour
 
         //Player Disparo
         PlayerFire();
+
+        //Player Dash
+        PlayerDash();
     }
 
     private void FixedUpdate()
@@ -166,18 +173,24 @@ public class Player : MonoBehaviour
     }
 
     //Player Movimiento Funcion
-    private void PlayerMovimiento()
+    public void PlayerMovimiento()
     {
         //Movimiento del Personaje
         moveX = Input.GetAxisRaw("Horizontal");
         moveY = Input.GetAxisRaw("Vertical");
         animatorPlayer.SetFloat("MovX", moveX); //Animacion del Personaje
         animatorPlayer.SetFloat("MovY", moveY); //Animacion del Personaje
-        moveInput = new Vector2(moveX, moveY).normalized;
-        animatorPlayer.SetFloat("Speed", moveInput.sqrMagnitude);
+        //moveInput = new Vector2(moveX, moveY).normalized;
+        moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
+        animatorPlayer.SetFloat("Speed", moveInput.sqrMagnitude);  
 
+    }
+
+    //PlayerDash
+    public void PlayerDash()
+    {
         //Dash del Personaje (Winona)
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (playerInput.actions["Dash"].WasPressedThisFrame())
         {
             if (dashCoolCounter <= 0 && dashCounter <= 0)
             {
@@ -215,12 +228,10 @@ public class Player : MonoBehaviour
     }
 
     //Player Fire Funcion
-    private void PlayerFire()
+    public void PlayerFire()
     {
-        //Player Disparo
-        if (Input.GetButtonDown("Fire1"))
+        if (playerInput.actions["Fire"].WasPressedThisFrame())
         {
-            
             reproductoSonidos.GetComponent<AudioSource>().PlayOneShot(audioMaster.playerAudios[0]);
             GameObject bullet;
             if (shotLevel == 1 || shotLevel == 3)
@@ -229,7 +240,7 @@ public class Player : MonoBehaviour
                 bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[0].position.x, bulletsSpawners[0].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
                 bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
-            else if (shotLevel == 2 || shotLevel == 3)
+            if (shotLevel == 2 || shotLevel == 3)
             {
                 bullet = BulletsPool.Instance.RequestPlayerBullet();//Aqui se llama para pedir la bala al pool
                 bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[1].position.x, bulletsSpawners[1].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
@@ -238,7 +249,7 @@ public class Player : MonoBehaviour
                 bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[2].position.x, bulletsSpawners[2].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
                 bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
-            else if (shotLevel == 4)
+            if (shotLevel == 4)
             {
                 bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
                 bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[3].position.x, bulletsSpawners[3].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
@@ -257,6 +268,15 @@ public class Player : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
             }
         }
+        
+        
+        //Player Disparo
+        /*
+        if (Input.GetButtonDown("Fire1"))
+        {
+            
+            
+        }*/
     }
 
     IEnumerator BrilloCorr()
