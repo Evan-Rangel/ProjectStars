@@ -147,11 +147,5 @@ public class LaserController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         StartCoroutine(SwitchLaserCorr(_offduration, _onDuration,_castSpeed));
-
     }
-
-
-
-
-
 }

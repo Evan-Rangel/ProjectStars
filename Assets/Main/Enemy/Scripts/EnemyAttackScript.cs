@@ -22,7 +22,10 @@ public class EnemyAttackScript : MonoBehaviour
 
     public void SetCurrentShotPattern(int _nextShotPattern)
     {
+        StopAllCoroutines();
         currentShotPattern = _nextShotPattern;
+        GetShotType();
+
     }
     public void SetAttackData(List<EnemyAttackData> _attackData)
     {
@@ -112,6 +115,7 @@ public class EnemyAttackScript : MonoBehaviour
                         break;
                     case EnemyAttackData.LaserType.RANDOM:
                         laserAngles = new List<float>();
+                        lasers = new List<GameObject>();
                         CreateRandomLaser();
                         LaserRandom();
                         break;
@@ -187,7 +191,7 @@ public class EnemyAttackScript : MonoBehaviour
 
                 Vector2 projectileMoveDirection = GenerateRotation(laserAngles[i], 1, startPoint).normalized;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, projectileMoveDirection);
-
+                
                 if (hit.collider != null && hit.distance < attackData[currentShotPattern].GetLaserDistance)
                 {
                     if (hit.transform.CompareTag("Player") && lasers[i].GetComponent<LaserController>().GetCanDamage)
@@ -206,10 +210,7 @@ public class EnemyAttackScript : MonoBehaviour
                 lasers[i].GetComponent<LaserController>().LaserRaycast(projectileMoveDirection * rayDistance, isHit);
             }
         }
-     
         StartCoroutine(LaserRandomUpdate());
-   
-
     }
 
     void CreateRandomLaser()

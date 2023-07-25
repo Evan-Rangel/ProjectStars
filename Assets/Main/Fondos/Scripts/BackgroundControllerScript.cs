@@ -6,6 +6,7 @@ public class BackgroundControllerScript : MonoBehaviour
 {
     [SerializeField] GameObject[] backgroundsParts;
     [SerializeField] int distanceBetweenParts;
+    [SerializeField] int multiplySpeed;
     BackgroundData backgroundD;
     Vector2 limits;
     Vector2[] repos = { new Vector2(), new Vector2() };
@@ -13,6 +14,7 @@ public class BackgroundControllerScript : MonoBehaviour
 
     bool cycleMov;
     int patternIndex;
+    public int MultiplySpeed { set { multiplySpeed = value; } get { return multiplySpeed; } }
     private void Awake()
     {
         patternIndex = 0;
@@ -42,7 +44,7 @@ public class BackgroundControllerScript : MonoBehaviour
 
     void PanelMovement(int _index)
     {
-        backgroundsParts[_index].transform.Translate(backgroundD.GetDirection * backgroundD.GetSpeed * Time.deltaTime);
+        backgroundsParts[_index].transform.Translate(backgroundD.GetDirection * backgroundD.GetSpeed * Time.deltaTime*multiplySpeed);
         if (backgroundsParts[_index].transform.position.y < limits.y)
         {
             backgroundsParts[_index].transform.position = repos[0];

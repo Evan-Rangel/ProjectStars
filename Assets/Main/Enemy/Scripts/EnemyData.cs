@@ -17,7 +17,7 @@ public class EnemyData : ScriptableObject
         HARD,
     }
 
-
+    [SerializeField] bool isBoss;
     [SerializeField] int health;
     [SerializeField] string nameE;
     [SerializeField] int score;
@@ -34,5 +34,6 @@ public class EnemyData : ScriptableObject
     public Color GetColor { get { return color; } }
     public RuntimeAnimatorController NewController { get { return newController; } } 
     public int GetScore { get { return score; } }
+    public bool GetIsBoss { get { return isBoss; } }
     
 }

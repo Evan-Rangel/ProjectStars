@@ -125,6 +125,16 @@ public class Player : MonoBehaviour
 
         //Player Dash
         PlayerDash();
+        if (playerInput.actions["Submit"].WasPressedThisFrame())
+        {
+            GameObject.Find("CanvasDialogues").GetComponent<DialogueManager>().PressedNextDialogueButton();
+            Debug.Log("Pressed");
+        }
+        if (playerInput.actions["Start"].WasPressedThisFrame())
+        {
+            GameObject.Find("PlayerHUDManager").GetComponent<PauseController>().StartButtonPressed();
+
+        }
     }
 
     private void FixedUpdate()

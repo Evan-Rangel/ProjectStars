@@ -71,3 +71,4 @@ MonoBehaviour:
   - 0
   showMovements: 1
   cycleMovements: 0
+  backgoundIndex: 0

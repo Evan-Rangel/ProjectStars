@@ -20,4 +20,5 @@ public class BackGroundManagerScript : MonoBehaviour
             backgrounds[i].GetComponent<BackgroundControllerScript>().SetProperties(backgroundsD[i]);
         }
     }
+
 }

@@ -24,6 +24,7 @@ public class W_UIPlayer : MonoBehaviour
     public void SetScore(int _score)
     {
         score+=_score;
+        PlayerPrefs.SetInt("Score", score);
         puntajeText.text = score.ToString();
     }
     // Update is called once per frame
@@ -139,6 +140,7 @@ public class W_UIPlayer : MonoBehaviour
     }
     IEnumerator ActivarPanel()
     {
+        WaveController.InstanceW.DisableEnemies();
         yield return new WaitForSeconds(1);
         //lastScoreText.text = score.ToString();
         panelLose.SetActive(true);

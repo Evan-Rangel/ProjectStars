@@ -27,7 +27,7 @@ MonoBehaviour:
   laserDistance: 10
   laserRandomTime: 2
   laserRandomOnTime: 2
-  projectilesPerWave: 20
+  projectilesPerWave: 1
   projectileAngleInit: 120
   projectileAngleSum: 20
   projectileSpeed: 4

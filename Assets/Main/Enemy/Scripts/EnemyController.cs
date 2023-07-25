@@ -44,6 +44,12 @@ public class EnemyController : MonoBehaviour
     public void ActiveComponents()
     {
         healt = enemyD.GetHealth;
+        if (enemyD.GetIsBoss)
+        {
+            RandomShotPattern();
+            Debug.Log(GetComponent<BoxCollider2D>().size);
+            GetComponent<BoxCollider2D>().size.Set(1.5f,1);
+        }
         attackScript.StartAttack();
         movementScript.StartMovement();
         coll.enabled = true;
@@ -83,6 +89,16 @@ public class EnemyController : MonoBehaviour
             Debug.Log("No more ShotPatterns");
         }
     }
+    private void RandomShotPattern()
+    {
+        attackScript.SetCurrentShotPattern(Random.Range(0, enemyD.GetEnemyAttackData.Count-1));
+        StartCoroutine(RandomShotPatternTimer());
+    }
+    IEnumerator RandomShotPatternTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(5,10));
+        RandomShotPattern();
+    }
     public void DealDamage(int _damage)
     {
         healt -= _damage;
@@ -108,7 +124,6 @@ public class EnemyController : MonoBehaviour
     }
     IEnumerator Deshabilitar()
     {
-        
 
         yield return new WaitForSeconds(0.46f);
         gameObject.SetActive(false);
@@ -118,6 +133,6 @@ public class EnemyController : MonoBehaviour
         gameObject.GetComponent<Renderer>().material = brillo[0];
         animator.SetBool("Morir", false);
 
-        WaveController.InstanceW.CheckWave();
+        WaveController.InstanceW.CheckWave(enemyD.GetIsBoss);
     }
 }

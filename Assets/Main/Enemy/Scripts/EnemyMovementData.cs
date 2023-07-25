@@ -59,7 +59,8 @@ public class EnemyMovementData : ScriptableObject
         FOLLOW_PLAYER,
         ONE_MOV,
         CUSTOM_MOVEMENT,
-        NONE
+        NONE,
+        WITH_BACKGROUND
     }
 
     [Serializable]
@@ -123,6 +124,7 @@ public class EnemyMovementData : ScriptableObject
 
     [SerializeField, HideInInspector] bool showMovements = false;
     [SerializeField, HideInInspector] bool cycleMovements = false;
+    [SerializeField, HideInInspector] int backgoundIndex;
 
     [ContextMenu ("ClearValues()")]
     
@@ -166,7 +168,7 @@ public class EnemyMovementData : ScriptableObject
     public List<Movement> GetMovement { get { return movements; } }
     public int GetMovementCount { get { return movementCount; } }
     public bool CycleMovement { get { return cycleMovements; } }
-
+    public int GetIndexBackground { get { return backgoundIndex; } }
    
   
 
@@ -210,6 +212,13 @@ public class EnemyMovementData : ScriptableObject
                     break;
                 case MovType.CUSTOM_MOVEMENT:
                     SetMovement(enemyMovementData);
+                    break;
+                case MovType.WITH_BACKGROUND:
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Index Background: ", GUILayout.MaxWidth(60));
+                    enemyMovementData.backgoundIndex = EditorGUILayout.IntField(enemyMovementData.backgoundIndex);
+                    GUILayout.EndHorizontal();
+
                     break;
             }
             EditorUtility.SetDirty(enemyMovementData);

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.SceneManagement;
 public class WaveController : MonoBehaviour
 {
     [Serializable]
@@ -32,7 +34,7 @@ public class WaveController : MonoBehaviour
         private List<GameObject> enemy;
         public List<EnemyData> enemyD;
         public Texture2D image;
-        public EnemyData bossD;
+        //public EnemyData bossD;
         private List<ColorPos> colorPos;
         List<Vector2> targetPositions;
         WaveDifficult waveDifficult;
@@ -54,6 +56,7 @@ public class WaveController : MonoBehaviour
                 GameObject _enemy = InstanceW.RequestEnemy();
                 _enemy.transform.position = new Vector2(0, 9);
                 enemy.Add(_enemy);
+                BossEnemy();
             }
             else 
             { 
@@ -64,13 +67,13 @@ public class WaveController : MonoBehaviour
 
                     _enemy.transform.position = new Vector2(0,9);
                     enemy.Add(_enemy);
-                    RandomEnemies();
                 }
+                RandomEnemies();
             }
         }
         public void BossEnemy()
         {
-            enemy[0].GetComponent<EnemyController>().SetEnemyData(bossD);
+            enemy[0].GetComponent<EnemyController>().SetEnemyData(WaveController.instanceW.GetBossD);
         }
 
         public void RandomEnemies()
@@ -218,7 +221,6 @@ public class WaveController : MonoBehaviour
             int index = 0;
             for (int i = 0; i < enemy.Count; i++)
             {
-
                 if (enemy.Count != 2 )
                 {
                     if (Vector2.Distance(enemy[i].transform.position, enemypostitions[i]) < 0.1f)
@@ -248,21 +250,23 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    
 
 
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] List<Wave> waves;
     [SerializeField] List<EnemyData> enemiesData;
 
-    [SerializeField] int randomWaveDifficult=1;
+    [SerializeField] int randomWaveDifficult;
 
     [SerializeField] bool randomizerLevel;
     [SerializeField] List<GameObject> enemiesList;
-
+    [SerializeField] GameObject winPanel;
+    [SerializeField] TMP_Text score;
+    [SerializeField] EnemyData bossD;
+    [SerializeField] GameObject[] buffs;
     int waveIndex=0;
    
-
+    public EnemyData GetBossD { get { return bossD; } }
     private static WaveController instanceW;
     public static WaveController InstanceW { get { return instanceW; } }
     private void Awake()
@@ -276,6 +280,11 @@ public class WaveController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void DisableEnemies()
+    {
+        waves[waveIndex].DisableEnemies();
+    }
+    /*
     private void Start()
     {
         if (randomizerLevel)
@@ -287,13 +296,26 @@ public class WaveController : MonoBehaviour
         else
         {
             StartCoroutine(NextWave());
-
         }
+    }*/
+    public void StartWaves()
+    {
+        if (randomizerLevel)
+        {
+            waves = new List<Wave>();
+            enemiesList = new List<GameObject>();
+            RandomizerLevel();
+        }
+        else
+        {
+            StartCoroutine(NextWave());
+        }
+
     }
+
 
     void RandomizerLevel()
     {
-        
         waves.Add(new Wave(randomWaveDifficult));
         waveIndex = waves.Count - 1 ;
         MoveEnemies();
@@ -350,14 +372,30 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    public void CheckWave()
+    public void CheckWave(bool _isBoss)
     {
         
-        if (randomizerLevel )
+        if (randomizerLevel)
         {
             if (waves[waveIndex].CheckEnemies())
             {
-                StartCoroutine(TimeNextWave());
+                if (waves.Count % 5 == 0 && waves.Count < 14)
+                {
+                    int rand = UnityEngine.Random.Range(0, buffs.Length-1);
+                    Instantiate(buffs[rand], Vector2.zero, Quaternion.identity);
+                    StartCoroutine(TimeCollect(_isBoss));
+                }
+                else
+                {
+                    if (_isBoss)
+                    {
+                        StartCoroutine(LastEnemy());
+                    }
+                    else
+                    {
+                        StartCoroutine(TimeNextWave());
+                    }
+                }
             }   
             return;
         }
@@ -366,9 +404,17 @@ public class WaveController : MonoBehaviour
             waveIndex++;
             StartCoroutine(NextWave());
         }
-        else if(waveIndex== waves.Count - 1)
+    }
+    IEnumerator TimeCollect(bool _isBoss) 
+    {
+        yield return new WaitForSeconds(3);
+        if (_isBoss)
         {
-            //Debug.Log("NextLevel");
+            StartCoroutine(LastEnemy());
+        }
+        else
+        {
+            StartCoroutine(TimeNextWave());
         }
     }
     IEnumerator TimeNextWave()
@@ -383,5 +429,14 @@ public class WaveController : MonoBehaviour
         {
             waves[waveIndex].ActivateEnemies();
         }
+    }
+    IEnumerator LastEnemy()
+    {
+        yield return new WaitForSeconds(1.5f);
+        //Debug.Log("you win");
+        score.text = "Final Score: " + PlayerPrefs.GetInt("Score").ToString();
+        winPanel.SetActive(true);
+        yield return new WaitForSeconds(10);
+        SceneManager.LoadScene("W_MainMenu");
     }
 }

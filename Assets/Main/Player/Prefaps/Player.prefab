@@ -248,13 +248,13 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.01, y: 0.13}
-      - {x: -0.01, y: 0.13}
+    - - {x: 0.01, y: 0.16}
+      - {x: -0.01, y: 0.16}
       - {x: -0.03, y: 0.04}
-      - {x: -0.05, y: -0.03}
-      - {x: -0.06, y: -0.07}
+      - {x: -0.08, y: -0.03}
+      - {x: -0.08, y: -0.07}
       - {x: 0.06, y: -0.07}
-      - {x: 0.05, y: -0.03}
+      - {x: 0.1, y: -0.03}
       - {x: 0.03, y: 0.04}
   m_UseDelaunayMesh: 0
 --- !u!50 &3893930409089998997
@@ -295,7 +295,7 @@ MonoBehaviour:
     xMax: 7.5
     yMin: -4.5
     yMax: 4.5
-  lifePlayer: 2
+  lifePlayer: 4
   speedPlayer: 6
   playerDieAnim: {fileID: 7400000, guid: 95d994d8f1d4e14479b53b62aded4ca9, type: 2}
   bulletData: {fileID: 11400000, guid: cdd5c40c207964e448429617a4903847, type: 2}
@@ -527,6 +527,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: edadbec3-ef9d-41d9-81f3-8e5232195b9e
     m_ActionName: Player/Dash[/XInputControllerWindows/leftTrigger,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ffedf436-cf03-49c8-93de-2e1af1666730
+    m_ActionName: UI/Start[/Keyboard/escape,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3bde9a6e-ada1-4c96-9937-e692e1b58c16
+    m_ActionName: Player/Submit[/Keyboard/space,/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc40b25a-c5ae-42f5-97af-8a2753126c5f
+    m_ActionName: Player/Start[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
