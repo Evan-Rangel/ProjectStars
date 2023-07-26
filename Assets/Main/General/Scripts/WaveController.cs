@@ -379,7 +379,7 @@ public class WaveController : MonoBehaviour
         {
             if (waves[waveIndex].CheckEnemies())
             {
-                if (waves.Count % 5 == 0 && waves.Count < 14)
+                if (waves.Count % 3 == 0 && waves.Count < 14)
                 {
                     int rand = UnityEngine.Random.Range(0, buffs.Length-1);
                     Instantiate(buffs[rand], Vector2.zero, Quaternion.identity);

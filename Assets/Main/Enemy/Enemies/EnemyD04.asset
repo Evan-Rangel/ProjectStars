@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fc9d584320d6a84d91d854c7fa5292c, type: 3}
-  m_Name: EnemyD01 1
+  m_Name: EnemyD04
   m_EditorClassIdentifier: 
-  health: 5
+  isBoss: 0
+  health: 10
   nameE: 
-  score: 300
+  score: 400
   hasShield: 0
-  enemyDifficult: 1
+  enemyDifficult: 0
   enemyAttackData:
-  - {fileID: 11400000, guid: 6799bc9f9754b064b963b5b5fca7611c, type: 2}
+  - {fileID: 11400000, guid: c4cef24a105f07040af3ba0b1c0e30a1, type: 2}
   enemyMovementData:
   - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}
-  color: {r: 1, g: 0, b: 0, a: 1}
-  newController: {fileID: 9100000, guid: 5d407977ea890e445ba41ebaaacbe9ef, type: 2}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  newController: {fileID: 9100000, guid: 0b39a99e573d9314a80970b8d2b5db0e, type: 2}

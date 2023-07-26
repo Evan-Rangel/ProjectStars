@@ -31,7 +31,7 @@ MonoBehaviour:
   projectileAngleInit: 0
   projectileAngleSum: 20
   projectileSpeed: 3
-  projectileCadence: 0.3
+  projectileCadence: 0.1
   projectileDamage: 1
   projectileRotation: 0
   projectileTimeRot: 0

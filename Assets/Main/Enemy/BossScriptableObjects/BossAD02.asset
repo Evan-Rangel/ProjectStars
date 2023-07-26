@@ -25,7 +25,7 @@ MonoBehaviour:
   showLaserDirections: 0
   withRotation: 0
   laserDistance: 10
-  laserRandomTime: 0.5
+  laserRandomTime: 0.2
   laserRandomOnTime: 3
   projectilesPerWave: 0
   projectileAngleInit: 0

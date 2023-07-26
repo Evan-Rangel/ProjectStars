@@ -144,8 +144,12 @@ public class W_UIPlayer : MonoBehaviour
         yield return new WaitForSeconds(1);
         //lastScoreText.text = score.ToString();
         panelLose.SetActive(true);
+        lastScoreText.text = PlayerPrefs.GetInt("Score").ToString();
         yield return new WaitForSeconds(1f);
         Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadScene("W_MainMenu");
+
     }
 
     public void BackToMainMenu()

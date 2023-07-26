@@ -91,12 +91,12 @@ public class EnemyController : MonoBehaviour
     }
     private void RandomShotPattern()
     {
-        attackScript.SetCurrentShotPattern(Random.Range(0, enemyD.GetEnemyAttackData.Count-1));
+        attackScript.SetCurrentShotPattern(Random.Range(0, enemyD.GetEnemyAttackData.Count));
         StartCoroutine(RandomShotPatternTimer());
     }
     IEnumerator RandomShotPatternTimer()
     {
-        yield return new WaitForSeconds(Random.Range(5,10));
+        yield return new WaitForSeconds(Random.Range(2,5));
         RandomShotPattern();
     }
     public void DealDamage(int _damage)
@@ -105,12 +105,12 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(Brillo());
         if (healt<=0)
         {
+            GetComponent<BoxCollider2D>().enabled = false;
             GameObject.FindGameObjectWithTag("UIPlayer").GetComponent<W_UIPlayer>().SetScore(enemyD.GetScore);
             attackScript.ResetValues();
             movementScript.ResetValues();
             attackScript.StopAllCoroutines();
             movementScript.StopAllCoroutines();
-            // gameObject.SetActive(false);
             animator.SetBool("Morir", true);
             StartCoroutine(Deshabilitar());
         }

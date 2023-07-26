@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc9d584320d6a84d91d854c7fa5292c, type: 3}
   m_Name: EnemyD01
   m_EditorClassIdentifier: 
-  health: 5
+  isBoss: 0
+  health: 10
   nameE: 
   score: 100
   hasShield: 0
   enemyDifficult: 1
   enemyAttackData:
-  - {fileID: 11400000, guid: c6ea613e7103a284386d403725563010, type: 2}
+  - {fileID: 11400000, guid: 1adbc829fe25041428889fae748399a1, type: 2}
   enemyMovementData:
   - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}
   color: {r: 1, g: 0, b: 0, a: 1}

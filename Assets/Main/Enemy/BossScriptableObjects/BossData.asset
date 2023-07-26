@@ -22,6 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b0514888ac7cd8242a1de99f3ed76eff, type: 2}
   - {fileID: 11400000, guid: 245f2c0cb125cbf4c9bfdd49a9c16324, type: 2}
   - {fileID: 11400000, guid: 5bb8ea412b8f62744a1bc20c80f20149, type: 2}
+  - {fileID: 11400000, guid: d68ac19320d207a4380e29ea4055dd89, type: 2}
+  - {fileID: 11400000, guid: 26e6c68266792eb49ab8e8e452e7bb7b, type: 2}
   enemyMovementData:
   - {fileID: 11400000, guid: 4ddf054b6759f494b8a5d282f0684dcc, type: 2}
   color: {r: 0, g: 0, b: 0, a: 0}

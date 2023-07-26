@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Boundary
@@ -19,8 +20,8 @@ public class Player : MonoBehaviour
     //Player Variables
     [Header("Player Atributes")]
     [SerializeField] int lifePlayer;
-    public int LifePlayer { get { return lifePlayer; }}
-    public void SetLifePlayer (int _Life)
+    public int LifePlayer { get { return lifePlayer; } }
+    public void SetLifePlayer(int _Life)
     {
         lifePlayer = _Life;
     }
@@ -47,12 +48,14 @@ public class Player : MonoBehaviour
     //Bullet Variables
     [Header("Bullets Data")]
     [Tooltip("Aqui se coloca el ScriptableObject de -BulletData- con el nombre -Player Bullet-")]
-    [SerializeField] BulletData bulletData;    
+    [SerializeField] BulletData bulletData;
     [Tooltip("Aqui se colocaran los hijos del player con el nombre -BulletsSpawners-")]
     [SerializeField] private Transform[] bulletsSpawners;
     [Header("Bullets Atributes")]
     [Tooltip("Nivel de diapro, empieza en 1, si aumenta a 2 dispara dos veces al mimso timepo, si aumenta a 3 dispara 3 veces al mismo tiempo y asi sucesivamente")]
     [SerializeField] int shotLevel;
+
+    [SerializeField] bool canGetDamage;
     public int ShotLevel => shotLevel;
     public void SetShootLevelPlayer(int _Shoot)
     {
@@ -89,9 +92,11 @@ public class Player : MonoBehaviour
     [Header("Sound Atributes")]
     [SerializeField] AudioMaster audioMaster;
     [SerializeField] GameObject reproductoSonidos;
+    bool endLevel;
 
     private void Start()
     {
+        endLevel = false;
         //Player RigidBody
         rbPlayer = GetComponent<Rigidbody2D>();
         //Player Collider
@@ -128,15 +133,18 @@ public class Player : MonoBehaviour
         if (playerInput.actions["Submit"].WasPressedThisFrame())
         {
             GameObject.Find("CanvasDialogues").GetComponent<DialogueManager>().PressedNextDialogueButton();
-            Debug.Log("Pressed");
         }
         if (playerInput.actions["Start"].WasPressedThisFrame())
         {
             GameObject.Find("PlayerHUDManager").GetComponent<PauseController>().StartButtonPressed();
 
         }
+       
     }
-
+    public void SetEndLevel(bool _endLevel)
+    {
+        endLevel = _endLevel;
+    }
     private void FixedUpdate()
     {
         //MovimientoFixed del Personaje
@@ -147,11 +155,14 @@ public class Player : MonoBehaviour
     //Player recibe daño Funcion
     public void RecibirDanio(int danio)
     {
-        lifePlayer = lifePlayer - danio;
-        PlayerDie();
-        Recuperarse();
-        cronometro = 1.5f;
-        StartCoroutine(BrilloCorr());
+        if (canGetDamage)
+        {
+            lifePlayer = lifePlayer - danio;
+            PlayerDie();
+            Recuperarse();
+            cronometro = 1.5f;
+            StartCoroutine(BrilloCorr());
+        }
     }
 
     //Player inmunidad despues de recibir daño Funcion
@@ -179,6 +190,7 @@ public class Player : MonoBehaviour
             colliderPlayer.enabled = false;
             playerMuere = true;
             StartCoroutine(PlayerDesactivarCorrutina());
+            //StartCoroutine(LoadMainMenu());
         }
     }
 
@@ -261,32 +273,32 @@ public class Player : MonoBehaviour
             }
             if (shotLevel == 4)
             {
-                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
-                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[3].position.x, bulletsSpawners[3].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
-                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
-                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
-                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[4].position.x, bulletsSpawners[4].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
-                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
-                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
-                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[5].position.x, bulletsSpawners[5].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
-                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
-                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
-                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[6].position.x, bulletsSpawners[6].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
-                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
-                bullet = BulletsPool.Instance.RequestPlayerBullet(); //Aqui se llama para pedir la bala al pool
-                bullet.GetComponent<Bullets>().SetPropsPlayer(new Vector2(bulletsSpawners[7].position.x, bulletsSpawners[7].position.y) + Vector2.up * bulletOffset, bulletData, bulletDamage);
-                bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * bulletSpeed;
+                ShotLevelFour();
             }
         }
-        
-        
-        //Player Disparo
-        /*
-        if (Input.GetButtonDown("Fire1"))
+    }
+    void ShotLevelFour()
+    {
+        float angleStep = 50 / 5;
+        float angle = angleStep-30;
+        Vector2 startPoint = transform.position;
+        GameObject bullet;
+        for (int i = 0; i < 5; i++)
         {
-            
-            
-        }*/
+            Vector2 vel = GenerateRotation(angle,bulletSpeed, startPoint);
+            bullet = BulletsPool.Instance.RequestPlayerBullet();
+            bullet.GetComponent<Bullets>().SetPropsPlayer(startPoint, bulletData, bulletDamage);
+            bullet.GetComponent<Rigidbody2D>().velocity = vel;
+            angle += angleStep;
+        }
+    }
+    private Vector2 GenerateRotation(float _angle, float vectorLength, Vector2 _startPoint)
+    {
+        float DirXPosition = _startPoint.x + Mathf.Sin((_angle * Mathf.PI) / 180);
+        float DirYPosition = _startPoint.y + Mathf.Cos((_angle * Mathf.PI) / 180);
+        Vector2 Vector = new Vector2(DirXPosition, DirYPosition);
+        Vector2 MoveDirection = (Vector - _startPoint).normalized * vectorLength;
+        return MoveDirection;
     }
 
     IEnumerator BrilloCorr()
@@ -368,6 +380,7 @@ public class Player : MonoBehaviour
         if (playerMuere == true)
         {
             yield return new WaitForSeconds(playerDieAnim.length);
+
             gameObject.SetActive(false);
         }
         //Para cuando el Player gana
@@ -378,6 +391,7 @@ public class Player : MonoBehaviour
         }
         
     }
+
 
     //Corrutina para reactivar el Collider del Player
     IEnumerator ReactivarColliderPlayer()

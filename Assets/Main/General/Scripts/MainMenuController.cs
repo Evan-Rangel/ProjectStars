@@ -12,10 +12,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] GameObject mainMenuPanel;
     [SerializeField] GameObject startButton;
 
-    bool startButtonIsPressed;
     private void Start()
     {
-        startButtonIsPressed = true;
         input = GetComponent<PlayerInput>();
         Time.timeScale = 1;
 
@@ -25,7 +23,6 @@ public class MainMenuController : MonoBehaviour
         if (input.actions["Start"].WasPressedThisFrame() && panel.activeSelf)
         {
             StartPanel();
-            startButtonIsPressed = false;
         }
     }
     void StartPanel()

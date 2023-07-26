@@ -31,13 +31,13 @@ MonoBehaviour:
   laserDistance: 20
   laserRandomTime: 2
   laserRandomOnTime: 3
-  projectilesPerWave: 2
-  projectileAngleInit: 140
-  projectileAngleSum: 0
-  projectileSpeed: 4
-  projectileCadence: 1.5
+  projectilesPerWave: 12
+  projectileAngleInit: 0
+  projectileAngleSum: 60
+  projectileSpeed: 4.79
+  projectileCadence: 0.73
   projectileDamage: 1
   projectileRotation: 0
   projectileTimeRot: 0
-  angleToShot: 64
+  angleToShot: 360
   anglesSteps: 1

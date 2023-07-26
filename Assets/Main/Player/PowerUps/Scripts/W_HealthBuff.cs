@@ -9,7 +9,7 @@ public class W_HealthBuff : W_PowerEffect
     public override void Apply(GameObject target)
     {
         //Buscamos el script de la variable que queremos modificar, tomamos la variable y sumamos o restamos dependiendo que queremos hacer (Esto para este tipo de items)
-        if (target.GetComponent<Player>().LifePlayer > 4)
+        if (target.GetComponent<Player>().LifePlayer >= 4)
         {
             target.GetComponent<Player>().SetLifePlayer(4);
         }
