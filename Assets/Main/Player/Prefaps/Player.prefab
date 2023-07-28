@@ -291,8 +291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundary:
-    xMin: -7.5
-    xMax: 7.5
+    xMin: -4.8
+    xMax: 4.8
     yMin: -4.5
     yMax: 4.5
   lifePlayer: 4
@@ -309,6 +309,7 @@ MonoBehaviour:
   - {fileID: 6415040262886052640}
   - {fileID: 7241422501509817601}
   shotLevel: 1
+  canGetDamage: 0
   bulletOffset: 0
   bulletSpeed: 7
   bulletDamage: 1

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 225feff27673e3a41b6b607e5cdb05a1, type: 3}
-  m_Name: BossAD01
+  m_Name: EnemyAD05
   m_EditorClassIdentifier: 
   attackType: 1
   laserOffDuration: 0
@@ -27,13 +27,13 @@ MonoBehaviour:
   laserDistance: 0
   laserRandomTime: 0
   laserRandomOnTime: 0
-  projectilesPerWave: 5
+  projectilesPerWave: 2
   projectileAngleInit: 0
-  projectileAngleSum: 20
-  projectileSpeed: 3
-  projectileCadence: 0.1
-  projectileDamage: 4
+  projectileAngleSum: 0
+  projectileSpeed: 0.01
+  projectileCadence: 0.001
+  projectileDamage: 1
   projectileRotation: 0
   projectileTimeRot: 0
-  angleToShot: 180
-  anglesSteps: 1
+  angleToShot: 0
+  anglesSteps: 0

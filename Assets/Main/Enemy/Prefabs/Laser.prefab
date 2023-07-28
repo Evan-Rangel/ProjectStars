@@ -19391,7 +19391,7 @@ Transform:
   - {fileID: 903458492}
   - {fileID: 1592002357}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &3778948947573968653
 LineRenderer:
@@ -19500,7 +19500,7 @@ LineRenderer:
     textureMode: 1
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
-    generateLightingData: 0
+    generateLightingData: 1
   m_MaskInteraction: 0
   m_UseWorldSpace: 0
   m_Loop: 0

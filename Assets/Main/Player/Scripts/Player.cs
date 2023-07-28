@@ -137,7 +137,10 @@ public class Player : MonoBehaviour
         if (playerInput.actions["Start"].WasPressedThisFrame())
         {
             GameObject.Find("PlayerHUDManager").GetComponent<PauseController>().StartButtonPressed();
-
+        }
+        if (playerInput.actions["Inmortal"].WasPressedThisFrame())
+        {
+            canGetDamage=!canGetDamage  ;
         }
        
     }

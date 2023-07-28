@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossData
   m_EditorClassIdentifier: 
   isBoss: 1
-  health: 50
+  health: 150
   nameE: Final Boss
   score: 1000
   hasShield: 0
