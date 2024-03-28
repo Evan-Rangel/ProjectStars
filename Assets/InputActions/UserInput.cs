@@ -10,10 +10,7 @@ public class UserInput : MonoBehaviour
     public Vector2 LookInput { get; private set; }
     public bool FireInput { get; private set; }
     public bool JumpInput { get; private set; }
-
-
     private PlayerInput _playerInput;
-
     private void Awake()
     {
         if (instance == null)
@@ -26,7 +23,6 @@ public class UserInput : MonoBehaviour
     {
         UpdateInputs();
     }
-
     private void UpdateInputs()
     {
         MoveInput = _playerInput.actions["Move"].ReadValue<Vector2>();
