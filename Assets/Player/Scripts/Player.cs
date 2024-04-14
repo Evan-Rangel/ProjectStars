@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class Player : Character
 {
     UserInput inputs;
-    GameManager gameManager;
     int[] stats;
     bool[] buffs;
     int currentHealth;
@@ -18,12 +18,18 @@ public class Player : Character
     {
         rb=GetComponent<Rigidbody2D>();
         inputs = UserInput.instance;
-        gameManager = GameManager.instance;
+        GameManager.instance.player = this;
     }
     void Update()
     {
         PlayerMovement();
         Jump();
+        if(inputs.FireInput)
+        {
+            Debug.Log("Trigger");
+            health++;
+            GameManager.instance.UpdateUI(health);
+        }
     }
     void PlayerMovement()
     {
@@ -41,9 +47,23 @@ public class Player : Character
             onGround = false;
         }
     }
-    public void RespawnPlayer()
+    public void SpawnPlayer(Transform _spawnTransform)
     { 
-        gameObject.transform.position= gameManager.spawnPoint.position;
+        gameObject.transform.position = _spawnTransform.position;
     }
 
+}
+//
+[Serializable]
+public class PlayerData
+{
+    public int[] stats;
+    public bool[] buffs;
+    public string playerName;
+    public int health;
+    public PlayerData(Player _player)
+    {
+        playerName = _player.GetCharName();
+        health=_player.GetCharHealth();
+    }
 }

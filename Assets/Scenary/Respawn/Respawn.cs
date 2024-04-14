@@ -12,6 +12,7 @@ public class Respawn : MonoBehaviour
     {
         coll = GetComponent<BoxCollider2D>();
         spr = GetComponent<SpriteRenderer>();
+        respawnCode=gameObject.name;
     }
     private void Update()
     {
@@ -23,7 +24,7 @@ public class Respawn : MonoBehaviour
         {
             coll.enabled = false;
             triggerPlayer = false;
-
+            GameManager.instance.SlotsCanvas.enabled = true;
             SaveManager.currentSaveSlot.SetSpawnObject(respawnCode);
         }
     }

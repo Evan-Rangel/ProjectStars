@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using JetBrains.Annotations;
-
+using UnityEngine.SceneManagement;
 public class SaveSlot : MonoBehaviour
 {
     //Nombre del Slot en el que se guardara (idea de 4 slots)
@@ -18,11 +18,10 @@ public class SaveSlot : MonoBehaviour
     //Array que almacenara las mejoras obtenidas.
     //  public string[] buffs { get; private set; }
 
-    [SerializeField] Player player;
     [SerializeField] GameObject slotEmpty, slotLoad;
     [SerializeField] TMP_Text spawnName;
     [SerializeField] GameObject deleteButton;
-    bool ExistLoad;
+    bool ExistLoad; 
     private void Awake()
     {
         slotName = gameObject.name;
@@ -31,13 +30,21 @@ public class SaveSlot : MonoBehaviour
     {
         TransformSlotData();
     }
-    public void LoadGame()
+    public void LoadGameScene()
     {
+
+        DontDestroyOnLoad(gameObject);
+        PlayerPrefs.SetString("CurrentSlot", slotName);
+        GameManager.instance.slotName = slotName;
+        GameManager.instance.SlotsCanvas.enabled = false;
+        SaveManager.currentSaveSlot = this;
+        SceneManager.LoadScene("TestPlayer_Scene");
+        /*
         if (ExistLoad)
         {
-            GameManager.instance.LoadGame(this);
+           // GameManager.instance.LoadGame(this);
         }
-        SetPlayerPrefSlot();
+        SetPlayerPrefSlot();*/
     }
     void TransformSlotData()
     {
@@ -48,13 +55,20 @@ public class SaveSlot : MonoBehaviour
             deleteButton.SetActive(true);
             slotEmpty.SetActive(false);
             slotLoad.SetActive(true);
+            //
             PlayerPrefs.SetString("CurrentSpawn", _slot.respawnCode);
+            PlayerPrefs.SetInt("Health", _slot.playerData.health);
+            PlayerPrefs.SetString("SaveExist", "True");
             ExistLoad = true;
         }
-        else {
+        else {              //PARA SETEAR LAS VARIABLES PREDEFINIDAS
             deleteButton.SetActive(false);
             slotEmpty.SetActive(true);
             slotLoad.SetActive(false);
+            PlayerPrefs.SetInt("Health", 0);
+            PlayerPrefs.SetString("SaveExist", "False");
+
+
             ExistLoad = false;
         }
     }
@@ -64,14 +78,11 @@ public class SaveSlot : MonoBehaviour
         TransformSlotData();
     }
     public void SetSpawnObject(string _RespawnCode)
-    { 
+    {
+        Debug.Log("Guardando...");
         respawnCode = _RespawnCode;
         SaveManager.SaveSlotData(this);
-    }
-    public void SetPlayerPrefSlot()
-    {
-        SaveManager.currentSaveSlot = this;
-        PlayerPrefs.SetString("CurrentSlot", slotName);
+        GameManager.instance.SlotsCanvas.enabled = false;
     }
 }
 [Serializable]
@@ -93,10 +104,15 @@ public class SlotData
     {
         slotName = slot.slotName;
         respawnCode = slot.respawnCode;
-        
+        playerData=(GameObject.FindWithTag("Player")!=null) ? new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>()) : null;
+       // playerData = new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
 
         // stats = slot.stats;
         // buffs = slot.buffs;
-
+    }
+    PlayerData SetPlayerData(Player _player)
+    {
+        PlayerData playerData = new PlayerData(_player);   
+        return playerData;
     }
 }

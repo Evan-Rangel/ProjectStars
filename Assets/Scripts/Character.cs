@@ -6,6 +6,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] protected int health;
+    public int GetCharHealth () { return health; }
     [SerializeField] protected string charName;
     public string GetCharName()  {return charName;} 
     [SerializeField, Range(0, 10)] protected float speed;
