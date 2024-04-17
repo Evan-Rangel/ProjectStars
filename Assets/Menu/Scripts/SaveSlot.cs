@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
+using Mono.Cecil.Cil;
 public class SaveSlot : MonoBehaviour
 {
     //Nombre del Slot en el que se guardara (idea de 4 slots)
@@ -21,6 +22,7 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] GameObject slotEmpty, slotLoad;
     [SerializeField] TMP_Text spawnName;
     [SerializeField] GameObject deleteButton;
+    public SlotData _slot {  get; private set;}
     bool ExistLoad; 
     private void Awake()
     {
@@ -32,32 +34,30 @@ public class SaveSlot : MonoBehaviour
     }
     public void LoadGameScene()
     {
-
-        DontDestroyOnLoad(gameObject);
-        PlayerPrefs.SetString("CurrentSlot", slotName);
-        GameManager.instance.slotName = slotName;
-        GameManager.instance.SlotsCanvas.enabled = false;
-        SaveManager.currentSaveSlot = this;
-        SceneManager.LoadScene("TestPlayer_Scene");
         /*
-        if (ExistLoad)
-        {
-           // GameManager.instance.LoadGame(this);
-        }
-        SetPlayerPrefSlot();*/
+                
+        */
+        PlayerPrefs.SetString("SaveExist", ExistLoad.ToString());
+        PlayerPrefs.SetString("CurrentSlot",slotName);
+        SceneManager.LoadScene("TestPlayer_Scene");
     }
     void TransformSlotData()
     {
-        SlotData _slot = SaveManager.LoadSlotData(this);
+        _slot = SaveManager.LoadSlotData(this);
+        //Basicamente hace lo de abajo pero mas rapido
+        bool slotExist = (_slot != null) ? true : false;
+        deleteButton.SetActive(slotExist);
+        slotEmpty.SetActive(!slotExist);
+        slotLoad.SetActive(slotExist);
+        ExistLoad = slotExist; 
 
+
+        /*
         if (_slot != null)
         {
             deleteButton.SetActive(true);
             slotEmpty.SetActive(false);
             slotLoad.SetActive(true);
-            //
-            PlayerPrefs.SetString("CurrentSpawn", _slot.respawnCode);
-            PlayerPrefs.SetInt("Health", _slot.playerData.health);
             PlayerPrefs.SetString("SaveExist", "True");
             ExistLoad = true;
         }
@@ -65,12 +65,9 @@ public class SaveSlot : MonoBehaviour
             deleteButton.SetActive(false);
             slotEmpty.SetActive(true);
             slotLoad.SetActive(false);
-            PlayerPrefs.SetInt("Health", 0);
             PlayerPrefs.SetString("SaveExist", "False");
-
-
             ExistLoad = false;
-        }
+        }*/
     }
     public void DeleteSlotButton()
     {
@@ -82,7 +79,6 @@ public class SaveSlot : MonoBehaviour
         Debug.Log("Guardando...");
         respawnCode = _RespawnCode;
         SaveManager.SaveSlotData(this);
-        GameManager.instance.SlotsCanvas.enabled = false;
     }
 }
 [Serializable]
@@ -102,17 +98,26 @@ public class SlotData
 
     public SlotData(SaveSlot slot)
     {
-        slotName = slot.slotName;
-        respawnCode = slot.respawnCode;
-        playerData=(GameObject.FindWithTag("Player")!=null) ? new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>()) : null;
+        if (slot != null)
+        {
+            slotName = slot.slotName;
+            respawnCode = slot.respawnCode;
+            playerData = (GameObject.FindWithTag("Player") != null) ? new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>()) : null;
+        }
+        else
+        {
+            slotName =PlayerPrefs.GetString("CurrentSlot");
+            respawnCode = GameManager.instance.spawnCode;
+            playerData = GameManager.instance.cPlayerData;
+        }
        // playerData = new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
 
         // stats = slot.stats;
         // buffs = slot.buffs;
     }
+
     PlayerData SetPlayerData(Player _player)
     {
-        PlayerData playerData = new PlayerData(_player);   
-        return playerData;
+        return new PlayerData(_player);
     }
 }

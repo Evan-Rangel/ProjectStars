@@ -5,11 +5,21 @@ using UnityEngine.TextCore.Text;
 using System;
 public static class SaveManager 
 {
-    public static SaveSlot currentSaveSlot;
+    //SOBRECARGA para cargar a partir de SaveSlot
     public static void SaveSlotData(SaveSlot _slot)
     {
         SlotData slotD= new SlotData(_slot);
         Debug.Log(slotD.slotName);
+        string dataPath = Application.persistentDataPath + "/" + slotD.slotName + ".save";
+        FileStream fileStream = new FileStream(dataPath, FileMode.Create);
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        binaryFormatter.Serialize(fileStream, slotD);
+        fileStream.Close();
+    }
+    //SOBRECARGA para cargar a partir de SlotData
+    public static void SaveSlotData(SlotData slotD)
+    {
+
         string dataPath = Application.persistentDataPath + "/" + slotD.slotName + ".save";
         FileStream fileStream = new FileStream(dataPath, FileMode.Create);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -26,10 +36,28 @@ public static class SaveManager
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             SlotData slotData = (SlotData)binaryFormatter.Deserialize(fileStream);
             fileStream.Close();
+
             return slotData;
         }
         else 
         { 
+            return null;
+        }
+    }
+    public static SlotData LoadSlotData(string slotD)
+    {
+        string dataPath = Application.persistentDataPath + "/" + slotD + ".save";
+        if (File.Exists(dataPath))
+        {
+            FileStream fileStream = new FileStream(dataPath, FileMode.Open);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            SlotData slotData = (SlotData)binaryFormatter.Deserialize(fileStream);
+            fileStream.Close();
+
+            return slotData;
+        }
+        else
+        {
             return null;
         }
     }

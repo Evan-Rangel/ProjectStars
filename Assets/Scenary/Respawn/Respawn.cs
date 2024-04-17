@@ -24,9 +24,16 @@ public class Respawn : MonoBehaviour
         {
             coll.enabled = false;
             triggerPlayer = false;
-            GameManager.instance.SlotsCanvas.enabled = true;
-            SaveManager.currentSaveSlot.SetSpawnObject(respawnCode);
+            GameManager.instance.spawnCode= respawnCode;
+            GameManager.instance.cPlayerData = new PlayerData(GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
+            SaveManager.SaveSlotData(new SlotData(null));
+            StartCoroutine(EnableCollision());
         }
+    }
+    IEnumerator EnableCollision()
+    {
+        yield return new WaitForSeconds(1);
+        coll.enabled = true;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

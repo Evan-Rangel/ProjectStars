@@ -11,9 +11,6 @@ public class Player : Character
     int currentHealth;
     bool triggerSpawn;
     string spawnCode;
-
-
-
     private void Awake() 
     {
         rb=GetComponent<Rigidbody2D>();
@@ -26,7 +23,6 @@ public class Player : Character
         Jump();
         if(inputs.FireInput)
         {
-            Debug.Log("Trigger");
             health++;
             GameManager.instance.UpdateUI(health);
         }
@@ -47,9 +43,12 @@ public class Player : Character
             onGround = false;
         }
     }
-    public void SpawnPlayer(Transform _spawnTransform)
+    public void SpawnPlayer(Vector2 _spawnTransform, PlayerData _playerData)
     { 
-        gameObject.transform.position = _spawnTransform.position;
+        gameObject.transform.position = _spawnTransform;
+        health = _playerData.health;
+        GameManager.instance.UpdateUI(health);
+
     }
 
 }
