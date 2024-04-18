@@ -152,12 +152,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094bf455095de9438eab7b1f3fae95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cSlotData:
+    slotName: 
+    respawnCode: 
+    playerData:
+      stats: 
+      buffs: 
+      playerName: 
+      health: 0
+  cPlayerData:
+    stats: 
+    buffs: 
+    playerName: 
+    health: 0
   player: {fileID: 1104509893}
   slotName: 
   spawnCode: 
   gameSceneName: TestPlayer_Scene
   menuSceneName: 
-  SlotsCanvas: {fileID: 0}
 --- !u!4 &170398409
 Transform:
   m_ObjectHideFlags: 0
@@ -183,10 +195,10 @@ GameObject:
   m_Component:
   - component: {fileID: 203099732}
   - component: {fileID: 203099731}
-  - component: {fileID: 203099730}
   - component: {fileID: 203099729}
+  - component: {fileID: 203099733}
   m_Layer: 0
-  m_Name: Respawn02
+  m_Name: SpawnA02
   m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,19 +230,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &203099730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203099728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccefea2ab5dfd1340b1cb5bda8ae903c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnCode: 
 --- !u!212 &203099731
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -298,6 +297,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &203099733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203099728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ede9fb39d4ed649abdc2e58f03b791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &399272956
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,10 +592,10 @@ GameObject:
   m_Component:
   - component: {fileID: 971641330}
   - component: {fileID: 971641329}
-  - component: {fileID: 971641328}
   - component: {fileID: 971641327}
+  - component: {fileID: 971641331}
   m_Layer: 0
-  m_Name: Respawn01
+  m_Name: SpawnA01
   m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -616,19 +627,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &971641328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971641326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccefea2ab5dfd1340b1cb5bda8ae903c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnCode: 
 --- !u!212 &971641329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -696,6 +694,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971641331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971641326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ede9fb39d4ed649abdc2e58f03b791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1104509887
 GameObject:
   m_ObjectHideFlags: 0

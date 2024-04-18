@@ -33,7 +33,7 @@ public class GameManager :MonoBehaviour
         {
             foreach (var p in GameObject.FindGameObjectsWithTag("Spawn"))
             {
-                Respawn point = p.GetComponent<Respawn>();
+                Spawn point = p.GetComponent<Spawn>();
                 spawnPoints.Add(point.name, point.transform);
             }
 

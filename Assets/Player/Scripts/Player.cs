@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Character
@@ -10,7 +11,10 @@ public class Player : Character
     bool[] buffs;
     int currentHealth;
     bool triggerSpawn;
+
     string spawnCode;
+    Spawn spawnScr;
+    bool onSpawn;
     private void Awake() 
     {
         rb=GetComponent<Rigidbody2D>();
@@ -21,6 +25,8 @@ public class Player : Character
     {
         PlayerMovement();
         Jump();
+        SaveSpawn();
+
         if(inputs.FireInput)
         {
             health++;
@@ -48,11 +54,35 @@ public class Player : Character
         gameObject.transform.position = _spawnTransform;
         health = _playerData.health;
         GameManager.instance.UpdateUI(health);
-
     }
-
+    private void SaveSpawn()
+    {
+        if (onSpawn && UserInput.instance.MoveInput.y > 0)
+        {
+            spawnScr.ActiveSpawn();
+            GameManager.instance.spawnCode = spawnScr.GetSpawnCode();
+            GameManager.instance.cPlayerData = new PlayerData(this);
+            SaveManager.SaveSlotData(new SlotData(null));
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Spawn"))
+        {
+            spawnScr = collision.transform.GetComponent<Spawn>();
+            spawnScr.PlayerEnter();
+            onSpawn = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Spawn"))
+        {
+            spawnScr.PlayerExit();
+            onSpawn = false;
+        }
+    }
 }
-//
 [Serializable]
 public class PlayerData
 {
