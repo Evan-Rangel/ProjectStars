@@ -11,6 +11,7 @@ public class UserInput : MonoBehaviour
     public bool FireInput { get; private set; }
     public bool JumpInput { get; private set; }
     public bool JumpReleased { get; private set; }
+    public bool DashInput { get; private set; }
     private PlayerInput _playerInput;
     private void Awake()
     {
@@ -31,5 +32,6 @@ public class UserInput : MonoBehaviour
         FireInput = _playerInput.actions["Fire"].WasPressedThisFrame();
         JumpInput = _playerInput.actions["Jump"].IsPressed();
         JumpReleased = _playerInput.actions["Jump"].WasReleasedThisFrame();
+        DashInput = _playerInput.actions["Dash"].WasPressedThisFrame();
     }
 }

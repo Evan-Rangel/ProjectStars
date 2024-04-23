@@ -11,9 +11,20 @@ public class Player : Character
     bool[] buffs;
     int currentHealth;
     bool triggerSpawn;
-    [SerializeField] GameObject cam;
+
+    [Header("Camera")]
+    [SerializeField] GameObject cam; 
+    [Space]
+    [Header("Gravity Settings")]
     [SerializeField]float maxGravityScale;
-    float gravityScaleCount= 2;
+    [SerializeField] float gravityScaleMultiplication;
+    [SerializeField]float gravityScaleCount= 2;
+    [Space]
+    [Header("Dash Settings")]
+    [SerializeField] float dashForce;
+    [Space]
+    [Header("Sprite Settings")]
+    [SerializeField] SpriteRenderer sprRenderer;
 
     string spawnCode;
     Spawn spawnScr;
@@ -34,6 +45,7 @@ public class Player : Character
         PlayerMovement();
         Jump();
         Interact();
+        Dash();
 
         if(inputs.FireInput)
         {
@@ -48,11 +60,14 @@ public class Player : Character
         float dirX = speed * inputs.MoveInput.x;
         velocity.x = Mathf.MoveTowards(rb.velocity.x, dirX, 1);
         rb.velocity = velocity;
-        if (rb.velocity.y<0 && !onGround)
+        if (rb.velocity.x != 0) sprRenderer.flipX = (rb.velocity.x > 0) ? false : true;
+
+        
+        if (rb.velocity.y<3f && !onGround)
         {
             falling = true;
             rb.gravityScale = (gravityScaleCount < maxGravityScale) ? gravityScaleCount : maxGravityScale;
-            gravityScaleCount += Time.deltaTime;
+            gravityScaleCount += Time.deltaTime * gravityScaleMultiplication;
         }
     }
     void Jump()
@@ -69,7 +84,13 @@ public class Player : Character
             rb.gravityScale = maxGravityScale;
         }
     }
-    
+    void Dash()
+    {
+        if (inputs.DashInput)
+        { 
+            rb.velocity = new Vector2((rb.velocity.x != 0) ? rb.velocity.x + (rb.velocity.x / MathF.Abs(rb.velocity.x)) * dashForce : rb.velocity.x, 0);
+        }
+    }
 
     public void SpawnPlayer(Vector2 _spawnTransform, PlayerData _playerData)
     { 

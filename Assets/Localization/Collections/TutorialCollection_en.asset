@@ -19,7 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 51753828352
-    m_Localized: Press SPACE to jump
+    m_Localized: Hello knigth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 225396172046336
+    m_Localized: Fock u
     m_Metadata:
       m_Items: []
   references:

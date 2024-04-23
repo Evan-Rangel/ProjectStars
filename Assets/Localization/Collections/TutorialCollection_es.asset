@@ -19,7 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 51753828352
-    m_Localized: Presiona ESPACIO para saltar
+    m_Localized: Hola caballero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 225396172046336
+    m_Localized: Webos
     m_Metadata:
       m_Items: []
   references:

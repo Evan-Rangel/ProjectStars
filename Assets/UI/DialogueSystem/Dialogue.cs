@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class Dialogue : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class Dialogue : MonoBehaviour
 
     private void Start()
     {
-        StarToWrite();
+        //StarToWrite();
     }
     public void StarToWrite()
     {
@@ -34,4 +35,12 @@ public class Dialogue : MonoBehaviour
             StartCoroutine(NextLetter());
         }
     }
+}
+[Serializable]
+public class DialogueData
+{ 
+    public string keyText;
+    public Sprite charSprite;
+    public Sprite backgroundSprite;
+
 }

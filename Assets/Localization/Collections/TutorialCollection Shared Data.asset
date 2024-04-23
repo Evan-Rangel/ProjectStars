@@ -16,7 +16,11 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 0ee3b99e3d3822b419ad631fb96622d5
   m_Entries:
   - m_Id: 51753828352
-    m_Key: T01
+    m_Key: Hornet01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 225396172046336
+    m_Key: Hornet02
     m_Metadata:
       m_Items: []
   m_Metadata:

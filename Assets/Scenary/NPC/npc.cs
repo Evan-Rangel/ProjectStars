@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Localization;
 using UnityEngine;
 
-public class npc : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+public class npc : Character
+{
+    
+    [SerializeField] DialogueData dialogueD;
+
+    public string currentText;
+
+    
+    public void PlayerInteract()
     {
-        
+        //currentText= table.GetEntry("Hornet01").ToString();
     }
 }
