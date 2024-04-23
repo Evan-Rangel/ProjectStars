@@ -11,10 +11,17 @@ public class Player : Character
     bool[] buffs;
     int currentHealth;
     bool triggerSpawn;
+    [SerializeField] GameObject cam;
+    [SerializeField]float maxGravityScale;
+    float gravityScaleCount= 2;
 
     string spawnCode;
     Spawn spawnScr;
-    bool onSpawn;
+    bool OnTrigger;
+
+
+    PlayerInteract tempInteraction;
+
     private void Awake() 
     {
         rb=GetComponent<Rigidbody2D>();
@@ -23,9 +30,10 @@ public class Player : Character
     }
     void Update()
     {
+        cam.transform.position = new Vector3( transform.position.x, transform.position.y+2.5f, cam.transform.position.z);
         PlayerMovement();
         Jump();
-        SaveSpawn();
+        Interact();
 
         if(inputs.FireInput)
         {
@@ -40,46 +48,58 @@ public class Player : Character
         float dirX = speed * inputs.MoveInput.x;
         velocity.x = Mathf.MoveTowards(rb.velocity.x, dirX, 1);
         rb.velocity = velocity;
+        if (rb.velocity.y<0 && !onGround)
+        {
+            falling = true;
+            rb.gravityScale = (gravityScaleCount < maxGravityScale) ? gravityScaleCount : maxGravityScale;
+            gravityScaleCount += Time.deltaTime;
+        }
     }
     void Jump()
     {
         if (inputs.JumpInput && onGround)
         {
-            rb.AddForce(new Vector2(0, jumpForce));
+            gravityScaleCount = 2;
+            //IF corto, da error si esta parado
+            rb.velocity = new Vector2((rb.velocity.x != 0) ? rb.velocity.x + (rb.velocity.x / MathF.Abs(rb.velocity.x)) * 10 : rb.velocity.x, jumpForce);
             onGround = false;
         }
+        if (inputs.JumpReleased && !falling) 
+        {
+            rb.gravityScale = maxGravityScale;
+        }
     }
+    
+
     public void SpawnPlayer(Vector2 _spawnTransform, PlayerData _playerData)
     { 
         gameObject.transform.position = _spawnTransform;
         health = _playerData.health;
         GameManager.instance.UpdateUI(health);
     }
-    private void SaveSpawn()
+    /////////////////////////////////////////////PARA CUANDO ESTE EN UN SPAWN Y GUARDE/////////////////////////////////////////////
+    private void Interact()
     {
-        if (onSpawn && UserInput.instance.MoveInput.y > 0)
+        if (OnTrigger && UserInput.instance.MoveInput.y > 0)
         {
-            spawnScr.ActiveSpawn();
-            GameManager.instance.spawnCode = spawnScr.GetSpawnCode();
-            GameManager.instance.cPlayerData = new PlayerData(this);
-            SaveManager.SaveSlotData(new SlotData(null));
+            tempInteraction.interactEvent.Invoke();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Spawn"))
+        if (collision.transform.TryGetComponent<PlayerInteract>(out tempInteraction))
         {
-            spawnScr = collision.transform.GetComponent<Spawn>();
-            spawnScr.PlayerEnter();
-            onSpawn = true;
+            tempInteraction.triggerEnter.Invoke();
+            OnTrigger = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Spawn"))
+        if (collision.transform.TryGetComponent<PlayerInteract>(out tempInteraction))
         {
-            spawnScr.PlayerExit();
-            onSpawn = false;
+            tempInteraction.triggerExit.Invoke();
+            tempInteraction = null;
+            OnTrigger = false;
         }
     }
 }

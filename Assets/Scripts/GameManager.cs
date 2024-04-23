@@ -18,6 +18,8 @@ public class GameManager :MonoBehaviour
     public string gameSceneName;
     public string menuSceneName;
 
+    public PlayerInteract currentPlayerInteract;
+
     private void Awake()
     {
         if (instance == null)
@@ -36,14 +38,12 @@ public class GameManager :MonoBehaviour
                 Spawn point = p.GetComponent<Spawn>();
                 spawnPoints.Add(point.name, point.transform);
             }
-
             //Obtiene las variables del slot
             if (PlayerPrefs.HasKey("CurrentSlot"))
             {
                 slotName = PlayerPrefs.GetString("CurrentSlot");
             }
             LoadGame();
-           
         }
     }
 

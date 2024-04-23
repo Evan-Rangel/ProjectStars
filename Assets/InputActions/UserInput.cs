@@ -10,6 +10,7 @@ public class UserInput : MonoBehaviour
     public Vector2 LookInput { get; private set; }
     public bool FireInput { get; private set; }
     public bool JumpInput { get; private set; }
+    public bool JumpReleased { get; private set; }
     private PlayerInput _playerInput;
     private void Awake()
     {
@@ -29,5 +30,6 @@ public class UserInput : MonoBehaviour
         LookInput = _playerInput.actions["Look"].ReadValue<Vector2>();
         FireInput = _playerInput.actions["Fire"].WasPressedThisFrame();
         JumpInput = _playerInput.actions["Jump"].IsPressed();
+        JumpReleased = _playerInput.actions["Jump"].WasReleasedThisFrame();
     }
 }

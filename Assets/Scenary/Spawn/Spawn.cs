@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    string SpawnCode;
-    public string GetSpawnCode() { return SpawnCode; }
+    string spawnCode;
+   // public string GetSpawnCode() { return spawnCode; }
     SpriteRenderer spr;
     BoxCollider2D coll;
     bool triggerPlayer;
@@ -13,7 +13,7 @@ public class Spawn : MonoBehaviour
     {
         coll = GetComponent<BoxCollider2D>();
         spr = GetComponent<SpriteRenderer>();
-        SpawnCode = gameObject.name;
+        spawnCode = gameObject.name;
     }
     IEnumerator EnableCollision()
     {
@@ -28,8 +28,11 @@ public class Spawn : MonoBehaviour
     {
         spr.color = Color.white;
     }
-    public void ActiveSpawn()
+    public void ActiveSpawn(Player _player)
     { 
+        GameManager.instance.spawnCode = spawnCode;
+        GameManager.instance.cPlayerData = new PlayerData(_player);
+        SaveManager.SaveSlotData(new SlotData(null));
         coll.enabled = false;
         StartCoroutine(EnableCollision());
     }
