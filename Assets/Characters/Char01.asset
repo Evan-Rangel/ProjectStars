@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58846c8ffc9169140a3377cebf68d41a, type: 3}
+  m_Name: Char01
+  m_EditorClassIdentifier: 
+  charName: Hornet
+  keys:
+  - C1
+  conversations:
+  - dialogues:
+    - key: Key
+      status: 1
+      endDialogueEvent:
+        m_PersistentCalls:
+          m_Calls: []
+    - key: Key
+      status: 1
+      endDialogueEvent:
+        m_PersistentCalls:
+          m_Calls: []
+  currentConversationKey: C1
+  tempDialogue:
+    key: Hornet 1
+    status: 1
+    endDialogueEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  keyIndex: 0
+  tempKey: 
+  tempStatus: 0
+  dialogueToAdd: 
+  conversationKeyToCreate: 

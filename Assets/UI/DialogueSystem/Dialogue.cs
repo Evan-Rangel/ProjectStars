@@ -4,23 +4,52 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Events;
 
 public class Dialogue : MonoBehaviour
 {
-    [SerializeField] Image characterImage;
+    public enum ImagePosition
+    {
+        RIGHT,
+        LEFT,
+        TOP,
+        DOWN
+    }
+    [SerializeField] Image characterImageLeft;
+    [SerializeField] Image characterImageRight;
     [SerializeField] Image backgroundImage;
     [SerializeField] TMP_Text dialogueText;
-    [SerializeField] string textToWrite;
+    public static Dialogue instance;
     int index = 0;
     char[] text;
-
-    private void Start()
+    private void Awake()
     {
-        //StarToWrite();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    public void StarToWrite()
+
+    public void PrintDialogue(Sprite _spr, ImagePosition _imgPos, string _key)
     {
-        text= textToWrite.ToCharArray();
+        switch(_imgPos)
+        { case ImagePosition.LEFT:
+                characterImageLeft.gameObject.SetActive(true);
+                characterImageRight.gameObject.SetActive(false);
+                characterImageLeft.sprite = _spr;
+                break; 
+            case ImagePosition.RIGHT:
+                characterImageLeft.gameObject.SetActive(false);
+                characterImageRight.gameObject.SetActive(true);
+                characterImageRight.sprite = _spr;
+                break;
+        }
+
+        text= GameManager.instance.RequestDialogue(_key).ToCharArray();
         dialogueText.text = "";
         index = 0;
         StartCoroutine(NextLetter());
@@ -42,5 +71,17 @@ public class DialogueData
     public string keyText;
     public Sprite charSprite;
     public Sprite backgroundSprite;
+}
+[Serializable]
+public class Conversation
+{
+    public List<DialogueStruct> dialogues = new List<DialogueStruct>();
+}
+[Serializable]
+public class DialogueStruct
+{
+    public string key;
+    public NexDialogueStatus status;
+    public UnityEvent endDialogueEvent;
 
 }

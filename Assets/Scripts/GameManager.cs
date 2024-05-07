@@ -8,6 +8,10 @@ using TMPro;
 using UnityEngine.UI;
 public class GameManager :MonoBehaviour
 {
+    public enum ZONES 
+    {
+        A, B, C, D, E, F, G, H, I, J, K
+    }
     public SlotData cSlotData;
     public PlayerData cPlayerData;
     public static GameManager instance;
@@ -19,7 +23,9 @@ public class GameManager :MonoBehaviour
     public string menuSceneName;
 
     public PlayerInteract currentPlayerInteract;
+    public Dialogue dialogueManager;
 
+    [SerializeField] DialogueDispatcher dialogueDispatcher;
     private void Awake()
     {
         if (instance == null)
@@ -69,4 +75,9 @@ public class GameManager :MonoBehaviour
         UIPanel UiPanel= GameObject.FindWithTag("UIPanel").GetComponent<UIPanel>();
         UiPanel.healthTEXT.text = _health.ToString();
     }
+    public string RequestDialogue(string _key)
+    {
+        return dialogueDispatcher.GetDialogue(_key);
+    }
+
 }

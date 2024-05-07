@@ -103,6 +103,7 @@ public class Player : Character
     {
         if (OnTrigger && UserInput.instance.MoveInput.y > 0)
         {
+            OnTrigger = false;
             tempInteraction.interactEvent.Invoke();
         }
     }
