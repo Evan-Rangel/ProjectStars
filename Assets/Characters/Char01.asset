@@ -12,30 +12,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58846c8ffc9169140a3377cebf68d41a, type: 3}
   m_Name: Char01
   m_EditorClassIdentifier: 
-  charName: Hornet
+  charName: 
   keys:
-  - C1
-  conversations:
-  - dialogues:
-    - key: Key
-      status: 1
-      endDialogueEvent:
-        m_PersistentCalls:
-          m_Calls: []
-    - key: Key
-      status: 1
-      endDialogueEvent:
-        m_PersistentCalls:
-          m_Calls: []
-  currentConversationKey: C1
-  tempDialogue:
-    key: Hornet 1
-    status: 1
+  - Hornet1
+  - Hornet2
+  dialogues:
+  - key: Hornet1
+    status: 0
     endDialogueEvent:
       m_PersistentCalls:
-        m_Calls: []
-  keyIndex: 0
+        m_Calls:
+        - m_Target: {fileID: 11400000}
+          m_TargetAssemblyTypeName: CharacterD, Assembly-CSharp
+          m_MethodName: Func1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - key: Hornet2
+    status: 2
+    endDialogueEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000}
+          m_TargetAssemblyTypeName: CharacterD, Assembly-CSharp
+          m_MethodName: Func2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  keyIndexDialogue: 0
+  dialogueEndEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogueEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000}
+        m_TargetAssemblyTypeName: CharacterD, Assembly-CSharp
+        m_MethodName: Func1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   tempKey: 
   tempStatus: 0
-  dialogueToAdd: 
-  conversationKeyToCreate: 

@@ -461,6 +461,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2013a4566bab40866b19d1f60a3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newEvent:
+    m_PersistentCalls:
+      m_Calls: []
   interactEvent:
     m_PersistentCalls:
       m_Calls:
@@ -853,13 +856,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2013a4566bab40866b19d1f60a3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 599508651}
+        m_TargetAssemblyTypeName: npc, Assembly-CSharp
+        m_MethodName: DialogueInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   interactEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 599508651}
         m_TargetAssemblyTypeName: npc, Assembly-CSharp
-        m_MethodName: PlayerInteract
-        m_Mode: 1
+        m_MethodName: DialogueInteract
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -888,6 +906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   charName: 
+  charD: {fileID: 11400000, guid: 891dd96c4e5daaf47ae2dac5c09bdc6c, type: 2}
   speed: 0
   jumpForce: 0
   speedMult: 0
@@ -897,6 +916,18 @@ MonoBehaviour:
   dialogueIdf: 
   dialogueIndex: 1
   spr: {fileID: 21300000, guid: ac618b7ee0fa2844399e96d2fe553481, type: 3}
+  testKey:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &618427600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,7 +1290,7 @@ GameObject:
   - component: {fileID: 840029642}
   - component: {fileID: 840029644}
   m_Layer: 5
-  m_Name: DialoguePanel
+  m_Name: Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1477,6 +1508,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2013a4566bab40866b19d1f60a3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newEvent:
+    m_PersistentCalls:
+      m_Calls: []
   interactEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1822,6 +1856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   charName: 
+  charD: {fileID: 0}
   speed: 6
   jumpForce: 10
   speedMult: 1

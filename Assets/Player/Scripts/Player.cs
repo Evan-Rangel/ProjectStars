@@ -26,8 +26,6 @@ public class Player : Character
     [Header("Sprite Settings")]
     [SerializeField] SpriteRenderer sprRenderer;
 
-    string spawnCode;
-    Spawn spawnScr;
     bool OnTrigger;
 
 
@@ -105,6 +103,7 @@ public class Player : Character
         {
             OnTrigger = false;
             tempInteraction.interactEvent.Invoke();
+            //tempInteraction.newEvent.Invoke();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

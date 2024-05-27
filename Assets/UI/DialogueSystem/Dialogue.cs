@@ -73,15 +73,15 @@ public class DialogueData
     public Sprite backgroundSprite;
 }
 [Serializable]
-public class Conversation
-{
-    public List<DialogueStruct> dialogues = new List<DialogueStruct>();
-}
-[Serializable]
 public class DialogueStruct
 {
     public string key;
-    public NexDialogueStatus status;
+    public NextDialogueStatus status;
     public UnityEvent endDialogueEvent;
-
+    public DialogueStruct(string _key, NextDialogueStatus _status, UnityEvent _unityEvent)
+    { 
+        key = _key;
+        status = _status;
+        endDialogueEvent = _unityEvent;
+    }
 }
