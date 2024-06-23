@@ -23,7 +23,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 225396172046336
-    m_Localized: Fock u
+    m_Localized: texttexttexttexttexttexttexttexttexttext
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20833106642911232
+    m_Localized: 
     m_Metadata:
       m_Items: []
   references:

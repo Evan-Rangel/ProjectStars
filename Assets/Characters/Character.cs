@@ -10,7 +10,6 @@ public class Character : MonoBehaviour
     public int GetCharHealth () { return health; }
     [SerializeField] protected string charName;
     public string GetCharName()  {return charName;}
-    [SerializeField] protected CharacterD charD;
     [Space]
     [Header("Speed Settings")]
     [SerializeField, Range(0, 10)] protected float speed;

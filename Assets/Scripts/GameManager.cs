@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using TMPro.SpriteAssetUtilities;
 public class GameManager :MonoBehaviour
 {
     public enum ZONES 
     {
         A, B, C, D, E, F, G, H, I, J, K
     }
+  
     public SlotData cSlotData;
     public PlayerData cPlayerData;
     public static GameManager instance;
@@ -19,13 +21,13 @@ public class GameManager :MonoBehaviour
     public string slotName;
     public string spawnCode;
     public Dictionary<string, Transform> spawnPoints = new Dictionary<string, Transform>();
+  
+
     public string gameSceneName;
     public string menuSceneName;
 
     public PlayerInteract currentPlayerInteract;
-    public Dialogue dialogueManager;
 
-    [SerializeField] DialogueDispatcher dialogueDispatcher;
     private void Awake()
     {
         if (instance == null)
@@ -52,7 +54,14 @@ public class GameManager :MonoBehaviour
             LoadGame();
         }
     }
-
+    private void Start()
+    {
+        player= GameObject.FindObjectOfType<Player>();
+    }
+    public void NextDialogue()
+    { 
+    
+    }
     //IMPORTANTE!!!: EN ESTA FUNCION SE SETEAN TODAS LAS VARIABLES DEL JUEGO./////////////////////////////////////////////
     public void LoadGame()
     {
@@ -75,9 +84,10 @@ public class GameManager :MonoBehaviour
         UIPanel UiPanel= GameObject.FindWithTag("UIPanel").GetComponent<UIPanel>();
         UiPanel.healthTEXT.text = _health.ToString();
     }
-    public string RequestDialogue(string _key)
-    {
-        return dialogueDispatcher.GetDialogue(_key);
-    }
 
+}
+public enum CHARACTERS
+{
+    Knight,
+    Hornet
 }

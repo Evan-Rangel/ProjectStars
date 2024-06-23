@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Localization;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.Localization;
 using UnityEngine.Events;
-
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class npc : Character
 {
@@ -17,10 +12,12 @@ public class npc : Character
     public int dialogueIndex;
     public Sprite spr;
     public LocalizedString testKey;
-
+    //[SerializeField] DialogueDataContainer<DialogueData,CHARACTERS> dialoguesDADSD;
+    public GUIContent ads;
     private void OnEnable()
     {
         testKey.Arguments = new[] { this };
+       
     }
 
     public void PlayerInteract()
@@ -28,10 +25,11 @@ public class npc : Character
         
     }
     //Se llama en el evento del script "PlayerInteract"
-    public void DialogueInteract(string _key)
+
+    public void DialogueInteract(ConversationData _conversation) 
     {
-        Debug.Log(_key+"aa");
-        //Dialogue.instance.PrintDialogue(spr, Dialogue.ImagePosition.LEFT, dialogueKey + dialogueIndex.ToString());
-        //dialogueIndex++;
+        Dialogue.instance.StartConversation(_conversation);
     }
+
+
 }

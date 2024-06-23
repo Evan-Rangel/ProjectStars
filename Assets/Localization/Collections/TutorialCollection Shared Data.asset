@@ -23,6 +23,26 @@ MonoBehaviour:
     m_Key: Hornet2
     m_Metadata:
       m_Items: []
+  - m_Id: 20833106642911232
+    m_Key: Hornet3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22108950812213248
+    m_Key: Knight1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22108953018417152
+    m_Key: Knight2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22109115031797760
+    m_Key: Knight3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22109119393873920
+    m_Key: Knight4
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
